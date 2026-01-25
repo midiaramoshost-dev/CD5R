@@ -164,12 +164,12 @@ const Index = () => {
     },
     {
       name: "Start",
-      price: "299",
+      price: "199",
       period: "/mês",
       description: "Para escolas em crescimento",
       features: [
         { text: "Até 200 alunos", included: true },
-        { text: "5 administradores", included: true },
+        { text: "3 administradores", included: true },
         { text: "Diário completo", included: true },
         { text: "Portal do aluno", included: true },
         { text: "Relatórios básicos", included: true },
@@ -180,7 +180,7 @@ const Index = () => {
     },
     {
       name: "Pro",
-      price: "599",
+      price: "399",
       period: "/mês",
       description: "Para quem busca excelência",
       features: [
@@ -196,7 +196,7 @@ const Index = () => {
     },
     {
       name: "Premium",
-      price: "999",
+      price: "699",
       period: "/mês",
       description: "Para redes de escolas",
       features: [
