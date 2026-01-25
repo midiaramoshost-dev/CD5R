@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useReferral } from '@/contexts/ReferralContext';
 import { useToast } from '@/hooks/use-toast';
+import { BadgeDisplay } from './BadgeDisplay';
 
 export function ReferralCard() {
   const { referralCode, referrals, completedCount, availableRewards, getReferralLink } = useReferral();
@@ -65,6 +66,9 @@ export function ReferralCard() {
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
+        {/* Badge Display */}
+        <BadgeDisplay completedCount={completedCount} size="sm" />
+
         {/* Referral Code */}
         <div className="space-y-2">
           <label className="text-sm font-medium text-muted-foreground">Seu código de indicação</label>
@@ -79,7 +83,7 @@ export function ReferralCard() {
               size="icon"
               onClick={handleCopyCode}
             >
-              {copied ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
+              {copied ? <Check className="h-4 w-4 text-primary" /> : <Copy className="h-4 w-4" />}
             </Button>
           </div>
         </div>
@@ -92,7 +96,7 @@ export function ReferralCard() {
             <p className="text-xs text-muted-foreground">Indicados</p>
           </div>
           <div className="text-center p-3 rounded-lg bg-muted/50">
-            <Check className="h-5 w-5 mx-auto mb-1 text-green-500" />
+            <Check className="h-5 w-5 mx-auto mb-1 text-primary" />
             <p className="text-2xl font-bold">{completedCount}</p>
             <p className="text-xs text-muted-foreground">Convertidos</p>
           </div>
