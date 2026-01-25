@@ -5,10 +5,7 @@ import {
   X,
   Edit,
   Building2,
-  Sparkles,
-  Crown,
   Zap,
-  Star,
   Pencil,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
@@ -25,111 +22,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useState } from "react";
-import { EditarPlanoDialog, Plano, PlanoRecursos } from "@/components/admin/EditarPlanoDialog";
-
-const planosIniciais: Plano[] = [
-  {
-    id: "free",
-    nome: "Free",
-    descricao: "Perfeito para começar",
-    preco: 0,
-    precoAluno: 0,
-    cor: "gray",
-    icon: Sparkles,
-    escolas: 25,
-    limiteAlunos: 50,
-    recursos: {
-      alunos: "Até 50",
-      professores: "Até 5",
-      turmas: "Até 3",
-      armazenamento: "500 MB",
-      suporte: "E-mail",
-      relatorios: false,
-      boletins: true,
-      frequencia: true,
-      comunicados: true,
-      financeiro: false,
-      api: false,
-      branding: false,
-    },
-  },
-  {
-    id: "start",
-    nome: "Start",
-    descricao: "Para escolas em crescimento",
-    preco: 199,
-    precoAluno: 3,
-    cor: "blue",
-    icon: Zap,
-    escolas: 35,
-    limiteAlunos: 200,
-    recursos: {
-      alunos: "Até 200",
-      professores: "Até 20",
-      turmas: "Até 10",
-      armazenamento: "5 GB",
-      suporte: "E-mail + Chat",
-      relatorios: true,
-      boletins: true,
-      frequencia: true,
-      comunicados: true,
-      financeiro: true,
-      api: false,
-      branding: false,
-    },
-  },
-  {
-    id: "pro",
-    nome: "Pro",
-    descricao: "Para quem busca excelência",
-    preco: 399,
-    precoAluno: 2,
-    cor: "purple",
-    icon: Star,
-    escolas: 42,
-    limiteAlunos: 500,
-    popular: true,
-    recursos: {
-      alunos: "Até 500",
-      professores: "Ilimitado",
-      turmas: "Ilimitado",
-      armazenamento: "25 GB",
-      suporte: "Prioritário 24/7",
-      relatorios: true,
-      boletins: true,
-      frequencia: true,
-      comunicados: true,
-      financeiro: true,
-      api: true,
-      branding: false,
-    },
-  },
-  {
-    id: "premium",
-    nome: "Premium",
-    descricao: "Para redes de escolas",
-    preco: 699,
-    precoAluno: 1.5,
-    cor: "rose",
-    icon: Crown,
-    escolas: 25,
-    limiteAlunos: null,
-    recursos: {
-      alunos: "Ilimitado",
-      professores: "Ilimitado",
-      turmas: "Ilimitado",
-      armazenamento: "Ilimitado",
-      suporte: "Gerente Dedicado",
-      relatorios: true,
-      boletins: true,
-      frequencia: true,
-      comunicados: true,
-      financeiro: true,
-      api: true,
-      branding: true,
-    },
-  },
-];
+import { EditarPlanoDialog, PlanoRecursos } from "@/components/admin/EditarPlanoDialog";
+import { usePlanos, Plano } from "@/contexts/PlanosContext";
 
 const recursosLista = [
   { key: "alunos", label: "Limite de Alunos" },
@@ -165,7 +59,7 @@ const getPlanoColorLight = (cor: string) => {
 };
 
 export default function AdminPlanos() {
-  const [planos, setPlanos] = useState<Plano[]>(planosIniciais);
+  const { planos, updatePlano } = usePlanos();
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [selectedPlano, setSelectedPlano] = useState<Plano | null>(null);
 
@@ -190,9 +84,7 @@ export default function AdminPlanos() {
   };
 
   const handleSavePlano = (updatedPlano: Plano) => {
-    setPlanos(prev => prev.map(p => 
-      p.id === updatedPlano.id ? updatedPlano : p
-    ));
+    updatePlano(updatedPlano);
   };
 
   return (
