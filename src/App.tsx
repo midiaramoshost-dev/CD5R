@@ -15,6 +15,9 @@ import Professores from "./pages/escola/Professores";
 import Alunos from "./pages/escola/Alunos";
 import Configuracoes from "./pages/escola/Configuracoes";
 import DiarioClasse from "./pages/escola/DiarioClasse";
+import Notas from "./pages/escola/Notas";
+import Frequencia from "./pages/escola/Frequencia";
+import Boletins from "./pages/escola/Boletins";
 import AlunoDashboard from "./pages/aluno/Dashboard";
 import ResponsavelDashboard from "./pages/responsavel/Dashboard";
 import NotFound from "./pages/NotFound";
@@ -40,6 +43,9 @@ const App = () => (
               <Route path="professores" element={<Professores />} />
               <Route path="alunos" element={<Alunos />} />
               <Route path="diario" element={<DiarioClasse />} />
+              <Route path="notas" element={<Notas />} />
+              <Route path="frequencia" element={<Frequencia />} />
+              <Route path="boletins" element={<Boletins />} />
               <Route path="configuracoes" element={<Configuracoes />} />
             </Route>
 
