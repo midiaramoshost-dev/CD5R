@@ -49,6 +49,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 interface Modulo {
@@ -272,6 +273,7 @@ const planoPermiteModulo = (planoEscola: string, planoMinimo: string): boolean =
 };
 
 export default function AdminModulos() {
+  const navigate = useNavigate();
   const [modulos, setModulos] = useState<Modulo[]>(modulosIniciais);
   const [escolaSelecionada, setEscolaSelecionada] = useState<string>("global");
   const [alertDialogOpen, setAlertDialogOpen] = useState(false);
@@ -580,11 +582,13 @@ export default function AdminModulos() {
             <AlertDialogAction 
               className="bg-rose-500 hover:bg-rose-600"
               onClick={() => {
-                toast.info("Redirecionando para a página de planos...");
                 setAlertDialogOpen(false);
+                // Navegar para a página de escolas com parâmetros para abrir edição
+                navigate(`/admin/escolas?editar=${escolaSelecionada}&aba=plano`);
               }}
             >
-              Ver Planos
+              <Building2 className="mr-2 h-4 w-4" />
+              Fazer Upgrade do Plano
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
