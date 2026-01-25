@@ -21,6 +21,7 @@ import DiarioClasse from "./pages/escola/DiarioClasse";
 import Notas from "./pages/escola/Notas";
 import Frequencia from "./pages/escola/Frequencia";
 import Boletins from "./pages/escola/Boletins";
+import EscolaFinanceiro from "./pages/escola/Financeiro";
 import AlunoDashboard from "./pages/aluno/Dashboard";
 import AlunoNotas from "./pages/aluno/Notas";
 import AlunoFrequencia from "./pages/aluno/Frequencia";
@@ -71,6 +72,7 @@ const App = () => (
                 <Route path="notas" element={<Notas />} />
                 <Route path="frequencia" element={<Frequencia />} />
                 <Route path="boletins" element={<Boletins />} />
+                <Route path="financeiro" element={<EscolaFinanceiro />} />
                 <Route path="configuracoes" element={<Configuracoes />} />
               </Route>
 
