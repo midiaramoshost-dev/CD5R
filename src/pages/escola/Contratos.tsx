@@ -661,13 +661,46 @@ ${contrato.observacoes ? `\nObservações: ${contrato.observacoes}` : ''}
     doc.setFontSize(9);
     doc.text(`${dadosEscola.cidade}, ${new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })}`, pageWidth / 2, yPosition, { align: 'center' });
 
-    // Rodapé
-    doc.setFillColor(248, 250, 252);
-    doc.rect(0, pageHeight - 15, pageWidth, 15, 'F');
-    
-    doc.setTextColor(148, 163, 184);
-    doc.setFontSize(8);
-    doc.text(`Documento gerado em ${new Date().toLocaleString('pt-BR')} • ${dadosEscola.nome}`, pageWidth / 2, pageHeight - 6, { align: 'center' });
+    // Adicionar marca d'água para contratos pendentes
+    const numPages = doc.internal.pages.length - 1;
+    for (let i = 1; i <= numPages; i++) {
+      doc.setPage(i);
+      
+      // Marca d'água diagonal - usando cor clara para simular transparência
+      if (contrato.status === "pendente") {
+        doc.setTextColor(252, 220, 220); // Rosa claro (simula vermelho com transparência)
+        doc.setFontSize(70);
+        doc.setFont('helvetica', 'bold');
+        
+        // Posicionar a marca d'água no centro
+        const centerX = pageWidth / 2;
+        const centerY = pageHeight / 2;
+        doc.text('RASCUNHO', centerX, centerY, { 
+          align: 'center', 
+          angle: 45,
+        });
+      } else if (contrato.status === "expirado" || contrato.status === "cancelado") {
+        doc.setTextColor(230, 230, 230); // Cinza claro
+        doc.setFontSize(70);
+        doc.setFont('helvetica', 'bold');
+        
+        const centerX = pageWidth / 2;
+        const centerY = pageHeight / 2;
+        doc.text('CÓPIA', centerX, centerY, { 
+          align: 'center', 
+          angle: 45,
+        });
+      }
+
+      // Rodapé
+      doc.setFillColor(248, 250, 252);
+      doc.rect(0, pageHeight - 15, pageWidth, 15, 'F');
+      
+      doc.setTextColor(148, 163, 184);
+      doc.setFontSize(8);
+      doc.text(`Página ${i} de ${numPages}`, pageWidth - margin, pageHeight - 8, { align: 'right' });
+      doc.text(`Documento gerado em ${new Date().toLocaleString('pt-BR')} • ${dadosEscola.nome}`, margin, pageHeight - 8);
+    }
 
     // Salvar PDF
     doc.save(`${contrato.numero}.pdf`);
@@ -963,17 +996,31 @@ ${contrato.observacoes ? `\nObservações: ${contrato.observacoes}` : ''}
     doc.setFont('helvetica', 'normal');
     yPosition = addWrappedText(previewConteudo, margin, yPosition, contentWidth, 5);
 
-    // Rodapé
+    // Adicionar marca d'água e rodapé em todas as páginas
     const numPages = doc.internal.pages.length - 1;
     for (let i = 1; i <= numPages; i++) {
       doc.setPage(i);
+      
+      // Marca d'água "RASCUNHO" - contratos gerados do preview são sempre pendentes
+      doc.setTextColor(252, 220, 220); // Rosa claro (simula vermelho com transparência)
+      doc.setFontSize(70);
+      doc.setFont('helvetica', 'bold');
+      
+      const centerX = pageWidth / 2;
+      const centerY = pageHeight / 2;
+      doc.text('RASCUNHO', centerX, centerY, { 
+        align: 'center', 
+        angle: 45,
+      });
+
+      // Rodapé
       doc.setFillColor(248, 250, 252);
       doc.rect(0, pageHeight - 15, pageWidth, 15, 'F');
       
       doc.setTextColor(148, 163, 184);
       doc.setFontSize(8);
-      doc.text(`Página ${i} de ${numPages}`, pageWidth / 2, pageHeight - 8, { align: 'center' });
-      doc.text(`Documento gerado em ${new Date().toLocaleString('pt-BR')} • ${dadosEscola.nome}`, pageWidth / 2, pageHeight - 3, { align: 'center' });
+      doc.text(`Página ${i} de ${numPages}`, pageWidth - margin, pageHeight - 8, { align: 'right' });
+      doc.text(`Documento gerado em ${new Date().toLocaleString('pt-BR')} • ${dadosEscola.nome}`, margin, pageHeight - 8);
     }
 
     // Nome do arquivo
