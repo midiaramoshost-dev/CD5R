@@ -1232,6 +1232,217 @@ export default function DiarioClasse() {
           </TabsContent>
         </Tabs>
       </motion.div>
+
+      {/* Dialog: Visualizar Aula */}
+      <Dialog open={isViewAulaDialogOpen} onOpenChange={setIsViewAulaDialogOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Eye className="h-5 w-5" />
+              Detalhes da Aula
+            </DialogTitle>
+            <DialogDescription>
+              Informações completas sobre a aula registrada
+            </DialogDescription>
+          </DialogHeader>
+          {selectedAula && (
+            <div className="space-y-4 py-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <Label className="text-muted-foreground text-xs">Data</Label>
+                  <p className="font-medium">{new Date(selectedAula.data).toLocaleDateString("pt-BR")}</p>
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-muted-foreground text-xs">Horário</Label>
+                  <p className="font-medium">{selectedAula.horario}</p>
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-muted-foreground text-xs">Turma</Label>
+                  <p className="font-medium">{selectedAula.turma}</p>
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-muted-foreground text-xs">Disciplina</Label>
+                  <p className="font-medium">{selectedAula.disciplina}</p>
+                </div>
+              </div>
+              <div className="space-y-1">
+                <Label className="text-muted-foreground text-xs">Conteúdo Ministrado</Label>
+                <p className="font-medium">{selectedAula.conteudo}</p>
+              </div>
+              <div className="grid grid-cols-3 gap-4">
+                <div className="space-y-1">
+                  <Label className="text-muted-foreground text-xs">Status</Label>
+                  <div>{getStatusBadge(selectedAula.status)}</div>
+                </div>
+                {selectedAula.status === "concluida" && (
+                  <>
+                    <div className="space-y-1">
+                      <Label className="text-muted-foreground text-xs">Presentes</Label>
+                      <p className="font-medium text-green-600">{selectedAula.presentes} alunos</p>
+                    </div>
+                    <div className="space-y-1">
+                      <Label className="text-muted-foreground text-xs">Ausentes</Label>
+                      <p className="font-medium text-red-600">{selectedAula.ausentes} alunos</p>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsViewAulaDialogOpen(false)}>
+              Fechar
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Dialog: Editar Aula */}
+      <Dialog open={isEditAulaDialogOpen} onOpenChange={setIsEditAulaDialogOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Edit className="h-5 w-5" />
+              Editar Aula
+            </DialogTitle>
+            <DialogDescription>
+              Modifique as informações da aula registrada
+            </DialogDescription>
+          </DialogHeader>
+          {selectedAula && (
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="edit-data">Data</Label>
+                  <Input id="edit-data" type="date" defaultValue={selectedAula.data} />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="edit-horario">Horário</Label>
+                  <Select defaultValue={selectedAula.horario}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecione o horário" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="07:30 - 08:20">07:30 - 08:20</SelectItem>
+                      <SelectItem value="08:20 - 09:10">08:20 - 09:10</SelectItem>
+                      <SelectItem value="09:30 - 10:20">09:30 - 10:20</SelectItem>
+                      <SelectItem value="10:20 - 11:10">10:20 - 11:10</SelectItem>
+                      <SelectItem value="11:10 - 12:00">11:10 - 12:00</SelectItem>
+                      <SelectItem value="13:30 - 14:20">13:30 - 14:20</SelectItem>
+                      <SelectItem value="14:20 - 15:10">14:20 - 15:10</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="edit-turma">Turma</Label>
+                  <Select defaultValue={selectedAula.turma}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecione a turma" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {turmasData.map((turma) => (
+                        <SelectItem key={turma.id} value={turma.nome}>
+                          {turma.nome}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="edit-disciplina">Disciplina</Label>
+                  <Select defaultValue={selectedAula.disciplina}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecione a disciplina" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {disciplinasData.map((disc) => (
+                        <SelectItem key={disc.id} value={disc.nome}>
+                          {disc.nome}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-conteudo">Conteúdo Ministrado</Label>
+                <Textarea
+                  id="edit-conteudo"
+                  defaultValue={selectedAula.conteudo}
+                  rows={3}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-status">Status</Label>
+                <Select defaultValue={selectedAula.status}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione o status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="pendente">Pendente</SelectItem>
+                    <SelectItem value="concluida">Concluída</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          )}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsEditAulaDialogOpen(false)}>
+              Cancelar
+            </Button>
+            <Button 
+              className="gradient-brand text-white" 
+              onClick={() => {
+                toast.success("Aula atualizada com sucesso!");
+                setIsEditAulaDialogOpen(false);
+              }}
+            >
+              <Save className="mr-2 h-4 w-4" />
+              Salvar Alterações
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* AlertDialog: Excluir Aula */}
+      <AlertDialog open={isDeleteAulaDialogOpen} onOpenChange={setIsDeleteAulaDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <Trash2 className="h-5 w-5 text-destructive" />
+              Excluir Aula
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              Tem certeza que deseja excluir esta aula? Esta ação não pode ser desfeita.
+              {selectedAula && (
+                <div className="mt-4 p-4 bg-muted rounded-lg space-y-2">
+                  <p><strong>Data:</strong> {new Date(selectedAula.data).toLocaleDateString("pt-BR")}</p>
+                  <p><strong>Turma:</strong> {selectedAula.turma}</p>
+                  <p><strong>Disciplina:</strong> {selectedAula.disciplina}</p>
+                  <p><strong>Conteúdo:</strong> {selectedAula.conteudo}</p>
+                </div>
+              )}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              onClick={() => {
+                if (selectedAula) {
+                  setAulas(aulas.filter(a => a.id !== selectedAula.id));
+                  toast.success("Aula excluída com sucesso!");
+                  setSelectedAula(null);
+                }
+              }}
+            >
+              Excluir
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </motion.div>
   );
 }
