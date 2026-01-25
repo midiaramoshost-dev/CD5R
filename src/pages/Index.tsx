@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useMemo } from "react";
 import { 
   GraduationCap, 
   Users, 
@@ -38,6 +38,7 @@ import {
   MousePointer2
 } from "lucide-react";
 import { useTheme } from "@/hooks/useTheme";
+import { usePlanos } from "@/contexts/PlanosContext";
 import {
   ScrollReveal,
   FadeUp,
@@ -97,6 +98,7 @@ const slideInRight = {
 
 const Index = () => {
   const { theme, toggleTheme } = useTheme();
+  const { planos } = usePlanos();
   const [isAnnual, setIsAnnual] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -146,76 +148,37 @@ const Index = () => {
     }
   ];
 
-  const plans = [
-    {
-      name: "Free",
-      monthlyPrice: 0,
-      annualPrice: 0,
-      period: "para sempre",
-      description: "Perfeito para começar",
-      features: [
-        { text: "Até 50 alunos", included: true },
-        { text: "1 administrador", included: true },
-        { text: "Diário de classe básico", included: true },
-        { text: "Suporte por email", included: true },
-        { text: "Portal do aluno", included: false },
-        { text: "Relatórios avançados", included: false }
-      ],
-      highlighted: false,
-      cta: "Começar Grátis"
-    },
-    {
-      name: "Start",
-      monthlyPrice: 199,
-      annualPrice: Math.round(199 * 12 * 0.8 / 12), // 20% desconto anual
-      period: isAnnual ? "/mês (anual)" : "/mês",
-      description: "Para escolas em crescimento",
-      features: [
-        { text: "Até 200 alunos", included: true },
-        { text: "3 administradores", included: true },
-        { text: "Diário completo", included: true },
-        { text: "Portal do aluno", included: true },
-        { text: "Relatórios básicos", included: true },
-        { text: "Suporte prioritário", included: true }
-      ],
-      highlighted: false,
-      cta: "Iniciar Trial"
-    },
-    {
-      name: "Pro",
-      monthlyPrice: 399,
-      annualPrice: Math.round(399 * 12 * 0.8 / 12), // 20% desconto anual
-      period: isAnnual ? "/mês (anual)" : "/mês",
-      description: "Para quem busca excelência",
-      features: [
-        { text: "Até 500 alunos", included: true },
-        { text: "Usuários ilimitados", included: true },
-        { text: "Todos os módulos", included: true },
-        { text: "Dashboard avançado", included: true },
-        { text: "API de integração", included: true },
-        { text: "Suporte 24/7", included: true }
-      ],
-      highlighted: true,
-      cta: "Escolher Pro"
-    },
-    {
-      name: "Premium",
-      monthlyPrice: 699,
-      annualPrice: Math.round(699 * 12 * 0.8 / 12), // 20% desconto anual
-      period: isAnnual ? "/mês (anual)" : "/mês",
-      description: "Para redes de escolas",
-      features: [
-        { text: "Alunos ilimitados", included: true },
-        { text: "Multi-unidades", included: true },
-        { text: "Personalização total", included: true },
-        { text: "Módulo financeiro", included: true },
-        { text: "Gerente dedicado", included: true },
-        { text: "SLA garantido", included: true }
-      ],
-      highlighted: false,
-      cta: "Falar com Vendas"
-    }
-  ];
+  // Transforma os planos do contexto em formato para exibição
+  const plans = useMemo(() => {
+    const ctaMap: Record<string, string> = {
+      free: "Começar Grátis",
+      start: "Iniciar Trial",
+      pro: "Escolher Pro",
+      premium: "Falar com Vendas"
+    };
+
+    return planos.map(plano => {
+      const features = [
+        { text: plano.recursos.alunos, included: true },
+        { text: plano.recursos.professores, included: true },
+        { text: plano.recursos.suporte, included: true },
+        { text: "Relatórios Avançados", included: plano.recursos.relatorios },
+        { text: "Módulo Financeiro", included: plano.recursos.financeiro },
+        { text: "API de Integração", included: plano.recursos.api }
+      ];
+
+      return {
+        name: plano.nome,
+        monthlyPrice: plano.preco,
+        annualPrice: plano.preco > 0 ? Math.round(plano.preco * 12 * 0.8 / 12) : 0,
+        period: plano.preco === 0 ? "para sempre" : (isAnnual ? "/mês (anual)" : "/mês"),
+        description: plano.descricao,
+        features,
+        highlighted: plano.popular || false,
+        cta: ctaMap[plano.id] || "Escolher Plano"
+      };
+    });
+  }, [planos, isAnnual]);
 
   const getPrice = (plan: typeof plans[0]) => {
     if (plan.monthlyPrice === 0) return "0";
