@@ -38,6 +38,7 @@ interface EditarEscolaDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSave: (escola: Escola) => void;
+  destacarPlano?: boolean;
 }
 
 const UF_OPTIONS = ["SP", "RJ", "MG", "PR", "BA", "CE", "AM", "RS", "SC", "PE", "GO", "DF"];
@@ -45,8 +46,18 @@ const PORTE_OPTIONS = ["Pequeno", "Médio", "Grande"];
 const PLANO_OPTIONS = ["Free", "Start", "Pro", "Premium"];
 const STATUS_OPTIONS = ["ativo", "trial", "inativo"];
 
-export function EditarEscolaDialog({ escola, open, onOpenChange, onSave }: EditarEscolaDialogProps) {
+export function EditarEscolaDialog({ escola, open, onOpenChange, onSave, destacarPlano }: EditarEscolaDialogProps) {
   const [formData, setFormData] = useState<Escola | null>(null);
+  const [planoDestacado, setPlanoDestacado] = useState(false);
+
+  useEffect(() => {
+    if (destacarPlano && open) {
+      setPlanoDestacado(true);
+      // Remover destaque após 3 segundos
+      const timer = setTimeout(() => setPlanoDestacado(false), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [destacarPlano, open]);
 
   useEffect(() => {
     if (escola) {
@@ -152,13 +163,15 @@ export function EditarEscolaDialog({ escola, open, onOpenChange, onSave }: Edita
             </div>
           </div>
           <div className="grid gap-4 md:grid-cols-3">
-            <div className="space-y-2">
-              <Label htmlFor="plano">Plano</Label>
+            <div className={`space-y-2 p-2 -m-2 rounded-lg transition-all duration-500 ${planoDestacado ? "bg-rose-500/10 ring-2 ring-rose-500" : ""}`}>
+              <Label htmlFor="plano" className={planoDestacado ? "text-rose-600 font-semibold" : ""}>
+                Plano {planoDestacado && <span className="text-xs">(Faça o upgrade aqui!)</span>}
+              </Label>
               <Select
                 value={formData.plano}
                 onValueChange={(value) => setFormData({ ...formData, plano: value })}
               >
-                <SelectTrigger id="plano">
+                <SelectTrigger id="plano" className={planoDestacado ? "border-rose-500" : ""}>
                   <SelectValue placeholder="Selecione o plano" />
                 </SelectTrigger>
                 <SelectContent>

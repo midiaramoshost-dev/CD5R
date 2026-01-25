@@ -39,7 +39,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { EditarEscolaDialog, Escola } from "@/components/admin/EditarEscolaDialog";
 import { DetalhesEscolaDialog } from "@/components/admin/DetalhesEscolaDialog";
 import { CadastrarEscolaDialog } from "@/components/admin/CadastrarEscolaDialog";
@@ -85,6 +86,8 @@ const getStatusIcon = (status: string) => {
 };
 
 export default function AdminEscolas() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [escolas, setEscolas] = useState<Escola[]>(escolasIniciais);
   const [busca, setBusca] = useState("");
   const [filtroPlano, setFiltroPlano] = useState("todos");
@@ -93,7 +96,25 @@ export default function AdminEscolas() {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [detalhesDialogOpen, setDetalhesDialogOpen] = useState(false);
   const [escolaSelecionada, setEscolaSelecionada] = useState<Escola | null>(null);
+  const [abaInicial, setAbaInicial] = useState<string | undefined>();
   const { registrarAtividade } = useActivityLog();
+
+  // Processar parâmetros da URL para abrir dialog de edição
+  useEffect(() => {
+    const editarId = searchParams.get("editar");
+    const aba = searchParams.get("aba");
+    
+    if (editarId) {
+      const escola = escolas.find(e => e.id === editarId);
+      if (escola) {
+        setEscolaSelecionada(escola);
+        setAbaInicial(aba || undefined);
+        setEditDialogOpen(true);
+        // Limpar parâmetros da URL
+        setSearchParams({});
+      }
+    }
+  }, [searchParams, escolas, setSearchParams]);
 
   const handleVerDetalhes = (escola: Escola) => {
     setEscolaSelecionada(escola);
@@ -389,8 +410,12 @@ export default function AdminEscolas() {
       <EditarEscolaDialog
         escola={escolaSelecionada}
         open={editDialogOpen}
-        onOpenChange={setEditDialogOpen}
+        onOpenChange={(open) => {
+          setEditDialogOpen(open);
+          if (!open) setAbaInicial(undefined);
+        }}
         onSave={handleSaveEscola}
+        destacarPlano={abaInicial === "plano"}
       />
     </motion.div>
   );
