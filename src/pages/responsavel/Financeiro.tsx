@@ -6,13 +6,10 @@ import {
   CheckCircle,
   AlertTriangle,
   Download,
-  Calendar,
-  DollarSign,
-  FileText,
   Users,
-  Banknote,
-  TrendingUp,
   Eye,
+  Wallet,
+  FileText,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -28,15 +25,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { useState } from "react";
+import { PaymentDialog } from "@/components/payments/PaymentDialog";
+import { paymentProviders, getMethodLabel } from "@/lib/payments/providers";
+import { toast } from "@/hooks/use-toast";
 
 const dependentes = [
   { id: "1", nome: "Ana Beatriz Silva", turma: "5º Ano A", iniciais: "AB", mensalidade: 1200 },
@@ -107,6 +99,22 @@ const formatCurrency = (value: number) => {
 export default function ResponsavelFinanceiro() {
   const [dependenteSelecionado, setDependenteSelecionado] = useState<string | null>(null);
   const [tabAtiva, setTabAtiva] = useState("resumo");
+  const [paymentDialogOpen, setPaymentDialogOpen] = useState(false);
+  const [selectedPayment, setSelectedPayment] = useState<{ amount: number; description: string } | null>(null);
+
+  const handleOpenPayment = (amount: number, description: string) => {
+    setSelectedPayment({ amount, description });
+    setPaymentDialogOpen(true);
+  };
+
+  const handlePaymentSuccess = () => {
+    toast({
+      title: "Pagamento realizado!",
+      description: "Seu pagamento foi processado com sucesso.",
+    });
+    setPaymentDialogOpen(false);
+    setSelectedPayment(null);
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -394,7 +402,14 @@ export default function ResponsavelFinanceiro() {
                                 Recibo
                               </Button>
                             ) : mensalidade.status !== "futuro" ? (
-                              <Button size="sm" className="bg-violet-500 hover:bg-violet-600">
+                              <Button 
+                                size="sm" 
+                                className="bg-violet-500 hover:bg-violet-600"
+                                onClick={() => handleOpenPayment(
+                                  mensalidade.valor,
+                                  `Mensalidade ${mensalidade.mes}/${mensalidade.ano} - ${dependentes.find(d => d.id === dependenteSelecionado)?.nome}`
+                                )}
+                              >
                                 <CreditCard className="h-4 w-4 mr-1" />
                                 Pagar
                               </Button>
@@ -459,6 +474,17 @@ export default function ResponsavelFinanceiro() {
           </TabsContent>
         </Tabs>
       </motion.div>
+
+      {/* Payment Dialog */}
+      {selectedPayment && (
+        <PaymentDialog
+          open={paymentDialogOpen}
+          onOpenChange={setPaymentDialogOpen}
+          amount={selectedPayment.amount}
+          description={selectedPayment.description}
+          onSuccess={handlePaymentSuccess}
+        />
+      )}
     </motion.div>
   );
 }
