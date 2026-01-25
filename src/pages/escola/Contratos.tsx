@@ -20,6 +20,7 @@ import {
   FileSignature,
   BookTemplate,
   FileDown,
+  FileCheck,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -68,6 +69,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import { Switch } from "@/components/ui/switch";
 import { useAlunosResponsaveis, type AlunoComResponsavel } from "@/contexts/AlunosResponsaveisContext";
 
 interface Contrato {
@@ -661,35 +663,37 @@ ${contrato.observacoes ? `\nObservações: ${contrato.observacoes}` : ''}
     doc.setFontSize(9);
     doc.text(`${dadosEscola.cidade}, ${new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })}`, pageWidth / 2, yPosition, { align: 'center' });
 
-    // Adicionar marca d'água para contratos pendentes
+    // Adicionar marca d'água para contratos pendentes (apenas se opção ativada)
     const numPages = doc.internal.pages.length - 1;
     for (let i = 1; i <= numPages; i++) {
       doc.setPage(i);
       
       // Marca d'água diagonal - usando cor clara para simular transparência
-      if (contrato.status === "pendente") {
-        doc.setTextColor(252, 220, 220); // Rosa claro (simula vermelho com transparência)
-        doc.setFontSize(70);
-        doc.setFont('helvetica', 'bold');
-        
-        // Posicionar a marca d'água no centro
-        const centerX = pageWidth / 2;
-        const centerY = pageHeight / 2;
-        doc.text('RASCUNHO', centerX, centerY, { 
-          align: 'center', 
-          angle: 45,
-        });
-      } else if (contrato.status === "expirado" || contrato.status === "cancelado") {
-        doc.setTextColor(230, 230, 230); // Cinza claro
-        doc.setFontSize(70);
-        doc.setFont('helvetica', 'bold');
-        
-        const centerX = pageWidth / 2;
-        const centerY = pageHeight / 2;
-        doc.text('CÓPIA', centerX, centerY, { 
-          align: 'center', 
-          angle: 45,
-        });
+      if (incluirMarcaDagua) {
+        if (contrato.status === "pendente") {
+          doc.setTextColor(252, 220, 220); // Rosa claro (simula vermelho com transparência)
+          doc.setFontSize(70);
+          doc.setFont('helvetica', 'bold');
+          
+          // Posicionar a marca d'água no centro
+          const centerX = pageWidth / 2;
+          const centerY = pageHeight / 2;
+          doc.text('RASCUNHO', centerX, centerY, { 
+            align: 'center', 
+            angle: 45,
+          });
+        } else if (contrato.status === "expirado" || contrato.status === "cancelado") {
+          doc.setTextColor(230, 230, 230); // Cinza claro
+          doc.setFontSize(70);
+          doc.setFont('helvetica', 'bold');
+          
+          const centerX = pageWidth / 2;
+          const centerY = pageHeight / 2;
+          doc.text('CÓPIA', centerX, centerY, { 
+            align: 'center', 
+            angle: 45,
+          });
+        }
       }
 
       // Rodapé
@@ -867,6 +871,10 @@ ${contrato.observacoes ? `\nObservações: ${contrato.observacoes}` : ''}
     dataFim: "",
   });
   const [previewConteudo, setPreviewConteudo] = useState<string>("");
+  
+  // Estado para controlar marca d'água
+  const [incluirMarcaDagua, setIncluirMarcaDagua] = useState(true);
+  const [incluirMarcaDaguaPreview, setIncluirMarcaDaguaPreview] = useState(true);
 
   const handleOpenGerarContrato = (modelo: ModeloContrato) => {
     setModeloParaGerar(modelo);
@@ -1002,16 +1010,18 @@ ${contrato.observacoes ? `\nObservações: ${contrato.observacoes}` : ''}
       doc.setPage(i);
       
       // Marca d'água "RASCUNHO" - contratos gerados do preview são sempre pendentes
-      doc.setTextColor(252, 220, 220); // Rosa claro (simula vermelho com transparência)
-      doc.setFontSize(70);
-      doc.setFont('helvetica', 'bold');
-      
-      const centerX = pageWidth / 2;
-      const centerY = pageHeight / 2;
-      doc.text('RASCUNHO', centerX, centerY, { 
-        align: 'center', 
-        angle: 45,
-      });
+      if (incluirMarcaDaguaPreview) {
+        doc.setTextColor(252, 220, 220); // Rosa claro (simula vermelho com transparência)
+        doc.setFontSize(70);
+        doc.setFont('helvetica', 'bold');
+        
+        const centerX = pageWidth / 2;
+        const centerY = pageHeight / 2;
+        doc.text('RASCUNHO', centerX, centerY, { 
+          align: 'center', 
+          angle: 45,
+        });
+      }
 
       // Rodapé
       doc.setFillColor(248, 250, 252);
@@ -1555,6 +1565,18 @@ ${contrato.observacoes ? `\nObservações: ${contrato.observacoes}` : ''}
               )}
             </div>
           )}
+          <div className="flex items-center justify-between border-t pt-4">
+            <div className="flex items-center space-x-2">
+              <Switch
+                id="marca-dagua"
+                checked={incluirMarcaDagua}
+                onCheckedChange={setIncluirMarcaDagua}
+              />
+              <Label htmlFor="marca-dagua" className="text-sm cursor-pointer">
+                Incluir marca d'água no PDF
+              </Label>
+            </div>
+          </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => handlePrint(selectedContrato!)}>
               <Printer className="h-4 w-4 mr-2" />
@@ -1562,7 +1584,7 @@ ${contrato.observacoes ? `\nObservações: ${contrato.observacoes}` : ''}
             </Button>
             <Button variant="outline" onClick={() => handleGeneratePDF(selectedContrato!)}>
               <FileDown className="h-4 w-4 mr-2" />
-              Baixar PDF
+              {incluirMarcaDagua ? "Baixar PDF com Marca" : "Baixar PDF"}
             </Button>
             <Button onClick={() => handleDownloadContrato(selectedContrato!)}>
               <Download className="h-4 w-4 mr-2" />
@@ -1939,6 +1961,19 @@ ${contrato.observacoes ? `\nObservações: ${contrato.observacoes}` : ''}
             </div>
           )}
 
+          <div className="flex items-center justify-between border-t pt-4">
+            <div className="flex items-center space-x-2">
+              <Switch
+                id="marca-dagua-preview"
+                checked={incluirMarcaDaguaPreview}
+                onCheckedChange={setIncluirMarcaDaguaPreview}
+              />
+              <Label htmlFor="marca-dagua-preview" className="text-sm cursor-pointer">
+                Incluir marca d'água "RASCUNHO" no PDF
+              </Label>
+            </div>
+          </div>
+
           <DialogFooter className="flex-wrap gap-2">
             <Button variant="outline" onClick={() => setIsGerarContratoDialogOpen(false)}>
               Cancelar
@@ -1949,7 +1984,7 @@ ${contrato.observacoes ? `\nObservações: ${contrato.observacoes}` : ''}
               disabled={!previewConteudo}
             >
               <FileDown className="h-4 w-4 mr-2" />
-              Baixar PDF
+              {incluirMarcaDaguaPreview ? "Baixar PDF com Marca" : "Baixar PDF"}
             </Button>
             <Button 
               onClick={handleGerarContrato}
