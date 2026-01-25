@@ -27,6 +27,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { useTheme } from "@/hooks/useTheme";
 import { useAuth } from "@/contexts/AuthContext";
 import { ReferralCard } from "@/components/referral/ReferralCard";
+import { BadgeDisplay } from "@/components/referral/BadgeDisplay";
+import { BADGES, getBadgeForReferrals } from "@/lib/referral-badges";
 import {
   ScrollReveal,
   FadeUp,
@@ -118,7 +120,7 @@ const faqData = [
   },
 ];
 
-// Mock ranking data
+// Mock ranking data with badges
 const mockRanking = [
   { position: 1, name: "Colégio São Paulo", referrals: 47, city: "São Paulo, SP" },
   { position: 2, name: "Instituto Educacional ABC", referrals: 38, city: "Belo Horizonte, MG" },
@@ -130,6 +132,14 @@ const mockRanking = [
   { position: 8, name: "Colégio Integração", referrals: 17, city: "Brasília, DF" },
   { position: 9, name: "Escola Criativa", referrals: 15, city: "Porto Alegre, RS" },
   { position: 10, name: "Colégio Excelência", referrals: 12, city: "Manaus, AM" },
+];
+
+// Badge levels data for display
+const badgeLevels = [
+  { ...BADGES.bronze, description: "1+ indicação convertida" },
+  { ...BADGES.silver, description: "3+ indicações convertidas" },
+  { ...BADGES.gold, description: "5+ indicações convertidas" },
+  { ...BADGES.diamond, description: "10+ indicações convertidas" },
 ];
 
 const getPositionIcon = (position: number) => {
@@ -389,8 +399,45 @@ export default function Indicacao() {
           </div>
         </section>
 
-        {/* Ranking */}
+        {/* Badges Section */}
         <section className="py-20">
+          <div className="container">
+            <FadeUp>
+              <div className="text-center mb-12">
+                <Badge variant="outline" className="mb-4">
+                  <Award className="h-3 w-3 mr-1" />
+                  Conquistas
+                </Badge>
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                  Sistema de Badges
+                </h2>
+                <p className="text-muted-foreground max-w-2xl mx-auto">
+                  Quanto mais você indica, mais alto seu nível de indicador!
+                </p>
+              </div>
+            </FadeUp>
+
+            <StaggerContainer className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+              {badgeLevels.map((badge, index) => (
+                <StaggerItem key={badge.level}>
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    className={`flex flex-col items-center p-6 rounded-xl border-2 ${badge.bgColor} ${badge.borderColor} transition-shadow hover:shadow-lg`}
+                  >
+                    <span className="text-4xl mb-3">{badge.icon}</span>
+                    <p className={`font-bold text-lg ${badge.color}`}>{badge.name}</p>
+                    <p className="text-xs text-muted-foreground text-center mt-1">
+                      {badge.description}
+                    </p>
+                  </motion.div>
+                </StaggerItem>
+              ))}
+            </StaggerContainer>
+          </div>
+        </section>
+
+        {/* Ranking */}
+        <section className="py-20 bg-muted/30">
           <div className="container">
             <FadeUp>
               <div className="text-center mb-12">
@@ -411,37 +458,43 @@ export default function Indicacao() {
               <Card>
                 <CardContent className="p-0">
                   <div className="divide-y">
-                    {mockRanking.map((item, index) => (
-                      <motion.div
-                        key={item.position}
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: index * 0.05 }}
-                        className={`flex items-center gap-4 p-4 hover:bg-muted/50 transition-colors ${
-                          item.position <= 3 ? "bg-muted/30" : ""
-                        }`}
-                      >
-                        <div className="w-10 flex items-center justify-center">
-                          {getPositionIcon(item.position)}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="font-medium truncate">{item.name}</p>
-                          <p className="text-xs text-muted-foreground">{item.city}</p>
-                        </div>
-                        <div className="text-right">
-                          <p className="font-bold text-primary">{item.referrals}</p>
-                          <p className="text-xs text-muted-foreground">indicações</p>
-                        </div>
-                      </motion.div>
-                    ))}
+                    {mockRanking.map((item, index) => {
+                      const badge = getBadgeForReferrals(item.referrals);
+                      return (
+                        <motion.div
+                          key={item.position}
+                          initial={{ opacity: 0, y: 10 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: index * 0.05 }}
+                          className={`flex items-center gap-4 p-4 hover:bg-muted/50 transition-colors ${
+                            item.position <= 3 ? "bg-muted/30" : ""
+                          }`}
+                        >
+                          <div className="w-10 flex items-center justify-center">
+                            {getPositionIcon(item.position)}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2">
+                              <p className="font-medium truncate">{item.name}</p>
+                              <span title={badge.name}>{badge.icon}</span>
+                            </div>
+                            <p className="text-xs text-muted-foreground">{item.city}</p>
+                          </div>
+                          <div className="text-right">
+                            <p className="font-bold text-primary">{item.referrals}</p>
+                            <p className="text-xs text-muted-foreground">indicações</p>
+                          </div>
+                        </motion.div>
+                      );
+                    })}
                   </div>
                 </CardContent>
               </Card>
 
               <FadeUp delay={0.3}>
                 <p className="text-center text-sm text-muted-foreground mt-6">
-                  <Star className="inline h-4 w-4 mr-1 text-yellow-500" />
+                  <Star className="inline h-4 w-4 mr-1 text-primary" />
                   Ranking atualizado mensalmente. Sua escola pode estar aqui!
                 </p>
               </FadeUp>
