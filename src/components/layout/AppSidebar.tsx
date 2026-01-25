@@ -14,6 +14,7 @@ import {
   FileText,
   ChevronDown,
   LogOut,
+  DollarSign,
 } from "lucide-react";
 import {
   Sidebar,
@@ -79,6 +80,11 @@ const menuItems = [
     title: "Comunicação",
     icon: MessageSquare,
     url: "/escola/comunicados",
+  },
+  {
+    title: "Financeiro",
+    icon: DollarSign,
+    url: "/escola/financeiro",
   },
   {
     title: "Relatórios",
