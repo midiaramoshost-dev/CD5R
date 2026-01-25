@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "@/hooks/useTheme";
 import { MainLayout } from "@/components/layout/MainLayout";
+import Index from "./pages/Index";
 import Login from "./pages/Login";
 import EscolaDashboard from "./pages/escola/Dashboard";
 import Turmas from "./pages/escola/Turmas";
@@ -23,7 +24,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Navigate to="/login" replace />} />
+            <Route path="/" element={<Index />} />
             <Route path="/login" element={<Login />} />
             
             {/* Escola Routes */}
