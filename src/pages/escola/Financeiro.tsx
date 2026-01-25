@@ -70,6 +70,7 @@ import {
 } from "recharts";
 import { EnviarCobrancaDialog, Inadimplente } from "@/components/financeiro/EnviarCobrancaDialog";
 import { AgendarLembreteDialog } from "@/components/financeiro/AgendarLembreteDialog";
+import { HistoricoNegociacaoDialog, getAllHistoricos, type StatusNegociacao } from "@/components/financeiro/HistoricoNegociacaoDialog";
 import { useToast } from "@/hooks/use-toast";
 
 // Mock data
@@ -240,7 +241,8 @@ export default function EscolaFinanceiro() {
   const [periodoFiltro, setPeriodoFiltro] = useState("mes");
   const [cobrancaDialogOpen, setCobrancaDialogOpen] = useState(false);
   const [lembreteDialogOpen, setLembreteDialogOpen] = useState(false);
-  const [selectedInadimplente, setSelectedInadimplente] = useState<string | null>(null);
+  const [historicoDialogOpen, setHistoricoDialogOpen] = useState(false);
+  const [selectedInadimplente, setSelectedInadimplente] = useState<Inadimplente | null>(null);
   const [inadimplentes, setInadimplentes] = useState<Inadimplente[]>(inadimplentesData);
   const { toast } = useToast();
 
@@ -754,9 +756,19 @@ export default function EscolaFinanceiro() {
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                              <DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => {
+                                setSelectedInadimplente(item);
+                                setHistoricoDialogOpen(true);
+                              }}>
                                 <Eye className="mr-2 h-4 w-4" />
-                                Ver detalhes
+                                Ver histórico
+                              </DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => {
+                                setSelectedInadimplente(item);
+                                setHistoricoDialogOpen(true);
+                              }}>
+                                <FileText className="mr-2 h-4 w-4" />
+                                Registrar contato
                               </DropdownMenuItem>
                               <DropdownMenuSeparator />
                               <DropdownMenuItem onClick={() => enviarWhatsAppIndividual(item)}>
@@ -766,11 +778,6 @@ export default function EscolaFinanceiro() {
                               <DropdownMenuItem onClick={() => enviarEmailIndividual(item)}>
                                 <Mail className="mr-2 h-4 w-4 text-blue-600" />
                                 Cobrar via E-mail
-                              </DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem>
-                                <FileText className="mr-2 h-4 w-4" />
-                                Registrar contato
                               </DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
@@ -804,6 +811,19 @@ export default function EscolaFinanceiro() {
           } else {
             enviarEmailIndividual(inadimplente);
           }
+        }}
+      />
+
+      {/* Dialog de Histórico de Negociação */}
+      <HistoricoNegociacaoDialog
+        open={historicoDialogOpen}
+        onOpenChange={setHistoricoDialogOpen}
+        inadimplente={selectedInadimplente}
+        onStatusChange={(id, status) => {
+          // Update local inadimplente status if needed
+          setInadimplentes(prev => prev.map(i => 
+            i.id === id ? { ...i, status: status } : i
+          ));
         }}
       />
     </motion.div>
