@@ -30,6 +30,7 @@ import ResponsavelNotas from "./pages/responsavel/Notas";
 import ResponsavelFrequencia from "./pages/responsavel/Frequencia";
 import ResponsavelTarefas from "./pages/responsavel/Tarefas";
 import ResponsavelComunicados from "./pages/responsavel/Comunicados";
+import ResponsavelFinanceiro from "./pages/responsavel/Financeiro";
 import ResponsavelPerfil from "./pages/responsavel/Perfil";
 import NotFound from "./pages/NotFound";
 
@@ -80,6 +81,7 @@ const App = () => (
               <Route path="frequencia" element={<ResponsavelFrequencia />} />
               <Route path="tarefas" element={<ResponsavelTarefas />} />
               <Route path="comunicados" element={<ResponsavelComunicados />} />
+              <Route path="financeiro" element={<ResponsavelFinanceiro />} />
               <Route path="perfil" element={<ResponsavelPerfil />} />
             </Route>
 
