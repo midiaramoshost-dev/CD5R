@@ -517,6 +517,90 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Partners/Clients Section */}
+      <section className="py-16 border-y bg-muted/30">
+        <div className="container">
+          <FadeUp delay={0.1}>
+            <div className="text-center mb-10">
+              <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">
+                Confiança de mais de 500 escolas
+              </p>
+              <h3 className="text-xl font-semibold text-foreground">
+                Escolas que transformaram sua gestão com o i ESCOLAS
+              </h3>
+            </div>
+          </FadeUp>
+
+          <div className="relative overflow-hidden">
+            {/* Gradient masks */}
+            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-muted/80 to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-muted/80 to-transparent z-10 pointer-events-none" />
+            
+            {/* Scrolling logos - first row */}
+            <motion.div
+              className="flex gap-12 py-4"
+              animate={{ x: [0, -1920] }}
+              transition={{ 
+                duration: 30, 
+                repeat: Infinity, 
+                ease: "linear",
+                repeatType: "loop"
+              }}
+            >
+              {[
+                { name: "Colégio São Paulo", city: "São Paulo, SP" },
+                { name: "Escola Nova Era", city: "Rio de Janeiro, RJ" },
+                { name: "Instituto Educacional ABC", city: "Belo Horizonte, MG" },
+                { name: "Colégio Progresso", city: "Curitiba, PR" },
+                { name: "Escola Futuro Brilhante", city: "Salvador, BA" },
+                { name: "Centro Educacional Vida", city: "Fortaleza, CE" },
+                { name: "Colégio Integração", city: "Brasília, DF" },
+                { name: "Escola Criativa", city: "Porto Alegre, RS" },
+                { name: "Instituto Saber", city: "Recife, PE" },
+                { name: "Colégio Excelência", city: "Manaus, AM" },
+                { name: "Colégio São Paulo", city: "São Paulo, SP" },
+                { name: "Escola Nova Era", city: "Rio de Janeiro, RJ" },
+                { name: "Instituto Educacional ABC", city: "Belo Horizonte, MG" },
+                { name: "Colégio Progresso", city: "Curitiba, PR" },
+                { name: "Escola Futuro Brilhante", city: "Salvador, BA" },
+                { name: "Centro Educacional Vida", city: "Fortaleza, CE" },
+              ].map((school, index) => (
+                <motion.div
+                  key={index}
+                  className="flex-shrink-0 flex items-center gap-3 px-6 py-3 rounded-xl bg-card border border-border/50 shadow-sm hover:shadow-md transition-shadow"
+                  whileHover={{ scale: 1.05, y: -4 }}
+                >
+                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <GraduationCap className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-sm whitespace-nowrap">{school.name}</p>
+                    <p className="text-xs text-muted-foreground whitespace-nowrap">{school.city}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+
+          <FadeUp delay={0.3}>
+            <div className="flex flex-wrap justify-center gap-8 mt-10 text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="h-5 w-5 text-primary" />
+                <span className="text-sm">500+ escolas ativas</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="h-5 w-5 text-primary" />
+                <span className="text-sm">26 estados + DF</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="h-5 w-5 text-primary" />
+                <span className="text-sm">150k+ alunos gerenciados</span>
+              </div>
+            </div>
+          </FadeUp>
+        </div>
+      </section>
+
       {/* Features Section - Bento Grid with Enhanced Scroll Animations */}
       <section id="recursos" className="py-24 relative">
         <div className="container">
