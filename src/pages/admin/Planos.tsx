@@ -4,13 +4,12 @@ import {
   Check,
   X,
   Edit,
-  Users,
-  DollarSign,
   Building2,
   Sparkles,
   Crown,
   Zap,
   Star,
+  Pencil,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -26,8 +25,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useState } from "react";
+import { EditarPlanoDialog, Plano, PlanoRecursos } from "@/components/admin/EditarPlanoDialog";
 
-const planos = [
+const planosIniciais: Plano[] = [
   {
     id: "free",
     nome: "Free",
@@ -165,6 +165,10 @@ const getPlanoColorLight = (cor: string) => {
 };
 
 export default function AdminPlanos() {
+  const [planos, setPlanos] = useState<Plano[]>(planosIniciais);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [selectedPlano, setSelectedPlano] = useState<Plano | null>(null);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -179,6 +183,17 @@ export default function AdminPlanos() {
   };
 
   const totalEscolas = planos.reduce((acc, p) => acc + p.escolas, 0);
+
+  const handleEditPlano = (plano: Plano) => {
+    setSelectedPlano(plano);
+    setEditDialogOpen(true);
+  };
+
+  const handleSavePlano = (updatedPlano: Plano) => {
+    setPlanos(prev => prev.map(p => 
+      p.id === updatedPlano.id ? updatedPlano : p
+    ));
+  };
 
   return (
     <motion.div
@@ -195,9 +210,15 @@ export default function AdminPlanos() {
             Configure e gerencie os planos da plataforma
           </p>
         </div>
-        <Button className="bg-rose-500 hover:bg-rose-600">
+        <Button 
+          className="bg-primary hover:bg-primary/90"
+          onClick={() => {
+            setSelectedPlano(planos[0]);
+            setEditDialogOpen(true);
+          }}
+        >
           <Edit className="mr-2 h-4 w-4" />
-          Editar Preços
+          Editar Planos
         </Button>
       </motion.div>
 
@@ -210,10 +231,10 @@ export default function AdminPlanos() {
             whileHover={{ scale: 1.02 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <Card className={`relative h-full ${plano.popular ? "border-2 border-purple-500" : ""}`}>
+            <Card className={`relative h-full ${plano.popular ? "border-2 border-primary" : ""}`}>
               {plano.popular && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <Badge className="bg-purple-500">Mais Popular</Badge>
+                  <Badge className="bg-primary">Mais Popular</Badge>
                 </div>
               )}
               <CardHeader className="text-center pb-2">
@@ -243,8 +264,13 @@ export default function AdminPlanos() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Button variant="outline" className="w-full">
-                  Ver Detalhes
+                <Button 
+                  variant="outline" 
+                  className="w-full"
+                  onClick={() => handleEditPlano(plano)}
+                >
+                  <Pencil className="mr-2 h-4 w-4" />
+                  Editar Plano
                 </Button>
               </CardFooter>
             </Card>
@@ -257,7 +283,7 @@ export default function AdminPlanos() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Layers className="h-5 w-5 text-rose-500" />
+              <Layers className="h-5 w-5 text-primary" />
               Comparativo de Recursos
             </CardTitle>
             <CardDescription>Recursos disponíveis em cada plano</CardDescription>
@@ -281,7 +307,7 @@ export default function AdminPlanos() {
                   <TableRow key={recurso.key}>
                     <TableCell className="font-medium">{recurso.label}</TableCell>
                     {planos.map((plano) => {
-                      const valor = plano.recursos[recurso.key as keyof typeof plano.recursos];
+                      const valor = plano.recursos[recurso.key as keyof PlanoRecursos];
                       return (
                         <TableCell key={plano.id} className="text-center">
                           {typeof valor === "boolean" ? (
@@ -341,6 +367,14 @@ export default function AdminPlanos() {
           </CardContent>
         </Card>
       </motion.div>
+
+      {/* Modal de Edição */}
+      <EditarPlanoDialog
+        open={editDialogOpen}
+        onOpenChange={setEditDialogOpen}
+        plano={selectedPlano}
+        onSave={handleSavePlano}
+      />
     </motion.div>
   );
 }
