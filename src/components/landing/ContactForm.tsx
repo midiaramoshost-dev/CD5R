@@ -126,7 +126,17 @@ export function ContactForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-6 rounded-2xl border border-border/60 bg-card/70 p-6 md:p-8 shadow-sm backdrop-blur"
+      >
+        <div className="space-y-1">
+          <h3 className="text-xl font-semibold">Fale com nosso time</h3>
+          <p className="text-sm text-muted-foreground">
+            Responderemos em até 24h úteis com a melhor proposta para sua escola.
+          </p>
+        </div>
+
         <div className="grid md:grid-cols-2 gap-4">
           <FormField
             control={form.control}
@@ -141,7 +151,7 @@ export function ContactForm() {
                   <Input 
                     placeholder="Seu nome" 
                     {...field}
-                    className="h-12"
+                    className="h-12 bg-background/80"
                   />
                 </FormControl>
                 <FormMessage />
@@ -163,7 +173,7 @@ export function ContactForm() {
                     type="email"
                     placeholder="seu@email.com" 
                     {...field}
-                    className="h-12"
+                    className="h-12 bg-background/80"
                   />
                 </FormControl>
                 <FormMessage />
@@ -187,7 +197,7 @@ export function ContactForm() {
                     type="tel"
                     placeholder="(00) 00000-0000" 
                     {...field}
-                    className="h-12"
+                    className="h-12 bg-background/80"
                   />
                 </FormControl>
                 <FormMessage />
@@ -208,7 +218,7 @@ export function ContactForm() {
                   <Input 
                     placeholder="Nome da sua escola" 
                     {...field}
-                    className="h-12"
+                    className="h-12 bg-background/80"
                   />
                 </FormControl>
                 <FormMessage />
@@ -225,7 +235,7 @@ export function ContactForm() {
               <FormLabel>Seu Cargo</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger className="h-12">
+                  <SelectTrigger className="h-12 bg-background/80">
                     <SelectValue placeholder="Selecione seu cargo" />
                   </SelectTrigger>
                 </FormControl>
@@ -256,7 +266,7 @@ export function ContactForm() {
                 <Textarea 
                   placeholder="Como podemos ajudar sua escola?" 
                   {...field}
-                  className="min-h-[120px] resize-none"
+                  className="min-h-[120px] resize-none bg-background/80"
                 />
               </FormControl>
               <FormMessage />

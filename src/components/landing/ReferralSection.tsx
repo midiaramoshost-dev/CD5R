@@ -56,7 +56,7 @@ export function ReferralSection() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="relative"
             >
-              <div className="text-center p-6 rounded-2xl bg-card border border-border/50 shadow-sm hover:shadow-md transition-shadow">
+              <div className="text-center p-6 rounded-2xl bg-card/80 border border-border/60 shadow-sm hover:shadow-md transition-all">
                 <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4 relative">
                   <step.icon className="h-8 w-8 text-primary" />
                   <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-primary text-primary-foreground text-sm font-bold flex items-center justify-center">
@@ -121,19 +121,17 @@ export function ReferralSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-8 mt-12 text-center"
+          className="grid md:grid-cols-3 gap-6 mt-12"
         >
-          <div>
+          <div className="rounded-2xl border border-border/60 bg-card/70 p-6 text-center shadow-sm">
             <p className="text-4xl font-bold text-primary">R$ 0</p>
             <p className="text-sm text-muted-foreground">Custo para participar</p>
           </div>
-          <div className="w-px bg-border hidden md:block" />
-          <div>
+          <div className="rounded-2xl border border-border/60 bg-card/70 p-6 text-center shadow-sm">
             <p className="text-4xl font-bold text-primary">∞</p>
             <p className="text-sm text-muted-foreground">Indicações ilimitadas</p>
           </div>
-          <div className="w-px bg-border hidden md:block" />
-          <div>
+          <div className="rounded-2xl border border-border/60 bg-card/70 p-6 text-center shadow-sm">
             <p className="text-4xl font-bold text-primary">30 dias</p>
             <p className="text-sm text-muted-foreground">Por indicação convertida</p>
           </div>
