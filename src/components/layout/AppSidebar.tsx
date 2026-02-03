@@ -143,13 +143,14 @@ export function AppSidebar() {
     <Sidebar collapsible="icon" className="border-r border-sidebar-border">
       <SidebarHeader className="border-b border-sidebar-border p-4">
         <Link to="/escola/dashboard" className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg gradient-brand">
-            <School className="h-6 w-6 text-white" />
+          <div className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary/70 shadow-md ring-1 ring-primary/30">
+            <School className="h-6 w-6 text-white drop-shadow" />
+            <span className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-emerald-400 ring-2 ring-card" />
           </div>
           {!isCollapsed && (
             <div className="flex flex-col">
-              <span className="text-lg font-bold text-sidebar-foreground">
-                i ESCOLAS
+              <span className="text-lg font-bold tracking-tight text-sidebar-foreground">
+                iESCOLAS
               </span>
               <span className="text-xs text-sidebar-foreground/60">
                 Gestão Escolar
