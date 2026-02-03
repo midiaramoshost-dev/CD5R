@@ -21,6 +21,12 @@ export function AppHeader() {
     <header className="sticky top-0 z-50 flex h-16 items-center justify-between border-b border-border bg-card px-4 shadow-card">
       <div className="flex items-center gap-4">
         <SidebarTrigger className="-ml-1" />
+
+        <div className="hidden sm:flex items-center">
+          <span className="text-lg font-semibold tracking-tight bg-gradient-to-r from-primary via-violet-500 to-sky-500 bg-clip-text text-transparent drop-shadow-[0_2px_8px_rgba(80,70,255,0.35)]">
+            EduPrime
+          </span>
+        </div>
         
         <div className="hidden md:flex relative">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
