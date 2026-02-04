@@ -36,8 +36,8 @@ export function ReferralSection() {
             <Gift className="h-4 w-4" />
             <span className="text-sm font-medium">Programa de Indicação</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Indique e Ganhe <span className="text-primary">1 Mês Grátis</span>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-black drop-shadow-md">
+            A escola ensina. Nós cuidamos do resto
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Convide outras escolas para conhecer o i ESCOLAS e ganhe meses gratuitos 
