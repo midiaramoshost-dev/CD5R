@@ -27,6 +27,14 @@ export function ProtectedRoute({ children, allowedRoles }: ProtectedRouteProps) 
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
+  // Regra do portal: Painel ADM Master é exclusivo do papel "admin".
+  // Se uma rota /admin estiver sendo acessada por outro papel (externo/escola/etc),
+  // forçamos redirect para o painel apropriado do papel.
+  const isAdminArea = location.pathname.startsWith('/admin');
+  if (isAdminArea && user.role !== 'admin') {
+    return <Navigate to={getRoleRedirectPath(user.role)} replace />;
+  }
+
   if (!allowedRoles.includes(user.role)) {
     // User is authenticated but doesn't have permission
     // Redirect to their appropriate dashboard
