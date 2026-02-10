@@ -21,13 +21,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
-import { 
-  Building2, 
-  Key, 
-  CreditCard, 
-  Settings, 
-  Copy, 
-  Eye, 
+import {
+  Building2,
+  Key,
+  CreditCard,
+  Settings,
+  Copy,
+  Eye,
   EyeOff,
   Check,
   AlertCircle,
@@ -47,6 +47,13 @@ interface CadastrarEscolaDialogProps {
 const UF_OPTIONS = ["SP", "RJ", "MG", "PR", "BA", "CE", "AM", "RS", "SC", "PE", "GO", "DF"];
 const PORTE_OPTIONS = ["Pequeno", "Médio", "Grande"];
 const PLANO_OPTIONS = ["Free", "Start", "Pro", "Premium"];
+
+const MODULOS_OPTIONS = [
+  { id: "academico", label: "Acadêmico" },
+  { id: "financeiro", label: "Financeiro" },
+  { id: "biblioteca", label: "Biblioteca" },
+  { id: "comunicacao", label: "Comunicação" },
+];
 
 interface PaymentProvider {
   id: string;
@@ -74,16 +81,19 @@ interface FormData {
   plano: string;
   emailDiretor: string;
   telefoneDiretor: string;
-  
+
   // Credenciais
   loginProvisorio: string;
   senhaProvisoria: string;
-  
+
   // Implantação
   valorImplantacao: string;
   descricaoCobranca: string;
   dataVencimento: string;
-  
+
+  // Módulos (implantação)
+  modulos: string[];
+
   // Provedor de pagamento
   provedorPagamento: string;
   apiKey: string;
@@ -152,6 +162,7 @@ export function CadastrarEscolaDialog({ open, onOpenChange, onSave }: CadastrarE
     valorImplantacao: "",
     descricaoCobranca: "Taxa de implantação do sistema i ESCOLAS",
     dataVencimento: "",
+    modulos: [],
     provedorPagamento: "",
     apiKey: "",
     apiSecret: "",
@@ -159,11 +170,11 @@ export function CadastrarEscolaDialog({ open, onOpenChange, onSave }: CadastrarE
     ambiente: "sandbox",
   });
 
-  const handleInputChange = (field: keyof FormData, value: string) => {
+  const handleInputChange = (field: keyof FormData, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
-    
+
     // Auto-gerar login quando nome é preenchido
-    if (field === "nome" && value.length > 3 && !formData.loginProvisorio) {
+    if (field === "nome" && typeof value === "string" && value.length > 3 && !formData.loginProvisorio) {
       setFormData(prev => ({
         ...prev,
         nome: value,
@@ -171,6 +182,15 @@ export function CadastrarEscolaDialog({ open, onOpenChange, onSave }: CadastrarE
         senhaProvisoria: generatePassword(),
       }));
     }
+  };
+
+  const toggleModulo = (id: string) => {
+    setFormData(prev => {
+      const current = new Set(prev.modulos || []);
+      if (current.has(id)) current.delete(id);
+      else current.add(id);
+      return { ...prev, modulos: Array.from(current) };
+    });
   };
 
   const handleGenerateCredentials = () => {
@@ -292,13 +312,14 @@ export function CadastrarEscolaDialog({ open, onOpenChange, onSave }: CadastrarE
         status: "trial",
         datacadastro: new Date().toISOString().split("T")[0],
         linkAcesso,
+        modulos: formData.modulos,
       };
 
       onSave(novaEscola);
       toast.success("Escola cadastrada com sucesso! Credenciais criadas no sistema.", {
         description: `O diretor pode acessar com o e-mail ${formData.emailDiretor}`,
       });
-      
+
       // Reset form
       setFormData({
         nome: "",
@@ -314,6 +335,7 @@ export function CadastrarEscolaDialog({ open, onOpenChange, onSave }: CadastrarE
         valorImplantacao: "",
         descricaoCobranca: "Taxa de implantação do sistema i ESCOLAS",
         dataVencimento: "",
+        modulos: [],
         provedorPagamento: "",
         apiKey: "",
         apiSecret: "",
@@ -334,7 +356,7 @@ export function CadastrarEscolaDialog({ open, onOpenChange, onSave }: CadastrarE
     const tabs = ["dados", "acesso", "cobranca", "pagamento"];
     const currentIndex = tabs.indexOf(activeTab);
     const tabIndex = tabs.indexOf(tab);
-    
+
     if (tabIndex < currentIndex) return "complete";
     if (tabIndex === currentIndex) return "current";
     return "pending";
@@ -475,6 +497,38 @@ export function CadastrarEscolaDialog({ open, onOpenChange, onSave }: CadastrarE
                 maxLength={15}
               />
             </div>
+
+            {/* Módulos para implantação */}
+            <Card className="border-dashed border-2 border-rose-200 bg-rose-50/50 dark:bg-rose-950/20">
+              <CardContent className="p-4 space-y-3">
+                <div>
+                  <p className="font-medium text-rose-700 dark:text-rose-400">Módulos da Implantação</p>
+                  <p className="text-sm text-rose-600/80 dark:text-rose-400/80">
+                    Selecione os módulos que ficarão ativos para esta escola.
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {MODULOS_OPTIONS.map((m) => {
+                    const active = formData.modulos.includes(m.id);
+                    return (
+                      <button
+                        key={m.id}
+                        type="button"
+                        onClick={() => toggleModulo(m.id)}
+                        className="focus:outline-none"
+                      >
+                        <Badge
+                          variant={active ? "default" : "secondary"}
+                          className={active ? "bg-rose-500 hover:bg-rose-600" : ""}
+                        >
+                          {m.label}
+                        </Badge>
+                      </button>
+                    );
+                  })}
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
 
           {/* Tab: Acesso Provisório */}
@@ -494,9 +548,9 @@ export function CadastrarEscolaDialog({ open, onOpenChange, onSave }: CadastrarE
             </Card>
 
             <div className="flex justify-end">
-              <Button 
-                type="button" 
-                variant="outline" 
+              <Button
+                type="button"
+                variant="outline"
                 onClick={handleGenerateCredentials}
                 className="border-rose-300 text-rose-600 hover:bg-rose-50"
               >
@@ -516,9 +570,9 @@ export function CadastrarEscolaDialog({ open, onOpenChange, onSave }: CadastrarE
                     placeholder="Definido pelo e-mail do diretor"
                     className="flex-1 bg-muted"
                   />
-                  <Button 
-                    type="button" 
-                    size="icon" 
+                  <Button
+                    type="button"
+                    size="icon"
                     variant="outline"
                     onClick={() => copyToClipboard(formData.emailDiretor, "Login")}
                   >
@@ -547,9 +601,9 @@ export function CadastrarEscolaDialog({ open, onOpenChange, onSave }: CadastrarE
                       {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     </Button>
                   </div>
-                  <Button 
-                    type="button" 
-                    size="icon" 
+                  <Button
+                    type="button"
+                    size="icon"
                     variant="outline"
                     onClick={() => copyToClipboard(formData.senhaProvisoria, "Senha")}
                   >
@@ -781,8 +835,8 @@ export function CadastrarEscolaDialog({ open, onOpenChange, onSave }: CadastrarE
                       {formData.ambiente === "producao" ? "PRODUÇÃO" : "SANDBOX"}
                     </Badge>
                     <span className="text-sm text-muted-foreground">
-                      {formData.ambiente === "producao" 
-                        ? "As transações serão reais" 
+                      {formData.ambiente === "producao"
+                        ? "As transações serão reais"
                         : "Ambiente de testes - sem cobrança real"}
                     </span>
                   </div>

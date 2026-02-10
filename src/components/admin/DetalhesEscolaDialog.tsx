@@ -84,10 +84,30 @@ const getTipoHistoricoIcon = (tipo: string) => {
   }
 };
 
+const MODULOS_LABELS: Record<string, string> = {
+  academico: "Acadêmico",
+  financeiro: "Financeiro",
+  biblioteca: "Biblioteca",
+  comunicacao: "Comunicação",
+};
+
 export function DetalhesEscolaDialog({ escola, open, onOpenChange }: DetalhesEscolaDialogProps) {
   if (!escola) return null;
 
   const historico = getHistoricoEscola(escola.id);
+
+  const generateExclusiveLink = () => {
+    const escolaSlug = escola.nome
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
+    const linkAcesso = `${window.location.origin}/login?escola=${escolaSlug}-${escola.id}`;
+
+    navigator.clipboard.writeText(linkAcesso);
+    toast.success("Link exclusivo gerado e copiado!");
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -152,15 +172,15 @@ export function DetalhesEscolaDialog({ escola, open, onOpenChange }: DetalhesEsc
                 </CardContent>
               </Card>
 
-              {escola.linkAcesso && (
-                <Card className="md:col-span-2 border-primary/20 bg-primary/5">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                      <Link2 className="h-4 w-4" />
-                      Link de Acesso
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
+              <Card className="md:col-span-2 border-primary/20 bg-primary/5">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                    <Link2 className="h-4 w-4" />
+                    Link de Acesso
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {escola.linkAcesso ? (
                     <div className="flex items-center gap-2">
                       <code className="text-sm bg-muted px-3 py-2 rounded break-all flex-1">
                         {escola.linkAcesso}
@@ -176,9 +196,39 @@ export function DetalhesEscolaDialog({ escola, open, onOpenChange }: DetalhesEsc
                         <Copy className="h-4 w-4" />
                       </Button>
                     </div>
-                  </CardContent>
-                </Card>
-              )}
+                  ) : (
+                    <p className="text-sm text-muted-foreground">
+                      Nenhum link salvo. Você pode gerar um link exclusivo agora.
+                    </p>
+                  )}
+
+                  <Button variant="outline" onClick={generateExclusiveLink}>
+                    <Link2 className="h-4 w-4 mr-2" />
+                    Gerar link exclusivo
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="md:col-span-2">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-medium text-muted-foreground">
+                    Módulos implantados
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-wrap gap-2">
+                    {(escola.modulos || []).length > 0 ? (
+                      (escola.modulos || []).map((m) => (
+                        <Badge key={m} variant="secondary">
+                          {MODULOS_LABELS[m] || m}
+                        </Badge>
+                      ))
+                    ) : (
+                      <span className="text-sm text-muted-foreground">Nenhum módulo selecionado.</span>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
 
               <Card>
                 <CardHeader className="pb-2">

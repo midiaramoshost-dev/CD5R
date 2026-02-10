@@ -57,10 +57,12 @@ const menuItems = [
     icon: Activity,
     url: "/admin/monitoramento",
   },
+  // Pedido: "menu escolas deve ficar os modulos"
+  // Mudança mínima: apontar a entrada de Módulos para dentro de /admin/escolas (aba/seção módulos)
   {
     title: "Módulos",
     icon: Puzzle,
-    url: "/admin/modulos",
+    url: "/admin/escolas#modulos",
   },
   {
     title: "Usuários",
@@ -86,7 +88,11 @@ export function AdminSidebar() {
   const { user, logout } = useAuth();
   const isCollapsed = state === "collapsed";
 
-  const isActive = (url: string) => location.pathname === url;
+  const isActive = (url: string) => {
+    // considera hash como ativo quando a rota base bate
+    const baseUrl = url.split("#")[0];
+    return location.pathname === baseUrl;
+  };
 
   const handleLogout = () => {
     logout();

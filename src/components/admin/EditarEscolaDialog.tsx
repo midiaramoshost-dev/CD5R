@@ -17,6 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 
 export interface Escola {
@@ -32,6 +33,7 @@ export interface Escola {
   status: string;
   datacadastro: string;
   linkAcesso?: string;
+  modulos?: string[];
 }
 
 interface EditarEscolaDialogProps {
@@ -46,6 +48,13 @@ const UF_OPTIONS = ["SP", "RJ", "MG", "PR", "BA", "CE", "AM", "RS", "SC", "PE", 
 const PORTE_OPTIONS = ["Pequeno", "Médio", "Grande"];
 const PLANO_OPTIONS = ["Free", "Start", "Pro", "Premium"];
 const STATUS_OPTIONS = ["ativo", "trial", "inativo"];
+
+const MODULOS_OPTIONS = [
+  { id: "academico", label: "Acadêmico" },
+  { id: "financeiro", label: "Financeiro" },
+  { id: "biblioteca", label: "Biblioteca" },
+  { id: "comunicacao", label: "Comunicação" },
+];
 
 export function EditarEscolaDialog({ escola, open, onOpenChange, onSave, destacarPlano }: EditarEscolaDialogProps) {
   const [formData, setFormData] = useState<Escola | null>(null);
@@ -62,9 +71,17 @@ export function EditarEscolaDialog({ escola, open, onOpenChange, onSave, destaca
 
   useEffect(() => {
     if (escola) {
-      setFormData({ ...escola });
+      setFormData({ ...escola, modulos: escola.modulos || [] });
     }
   }, [escola]);
+
+  const toggleModulo = (id: string) => {
+    if (!formData) return;
+    const current = new Set(formData.modulos || []);
+    if (current.has(id)) current.delete(id);
+    else current.add(id);
+    setFormData({ ...formData, modulos: Array.from(current) });
+  };
 
   const handleSave = () => {
     if (!formData) return;
@@ -208,6 +225,35 @@ export function EditarEscolaDialog({ escola, open, onOpenChange, onSave, destaca
               />
             </div>
           </div>
+
+          {/* Módulos (implantação) */}
+          <div className="space-y-2">
+            <Label>Módulos implantados</Label>
+            <div className="flex flex-wrap gap-2">
+              {MODULOS_OPTIONS.map((m) => {
+                const active = (formData.modulos || []).includes(m.id);
+                return (
+                  <button
+                    key={m.id}
+                    type="button"
+                    onClick={() => toggleModulo(m.id)}
+                    className="focus:outline-none"
+                  >
+                    <Badge
+                      variant={active ? "default" : "secondary"}
+                      className={active ? "bg-rose-500 hover:bg-rose-600" : ""}
+                    >
+                      {m.label}
+                    </Badge>
+                  </button>
+                );
+              })}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Selecione quais módulos ficam disponíveis para esta escola.
+            </p>
+          </div>
+
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="professores">Nº de Professores</Label>
