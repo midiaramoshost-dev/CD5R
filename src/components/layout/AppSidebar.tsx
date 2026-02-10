@@ -4,22 +4,15 @@ import {
   LayoutDashboard,
   Users,
   GraduationCap,
-  BookOpen,
   Calendar,
   Settings,
   School,
-  UserCheck,
-  ClipboardList,
-  MessageSquare,
-  FileText,
   ChevronDown,
   LogOut,
   DollarSign,
   Briefcase,
-  Package,
-  Receipt,
-  FileSignature,
-  CreditCard,
+  MessageSquare,
+  FileText,
 } from "lucide-react";
 import {
   Sidebar,
@@ -120,7 +113,11 @@ export function AppSidebar() {
   const { state } = useSidebar();
   const { logout } = useAuth();
   const isCollapsed = state === "collapsed";
-  const [openMenus, setOpenMenus] = useState<string[]>(["Gestão Escolar", "Pessoas", "Acadêmico"]);
+  const [openMenus, setOpenMenus] = useState<string[]>([
+    "Gestão Escolar",
+    "Pessoas",
+    "Acadêmico",
+  ]);
 
   const toggleMenu = (title: string) => {
     setOpenMenus((prev) =>
@@ -134,8 +131,8 @@ export function AppSidebar() {
   const isSubmenuActive = (submenu: { url: string }[]) =>
     submenu.some((item) => location.pathname === item.url);
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     navigate("/login");
   };
 

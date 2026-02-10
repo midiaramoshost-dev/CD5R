@@ -13,9 +13,38 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useTheme } from "@/hooks/useTheme";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export function AppHeader() {
   const { theme, toggleTheme } = useTheme();
+  const { user, isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const displayName = user?.name || user?.email || "Usuário";
+  const displayEmail = user?.email || "";
+  const roleLabel =
+    user?.role === "admin"
+      ? "Admin"
+      : user?.role === "escola"
+        ? "Direção"
+        : user?.role === "aluno"
+          ? "Aluno"
+          : user?.role === "responsavel"
+            ? "Responsável"
+            : "";
+
+  const initials = (displayName || "U")
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((p) => p[0]!.toUpperCase())
+    .join("");
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/login");
+  };
 
   return (
     <header className="sticky top-0 z-50 flex h-16 items-center justify-between border-b border-border bg-card px-4 shadow-card">
@@ -31,7 +60,7 @@ export function AppHeader() {
             <span className="text-[13px] font-bold tracking-[0.12em] text-foreground">ESCOLAS</span>
           </div>
         </div>
-        
+
         <div className="hidden md:flex relative">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
@@ -99,14 +128,14 @@ export function AppHeader() {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="flex items-center gap-2 px-2">
               <Avatar className="h-8 w-8">
-                <AvatarImage src="" />
+                <AvatarImage src={user?.avatarUrl || ""} />
                 <AvatarFallback className="bg-primary text-primary-foreground text-sm">
-                  DR
+                  {initials}
                 </AvatarFallback>
               </Avatar>
               <div className="hidden md:flex flex-col items-start">
-                <span className="text-sm font-medium">Diretor Roberto</span>
-                <span className="text-xs text-muted-foreground">Direção</span>
+                <span className="text-sm font-medium">{displayName}</span>
+                <span className="text-xs text-muted-foreground">{roleLabel}</span>
               </div>
               <ChevronDown className="h-4 w-4 text-muted-foreground hidden md:block" />
             </Button>
@@ -114,10 +143,10 @@ export function AppHeader() {
           <DropdownMenuContent align="end" className="w-56 bg-popover">
             <DropdownMenuLabel>
               <div className="flex flex-col">
-                <span>Diretor Roberto</span>
-                <span className="text-xs font-normal text-muted-foreground">
-                  roberto@escola.com.br
-                </span>
+                <span>{displayName}</span>
+                {displayEmail ? (
+                  <span className="text-xs font-normal text-muted-foreground">{displayEmail}</span>
+                ) : null}
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
@@ -127,9 +156,13 @@ export function AppHeader() {
             </DropdownMenuItem>
             <DropdownMenuItem>Configurações</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-destructive">
-              Sair
-            </DropdownMenuItem>
+            {isAuthenticated ? (
+              <DropdownMenuItem className="text-destructive" onClick={handleLogout}>
+                Sair
+              </DropdownMenuItem>
+            ) : (
+              <DropdownMenuItem onClick={() => navigate("/login")}>Entrar</DropdownMenuItem>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
