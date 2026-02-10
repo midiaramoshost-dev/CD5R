@@ -2,14 +2,12 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   Building2,
-  CreditCard,
   BarChart3,
   Settings,
   Users,
   Shield,
   LogOut,
   Layers,
-  DollarSign,
   Activity,
   Puzzle,
   ClipboardList,
@@ -46,11 +44,6 @@ const menuItems = [
     title: "Planos",
     icon: Layers,
     url: "/admin/planos",
-  },
-  {
-    title: "Financeiro",
-    icon: DollarSign,
-    url: "/admin/financeiro",
   },
   {
     title: "Monitoramento",
