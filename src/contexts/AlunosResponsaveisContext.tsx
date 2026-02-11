@@ -14,6 +14,8 @@ export interface Aluno {
   cpf: string;
   dataNascimento: string;
   endereco: string;
+  /** URL/Path da foto do aluno (ex.: Supabase Storage public URL) */
+  fotoUrl?: string;
   frequencia: number;
   media: number;
   status: "regular" | "alerta" | "critico";
@@ -62,6 +64,7 @@ const initialAlunos: Aluno[] = [
     cpf: "123.456.789-00",
     dataNascimento: "2014-03-15",
     endereco: "Rua das Flores, 123 - Centro",
+    fotoUrl: "/placeholder.svg",
     frequencia: 96,
     media: 8.5,
     status: "regular",
@@ -80,6 +83,7 @@ const initialAlunos: Aluno[] = [
     cpf: "234.567.890-11",
     dataNascimento: "2014-05-20",
     endereco: "Av. Principal, 456 - Jardim",
+    fotoUrl: "/placeholder.svg",
     frequencia: 88,
     media: 7.2,
     status: "alerta",
@@ -98,6 +102,7 @@ const initialAlunos: Aluno[] = [
     cpf: "345.678.901-22",
     dataNascimento: "2012-08-10",
     endereco: "Rua Nova, 789 - Vila Nova",
+    fotoUrl: "/placeholder.svg",
     frequencia: 94,
     media: 9.1,
     status: "regular",
@@ -116,6 +121,7 @@ const initialAlunos: Aluno[] = [
     cpf: "456.789.012-33",
     dataNascimento: "2010-11-25",
     endereco: "Rua do Sol, 321 - Centro",
+    fotoUrl: "/placeholder.svg",
     frequencia: 72,
     media: 5.8,
     status: "critico",
@@ -134,6 +140,7 @@ const initialAlunos: Aluno[] = [
     cpf: "567.890.123-44",
     dataNascimento: "2016-02-14",
     endereco: "Rua Verde, 654 - Parque",
+    fotoUrl: "/placeholder.svg",
     frequencia: 98,
     media: 8.9,
     status: "regular",
@@ -152,6 +159,7 @@ const initialAlunos: Aluno[] = [
     cpf: "678.901.234-55",
     dataNascimento: "2018-06-30",
     endereco: "Av. Brasil, 987 - Centro",
+    fotoUrl: "/placeholder.svg",
     frequencia: 95,
     media: 8.0,
     status: "regular",
@@ -170,6 +178,7 @@ const initialAlunos: Aluno[] = [
     cpf: "789.012.345-66",
     dataNascimento: "2007-09-18",
     endereco: "Rua da Paz, 147 - Jardim",
+    fotoUrl: "/placeholder.svg",
     frequencia: 91,
     media: 7.8,
     status: "regular",
@@ -188,6 +197,7 @@ const initialAlunos: Aluno[] = [
     cpf: "890.123.456-77",
     dataNascimento: "2012-12-05",
     endereco: "Rua Central, 258 - Vila",
+    fotoUrl: "/placeholder.svg",
     frequencia: 85,
     media: 6.5,
     status: "alerta",
@@ -206,6 +216,7 @@ const initialAlunos: Aluno[] = [
     cpf: "901.234.567-88",
     dataNascimento: "2015-04-22",
     endereco: "Rua Nova, 789 - Vila Nova",
+    fotoUrl: "/placeholder.svg",
     frequencia: 92,
     media: 7.5,
     status: "regular",
@@ -224,6 +235,7 @@ const initialAlunos: Aluno[] = [
     cpf: "012.345.678-99",
     dataNascimento: "2015-09-08",
     endereco: "Av. Brasil, 987 - Centro",
+    fotoUrl: "/placeholder.svg",
     frequencia: 97,
     media: 8.3,
     status: "regular",
@@ -379,9 +391,7 @@ export function AlunosResponsaveisProvider({ children }: { children: ReactNode }
   };
 
   const updateAluno = (id: string, alunoData: Partial<Aluno>) => {
-    setAlunos((prev) =>
-      prev.map((a) => (a.id === id ? { ...a, ...alunoData } : a))
-    );
+    setAlunos((prev) => prev.map((a) => (a.id === id ? { ...a, ...alunoData } : a)));
   };
 
   const deleteAluno = (id: string) => {
@@ -416,9 +426,7 @@ export function AlunosResponsaveisProvider({ children }: { children: ReactNode }
   };
 
   const updateResponsavel = (id: string, responsavelData: Partial<Responsavel>) => {
-    setResponsaveis((prev) =>
-      prev.map((r) => (r.id === id ? { ...r, ...responsavelData } : r))
-    );
+    setResponsaveis((prev) => prev.map((r) => (r.id === id ? { ...r, ...responsavelData } : r)));
   };
 
   const deleteResponsavel = (id: string) => {

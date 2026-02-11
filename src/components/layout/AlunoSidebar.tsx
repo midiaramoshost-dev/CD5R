@@ -6,10 +6,8 @@ import {
   Calendar,
   MessageSquare,
   FileText,
-  Settings,
   GraduationCap,
   LogOut,
-  Bell,
   User,
 } from "lucide-react";
 import {
@@ -25,9 +23,9 @@ import {
   SidebarFooter,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/contexts/AuthContext";
+import { useAlunosResponsaveis } from "@/contexts/AlunosResponsaveisContext";
 
 const menuItems = [
   {
@@ -72,6 +70,7 @@ export function AlunoSidebar() {
   const navigate = useNavigate();
   const { state } = useSidebar();
   const { user, logout } = useAuth();
+  const { alunos } = useAlunosResponsaveis();
   const isCollapsed = state === "collapsed";
 
   const isActive = (url: string) => location.pathname === url;
@@ -80,6 +79,11 @@ export function AlunoSidebar() {
     logout();
     navigate("/login");
   };
+
+  // VibeCoding: mudança mínima pra já aparecer a foto no boletim/portal do aluno.
+  // Enquanto não tem vínculo real com auth, tentamos achar pelo nome.
+  const alunoAtual = alunos.find((a) => a.nome === user?.name);
+  const fotoUrl = alunoAtual?.fotoUrl || "/placeholder.svg";
 
   return (
     <Sidebar collapsible="icon" className="border-r border-sidebar-border">
@@ -90,12 +94,12 @@ export function AlunoSidebar() {
           </div>
           {!isCollapsed && (
             <div className="flex flex-col">
-              <span className="text-sm font-semibold text-sidebar-foreground">
-                Portal do Aluno
-              </span>
+              <span className="text-sm font-semibold text-sidebar-foreground">Portal do Aluno</span>
               <div className="flex items-baseline gap-[1px]">
                 <span className="text-xs font-light italic text-primary tracking-tight">i</span>
-                <span className="text-[10px] font-bold tracking-[0.12em] text-sidebar-foreground/60">ESCOLAS</span>
+                <span className="text-[10px] font-bold tracking-[0.12em] text-sidebar-foreground/60">
+                  ESCOLAS
+                </span>
               </div>
             </div>
           )}
@@ -108,13 +112,13 @@ export function AlunoSidebar() {
           <div className="px-3 pb-4 mb-4 border-b border-sidebar-border">
             <div className="flex items-center gap-3">
               <Avatar className="h-10 w-10">
-                <AvatarImage src="/placeholder.svg" />
+                <AvatarImage src={fotoUrl} alt={user?.name || "Aluno"} />
                 <AvatarFallback className="bg-emerald-500 text-white">
-                  {user?.name?.split(' ').map(n => n[0]).join('').slice(0, 2) || 'AL'}
+                  {user?.name?.split(" ").map((n) => n[0]).join("").slice(0, 2) || "AL"}
                 </AvatarFallback>
               </Avatar>
               <div className="flex flex-col">
-                <span className="text-sm font-medium text-sidebar-foreground">{user?.name || 'Aluno'}</span>
+                <span className="text-sm font-medium text-sidebar-foreground">{user?.name || "Aluno"}</span>
                 <span className="text-xs text-sidebar-foreground/60">5º Ano A • Manhã</span>
               </div>
             </div>
@@ -129,11 +133,7 @@ export function AlunoSidebar() {
             <SidebarMenu>
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={isActive(item.url)}
-                    tooltip={item.title}
-                  >
+                  <SidebarMenuButton asChild isActive={isActive(item.url)} tooltip={item.title}>
                     <Link to={item.url}>
                       <item.icon className="h-5 w-5" />
                       {!isCollapsed && <span>{item.title}</span>}
