@@ -1,0 +1,6 @@
+-- Edge Function: update-school-credentials
+--
+-- Esta migration apenas documenta/ancora a feature no repositório.
+-- A atualização de e-mail/senha acontece via Supabase Edge Function usando o Admin API.
+--
+-- Nenhuma alteração de schema é necessária.
