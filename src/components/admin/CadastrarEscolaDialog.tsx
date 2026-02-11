@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -160,6 +160,9 @@ export function CadastrarEscolaDialog({ open, onOpenChange, onSave }: CadastrarE
   const [showPassword, setShowPassword] = useState(false);
   const [showApiSecret, setShowApiSecret] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
+  const [isUploadingLogo, setIsUploadingLogo] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
   const [formData, setFormData] = useState<FormData>({
     nome: "",
     cnpj: "",
@@ -222,6 +225,41 @@ export function CadastrarEscolaDialog({ open, onOpenChange, onSave }: CadastrarE
         webhookUrl: "",
         ambiente: "sandbox",
       }));
+    }
+  };
+
+  const uploadLogo = async (file: File) => {
+    try {
+      setIsUploadingLogo(true);
+
+      const ext = (file.name.split(".").pop() || "png").toLowerCase();
+      const safeExt = ["png", "jpg", "jpeg", "webp", "svg"].includes(ext) ? ext : "png";
+      const filePath = `escolas/${Date.now()}-${Math.random().toString(16).slice(2)}.${safeExt}`;
+
+      const { error: uploadError } = await supabase.storage.from("public").upload(filePath, file, {
+        upsert: false,
+        cacheControl: "3600",
+        contentType: file.type || undefined,
+      });
+
+      if (uploadError) {
+        console.error(uploadError);
+        toast.error("Não foi possível enviar a logo. Tente novamente.");
+        return;
+      }
+
+      const { data } = supabase.storage.from("public").getPublicUrl(filePath);
+      const publicUrl = data?.publicUrl;
+
+      if (!publicUrl) {
+        toast.error("Upload concluído, mas não foi possível obter a URL pública.");
+        return;
+      }
+
+      setFormData((prev) => ({ ...prev, logoUrl: publicUrl }));
+      toast.success("Logo enviada e vinculada à escola!");
+    } finally {
+      setIsUploadingLogo(false);
     }
   };
 
@@ -467,28 +505,61 @@ export function CadastrarEscolaDialog({ open, onOpenChange, onSave }: CadastrarE
 
             {/* Logo */}
             <div className="space-y-2">
-              <Label htmlFor="logoUrl">Logo da escola (URL)</Label>
-              <Input
-                id="logoUrl"
-                value={formData.logoUrl}
-                onChange={(e) => handleInputChange("logoUrl", e.target.value)}
-                placeholder="https://.../logo.png"
-              />
-              {(formData.logoUrl || "").trim() ? (
-                <div className="flex items-center gap-3 rounded-md border bg-muted/20 p-3">
-                  <img
-                    src={formData.logoUrl}
-                    alt={`Logo ${formData.nome || "da escola"}`}
-                    className="h-12 w-12 rounded-md object-contain bg-background border"
-                    onError={(e) => {
-                      (e.currentTarget as HTMLImageElement).style.display = "none";
+              <Label>Logo da escola</Label>
+
+              <div className="flex flex-col gap-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Input
+                    id="logoUrl"
+                    value={formData.logoUrl}
+                    onChange={(e) => handleInputChange("logoUrl", e.target.value)}
+                    placeholder="Cole uma URL pública (opcional) ou envie um arquivo"
+                  />
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/png,image/jpeg,image/jpg,image/webp,image/svg+xml"
+                    className="hidden"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      await uploadLogo(file);
+                      // permite enviar o mesmo arquivo de novo se precisar
+                      e.currentTarget.value = "";
                     }}
                   />
-                  <p className="text-xs text-muted-foreground break-all">{formData.logoUrl}</p>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={isUploadingLogo}
+                  >
+                    {isUploadingLogo && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {isUploadingLogo ? "Enviando..." : "Enviar logo"}
+                  </Button>
+                  {(formData.logoUrl || "").trim() && (
+                    <Button type="button" variant="ghost" onClick={() => handleInputChange("logoUrl", "")}>
+                      Remover
+                    </Button>
+                  )}
                 </div>
-              ) : (
-                <p className="text-xs text-muted-foreground">Opcional: cole uma URL pública da imagem (PNG/JPG/SVG).</p>
-              )}
+
+                {(formData.logoUrl || "").trim() ? (
+                  <div className="flex items-center gap-3 rounded-md border bg-muted/20 p-3">
+                    <img
+                      src={formData.logoUrl}
+                      alt={`Logo ${formData.nome || "da escola"}`}
+                      className="h-12 w-12 rounded-md object-contain bg-background border"
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).style.display = "none";
+                      }}
+                    />
+                    <p className="text-xs text-muted-foreground break-all">{formData.logoUrl}</p>
+                  </div>
+                ) : (
+                  <p className="text-xs text-muted-foreground">Opcional: envie um arquivo (recomendado) ou cole uma URL pública da imagem (PNG/JPG/SVG).</p>
+                )}
+              </div>
             </div>
 
             <div className="grid gap-4 md:grid-cols-3">
