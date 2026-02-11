@@ -104,6 +104,9 @@ interface FormData {
   apiSecret: string;
   webhookUrl: string;
   ambiente: "sandbox" | "producao";
+
+  // UI: habilitar/desabilitar seleção do provedor
+  habilitarSelecaoProvedor: boolean;
 }
 
 const generatePassword = () => {
@@ -173,6 +176,7 @@ export function CadastrarEscolaDialog({ open, onOpenChange, onSave }: CadastrarE
     apiSecret: "",
     webhookUrl: "",
     ambiente: "sandbox",
+    habilitarSelecaoProvedor: false,
   });
 
   const handleInputChange = (field: keyof FormData, value: any) => {
@@ -193,6 +197,19 @@ export function CadastrarEscolaDialog({ open, onOpenChange, onSave }: CadastrarE
       setFormData((prev) => ({
         ...prev,
         integrarPagamentos: false,
+        provedorPagamento: "",
+        apiKey: "",
+        apiSecret: "",
+        webhookUrl: "",
+        ambiente: "sandbox",
+      }));
+    }
+
+    // Se desabilitar seleção de provedor, limpamos provedor/chaves
+    if (field === "habilitarSelecaoProvedor" && value === false) {
+      setFormData((prev) => ({
+        ...prev,
+        habilitarSelecaoProvedor: false,
         provedorPagamento: "",
         apiKey: "",
         apiSecret: "",
@@ -358,6 +375,7 @@ export function CadastrarEscolaDialog({ open, onOpenChange, onSave }: CadastrarE
         apiSecret: "",
         webhookUrl: "",
         ambiente: "sandbox",
+        habilitarSelecaoProvedor: false,
       });
       setActiveTab("dados");
       onOpenChange(false);
@@ -635,7 +653,7 @@ export function CadastrarEscolaDialog({ open, onOpenChange, onSave }: CadastrarE
                             .normalize("NFD")
                             .replace(/[\u0300-\u036f]/g, "")
                             .replace(/[^a-z0-9]+/g, "-")
-                            .replace(/^-|-$/g, "")}
+                            .replace(/^-|-$/g, "")} 
                           -preview
                         </code>
                       </div>
@@ -735,18 +753,42 @@ export function CadastrarEscolaDialog({ open, onOpenChange, onSave }: CadastrarE
 
             {formData.integrarPagamentos ? (
               <>
+                <Card className="border border-border bg-muted/20">
+                  <CardContent className="p-4">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="space-y-1">
+                        <Label className="text-sm">Seleção do provedor</Label>
+                        <p className="text-sm text-muted-foreground">
+                          Selecione o provedor que a escola usará para cobrar os alunos.
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Label className="text-sm">{formData.habilitarSelecaoProvedor ? "Habilitado" : "Desabilitado"}</Label>
+                        <Switch
+                          checked={formData.habilitarSelecaoProvedor}
+                          onCheckedChange={(v) => handleInputChange("habilitarSelecaoProvedor", v)}
+                        />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
                 <div className="space-y-3">
-                  <Label>Provedor de Pagamento <span className="text-muted-foreground">(opcional)</span></Label>
-                  <p className="text-sm text-muted-foreground">Selecione o provedor que a escola usará para cobrar os alunos</p>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                  <Label>
+                    Provedor de Pagamento <span className="text-muted-foreground">(opcional)</span>
+                  </Label>
+                  <div className={cn("grid grid-cols-2 md:grid-cols-3 gap-3", !formData.habilitarSelecaoProvedor && "opacity-60")}>
                     {paymentProviders.map((provider) => (
                       <button
                         key={provider.id}
                         type="button"
+                        disabled={!formData.habilitarSelecaoProvedor}
                         onClick={() => handleInputChange("provedorPagamento", provider.id)}
                         className={cn(
                           "relative flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-all",
-                          "hover:border-rose-300 hover:bg-rose-50/50 dark:hover:bg-rose-950/20",
+                          !formData.habilitarSelecaoProvedor
+                            ? "cursor-not-allowed"
+                            : "hover:border-rose-300 hover:bg-rose-50/50 dark:hover:bg-rose-950/20",
                           formData.provedorPagamento === provider.id ? "border-rose-500 bg-rose-50 dark:bg-rose-950/30" : "border-border"
                         )}
                       >

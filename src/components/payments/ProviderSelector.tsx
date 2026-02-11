@@ -6,11 +6,13 @@ import { Check } from 'lucide-react';
 interface ProviderSelectorProps {
   selectedProvider: PaymentProviderConfig | null;
   onSelect: (provider: PaymentProviderConfig) => void;
+  disabled?: boolean;
 }
 
 export function ProviderSelector({
   selectedProvider,
   onSelect,
+  disabled = false,
 }: ProviderSelectorProps) {
   const activeProviders = paymentProviders.filter(p => p.isActive);
 
@@ -19,14 +21,19 @@ export function ProviderSelector({
       <h4 className="text-sm font-medium text-muted-foreground">
         Provedor de Pagamento
       </h4>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className={cn("grid grid-cols-2 md:grid-cols-4 gap-3", disabled && "opacity-60")}
+      >
         {activeProviders.map((provider) => (
           <button
             key={provider.id}
+            type="button"
             onClick={() => onSelect(provider)}
+            disabled={disabled}
             className={cn(
               "relative flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-all",
-              "hover:border-primary/50 hover:bg-primary/5",
+              disabled
+                ? "cursor-not-allowed"
+                : "hover:border-primary/50 hover:bg-primary/5",
               selectedProvider?.id === provider.id
                 ? "border-primary bg-primary/10"
                 : "border-border"
