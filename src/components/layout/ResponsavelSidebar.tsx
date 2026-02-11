@@ -7,10 +7,9 @@ import {
   MessageSquare,
   FileText,
   CreditCard,
-  Settings,
   LogOut,
-  Bell,
   UserCircle,
+  UserPlus,
 } from "lucide-react";
 import {
   Sidebar,
@@ -25,7 +24,6 @@ import {
   SidebarFooter,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -79,6 +77,13 @@ export function ResponsavelSidebar() {
   const { user, logout } = useAuth();
   const isCollapsed = state === "collapsed";
 
+  // Heurística leve (sem mexer no backend):
+  // se o usuário for "escola" ou tiver flag "isGeneralManager" no objeto, exibimos o bloco.
+  const isResponsavelGeral =
+    user?.role === "escola" ||
+    Boolean((user as any)?.isGeneralManager) ||
+    Boolean((user as any)?.responsavelGeral);
+
   const isActive = (url: string) => location.pathname === url;
 
   const handleLogout = () => {
@@ -115,15 +120,42 @@ export function ResponsavelSidebar() {
               <Avatar className="h-10 w-10">
                 <AvatarImage src="/placeholder.svg" />
                 <AvatarFallback className="bg-violet-500 text-white">
-                  {user?.name?.split(' ').map(n => n[0]).join('').slice(0, 2) || 'RS'}
+                  {user?.name?.split(" ").map((n) => n[0]).join("").slice(0, 2) || "RS"}
                 </AvatarFallback>
               </Avatar>
               <div className="flex flex-col">
-                <span className="text-sm font-medium text-sidebar-foreground">{user?.name || 'Responsável'}</span>
+                <span className="text-sm font-medium text-sidebar-foreground">{user?.name || "Responsável"}</span>
                 <span className="text-xs text-sidebar-foreground/60">2 dependentes</span>
               </div>
             </div>
           </div>
+        )}
+
+        {/* Acesso profissional para Responsável Geral */}
+        {isResponsavelGeral && (
+          <SidebarGroup>
+            <SidebarGroupLabel className="text-sidebar-foreground/50 text-xs uppercase tracking-wider mb-2">
+              Gestão
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    tooltip="Criar usuários por departamento"
+                    onClick={() => navigate("/escola/usuarios/departamentos")}
+                  >
+                    <UserPlus className="h-5 w-5" />
+                    {!isCollapsed && (
+                      <div className="flex flex-col items-start leading-tight">
+                        <span>Criar usuários</span>
+                        <span className="text-[11px] text-sidebar-foreground/60">por departamento</span>
+                      </div>
+                    )}
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
         )}
 
         <SidebarGroup>
@@ -134,11 +166,7 @@ export function ResponsavelSidebar() {
             <SidebarMenu>
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={isActive(item.url)}
-                    tooltip={item.title}
-                  >
+                  <SidebarMenuButton asChild isActive={isActive(item.url)} tooltip={item.title}>
                     <Link to={item.url}>
                       <item.icon className="h-5 w-5" />
                       {!isCollapsed && <span>{item.title}</span>}

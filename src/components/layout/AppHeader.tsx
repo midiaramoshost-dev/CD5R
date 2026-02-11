@@ -1,4 +1,4 @@
-import { Bell, Search, Moon, Sun, User, ChevronDown, GraduationCap } from "lucide-react";
+import { Bell, Search, Moon, Sun, User, ChevronDown, GraduationCap, Users as UsersIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -41,6 +41,11 @@ export function AppHeader() {
     .map((p) => p[0]!.toUpperCase())
     .join("");
 
+  const isResponsavelGeral =
+    user?.role === "escola" ||
+    Boolean((user as any)?.isGeneralManager) ||
+    Boolean((user as any)?.responsavelGeral);
+
   const handleLogout = async () => {
     await logout();
     navigate("/login");
@@ -63,14 +68,24 @@ export function AppHeader() {
 
         <div className="hidden md:flex relative">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            placeholder="Buscar alunos, turmas, professores..."
-            className="w-80 pl-10 bg-background"
-          />
+          <Input placeholder="Buscar alunos, turmas, professores..." className="w-80 pl-10 bg-background" />
         </div>
       </div>
 
       <div className="flex items-center gap-3">
+        {/* Atalho para gestão (Responsável Geral) */}
+        {isResponsavelGeral ? (
+          <Button
+            variant="outline"
+            size="sm"
+            className="hidden lg:inline-flex"
+            onClick={() => navigate("/escola/usuarios/departamentos")}
+          >
+            <UsersIcon className="h-4 w-4" />
+            Usuários por departamento
+          </Button>
+        ) : null}
+
         {/* Theme Toggle */}
         <Button
           variant="ghost"
@@ -78,11 +93,7 @@ export function AppHeader() {
           onClick={toggleTheme}
           className="text-muted-foreground hover:text-foreground"
         >
-          {theme === "dark" ? (
-            <Sun className="h-5 w-5" />
-          ) : (
-            <Moon className="h-5 w-5" />
-          )}
+          {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
         </Button>
 
         {/* Notifications */}
@@ -100,26 +111,18 @@ export function AppHeader() {
             <DropdownMenuSeparator />
             <DropdownMenuItem className="flex flex-col items-start gap-1 py-3">
               <span className="font-medium">Nova matrícula pendente</span>
-              <span className="text-xs text-muted-foreground">
-                João Silva - 5º Ano A - há 5 min
-              </span>
+              <span className="text-xs text-muted-foreground">João Silva - 5º Ano A - há 5 min</span>
             </DropdownMenuItem>
             <DropdownMenuItem className="flex flex-col items-start gap-1 py-3">
               <span className="font-medium">Reunião agendada</span>
-              <span className="text-xs text-muted-foreground">
-                Conselho de classe - Amanhã às 14h
-              </span>
+              <span className="text-xs text-muted-foreground">Conselho de classe - Amanhã às 14h</span>
             </DropdownMenuItem>
             <DropdownMenuItem className="flex flex-col items-start gap-1 py-3">
               <span className="font-medium">Alerta de frequência</span>
-              <span className="text-xs text-muted-foreground">
-                3 alunos com frequência abaixo de 75%
-              </span>
+              <span className="text-xs text-muted-foreground">3 alunos com frequência abaixo de 75%</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-center text-primary">
-              Ver todas as notificações
-            </DropdownMenuItem>
+            <DropdownMenuItem className="text-center text-primary">Ver todas as notificações</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
 
@@ -129,9 +132,7 @@ export function AppHeader() {
             <Button variant="ghost" className="flex items-center gap-2 px-2">
               <Avatar className="h-8 w-8">
                 <AvatarImage src={user?.avatar || ""} />
-                <AvatarFallback className="bg-primary text-primary-foreground text-sm">
-                  {initials}
-                </AvatarFallback>
+                <AvatarFallback className="bg-primary text-primary-foreground text-sm">{initials}</AvatarFallback>
               </Avatar>
               <div className="hidden md:flex flex-col items-start">
                 <span className="text-sm font-medium">{displayName}</span>
@@ -144,9 +145,7 @@ export function AppHeader() {
             <DropdownMenuLabel>
               <div className="flex flex-col">
                 <span>{displayName}</span>
-                {displayEmail ? (
-                  <span className="text-xs font-normal text-muted-foreground">{displayEmail}</span>
-                ) : null}
+                {displayEmail ? <span className="text-xs font-normal text-muted-foreground">{displayEmail}</span> : null}
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
@@ -155,6 +154,15 @@ export function AppHeader() {
               Meu Perfil
             </DropdownMenuItem>
             <DropdownMenuItem>Configurações</DropdownMenuItem>
+            {isResponsavelGeral ? (
+              <>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => navigate("/escola/usuarios/departamentos")}>
+                  <UsersIcon className="mr-2 h-4 w-4" />
+                  Usuários por departamento
+                </DropdownMenuItem>
+              </>
+            ) : null}
             <DropdownMenuSeparator />
             {isAuthenticated ? (
               <DropdownMenuItem className="text-destructive" onClick={handleLogout}>
