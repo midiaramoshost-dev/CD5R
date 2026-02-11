@@ -1,0 +1,8 @@
+-- Edge function: update-school-credentials
+--
+-- Esta mudança é intencionalmente mínima.
+-- A edge function em si deve ser criada em supabase/functions/update-school-credentials,
+-- mas pelos limites deste task (arquivos permitidos), adicionamos apenas um placeholder.
+--
+-- Caso você queira reforçar segurança no banco, você pode criar uma tabela de auditoria
+-- e políticas aqui. Por enquanto, nenhuma alteração de schema é necessária.
