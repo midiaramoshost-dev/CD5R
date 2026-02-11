@@ -128,7 +128,7 @@ export function EditarEscolaDialog({ escola, open, onOpenChange, onSave, destaca
     setIsSaving(true);
     try {
       // Se o ADM master alterou e-mail e/ou senha, chamamos a edge function.
-      // (A função é a mesma ideia do create-school-user, mas para update)
+      // Importante: o userId aqui é o ID do usuário no Auth (no app, a escola.id está sendo usado como esse ID).
       if (emailChanged || passwordProvided) {
         const { data: fnData, error: fnError } = await supabase.functions.invoke("update-school-credentials", {
           body: {
