@@ -400,7 +400,7 @@ export default function ContasReceber() {
 <body>
   <h1>${title}</h1>
   <div class="meta">Arquivo: ${docsForm.fileName || "(sem anexo)"}</div>
-  <pre>${content.replaceAll("<", "&lt;").replaceAll(">", "&gt;")}</pre>
+  <pre>${content.split("<").join("&lt;").split(">").join("&gt;")}</pre>
   <script>window.print();</script>
 </body>
 </html>`);
