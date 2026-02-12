@@ -10,6 +10,7 @@ import {
   GraduationCap,
   BookOpen,
   Award,
+  CreditCard,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -56,6 +57,7 @@ interface Professor {
   formacao: string;
   status: string;
   avatar: string;
+  cracha?: string;
 }
 
 const initialProfessoresData: Professor[] = [
@@ -70,6 +72,7 @@ const initialProfessoresData: Professor[] = [
     formacao: "Letras - USP",
     status: "ativo",
     avatar: "",
+    cracha: "",
   },
   {
     id: "2",
@@ -82,6 +85,7 @@ const initialProfessoresData: Professor[] = [
     formacao: "Matemática - UNICAMP",
     status: "ativo",
     avatar: "",
+    cracha: "",
   },
   {
     id: "3",
@@ -94,6 +98,7 @@ const initialProfessoresData: Professor[] = [
     formacao: "Biologia - UNESP",
     status: "ativo",
     avatar: "",
+    cracha: "",
   },
   {
     id: "4",
@@ -106,6 +111,7 @@ const initialProfessoresData: Professor[] = [
     formacao: "História - PUC",
     status: "ativo",
     avatar: "",
+    cracha: "",
   },
   {
     id: "5",
@@ -118,6 +124,7 @@ const initialProfessoresData: Professor[] = [
     formacao: "Letras Inglês - USP",
     status: "licenca",
     avatar: "",
+    cracha: "",
   },
   {
     id: "6",
@@ -130,6 +137,7 @@ const initialProfessoresData: Professor[] = [
     formacao: "Ed. Física - UNIFESP",
     status: "ativo",
     avatar: "",
+    cracha: "",
   },
   {
     id: "7",
@@ -142,6 +150,7 @@ const initialProfessoresData: Professor[] = [
     formacao: "Física - UNICAMP",
     status: "ativo",
     avatar: "",
+    cracha: "",
   },
   {
     id: "8",
@@ -154,6 +163,7 @@ const initialProfessoresData: Professor[] = [
     formacao: "Filosofia - USP",
     status: "ativo",
     avatar: "",
+    cracha: "",
   },
 ];
 
@@ -196,6 +206,7 @@ export default function Professores() {
     disciplinas: [] as string[],
     turmas: [] as string[],
     status: "ativo",
+    cracha: "",
   });
 
   const filteredProfessores = professores.filter((prof) => {
@@ -204,7 +215,8 @@ export default function Professores() {
       prof.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
       prof.disciplinas.some((d) =>
         d.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+      ) ||
+      (prof.cracha || "").toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = filterStatus === "all" || prof.status === filterStatus;
     return matchesSearch && matchesStatus;
   });
@@ -228,6 +240,7 @@ export default function Professores() {
       disciplinas: [],
       turmas: [],
       status: "ativo",
+      cracha: "",
     });
     setIsEditing(false);
     setSelectedProfessor(null);
@@ -248,6 +261,7 @@ export default function Professores() {
       disciplinas: professor.disciplinas,
       turmas: professor.turmas,
       status: professor.status,
+      cracha: professor.cracha || "",
     });
     setSelectedProfessor(professor);
     setIsEditing(true);
@@ -359,7 +373,7 @@ export default function Professores() {
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
-                placeholder="Buscar por nome, e-mail ou disciplina..."
+                placeholder="Buscar por nome, e-mail, crachá ou disciplina..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10"
@@ -413,6 +427,12 @@ export default function Professores() {
                     <Phone className="h-4 w-4" />
                     <span>{professor.telefone}</span>
                   </div>
+                  {(professor.cracha || "").trim() && (
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <CreditCard className="h-4 w-4" />
+                      <span className="truncate">Crachá: {professor.cracha}</span>
+                    </div>
+                  )}
                 </div>
 
                 <div className="w-full mt-4">
@@ -516,20 +536,34 @@ export default function Professores() {
                   />
                 </div>
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="status">Status</Label>
-                <Select 
-                  value={formData.status} 
-                  onValueChange={(value) => setFormData({...formData, status: value})}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Selecione" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="ativo">Ativo</SelectItem>
-                    <SelectItem value="licenca">Em Licença</SelectItem>
-                  </SelectContent>
-                </Select>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="cracha">Crachá (ID)</Label>
+                  <Input
+                    id="cracha"
+                    placeholder="Ex: 000123"
+                    value={formData.cracha}
+                    onChange={(e) => setFormData({ ...formData, cracha: e.target.value })}
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    Opcional: número/código do crachá do professor.
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="status">Status</Label>
+                  <Select 
+                    value={formData.status} 
+                    onValueChange={(value) => setFormData({...formData, status: value})}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecione" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="ativo">Ativo</SelectItem>
+                      <SelectItem value="licenca">Em Licença</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
             </TabsContent>
             <TabsContent value="academico" className="space-y-4 pt-4">
@@ -658,6 +692,10 @@ export default function Professores() {
               <div>
                 <Label className="text-muted-foreground">CPF</Label>
                 <p className="font-medium">{selectedProfessor.cpf}</p>
+              </div>
+              <div>
+                <Label className="text-muted-foreground">Crachá</Label>
+                <p className="font-medium">{(selectedProfessor.cracha || "").trim() ? selectedProfessor.cracha : "—"}</p>
               </div>
               <div>
                 <Label className="text-muted-foreground">Disciplinas</Label>

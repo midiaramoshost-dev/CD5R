@@ -313,6 +313,9 @@ export function EditarEscolaDialog({ escola, open, onOpenChange, onSave, destaca
                 value={formData.alunos}
                 onChange={(e) => setFormData({ ...formData, alunos: parseInt(e.target.value) || 0 })}
               />
+              <p className="text-xs text-muted-foreground">
+                Observação: as carteiras dos alunos são cadastradas no painel da escola, na tela de Alunos.
+              </p>
             </div>
           </div>
 
