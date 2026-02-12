@@ -177,8 +177,7 @@ export function AppHeader({ onOpenCarteirinha }: AppHeaderProps) {
             {isResponsavelGeral ? (
               <>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => navigate("/escola/usuarios/departamentos")}
-                >
+                <DropdownMenuItem onClick={() => navigate("/escola/usuarios/departamentos")}>
                   <UsersIcon className="mr-2 h-4 w-4" />
                   Usuários por departamento
                 </DropdownMenuItem>
