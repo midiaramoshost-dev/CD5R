@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -32,6 +32,7 @@ import {
   Check,
   AlertCircle,
   Link2,
+  Trash2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Escola } from "./EditarEscolaDialog";
@@ -110,7 +111,20 @@ interface FormData {
 
   // UI: habilitar/desabilitar seleção do provedor
   habilitarSelecaoProvedor: boolean;
+
+  // Upload temporário (localStorage)
+  fotoBase64: string;
 }
+
+const TEMP_FOTO_KEY = "temp_foto_cadastros";
+
+const fileToDataUrl = (file: File) =>
+  new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result || ""));
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
 
 const generatePassword = () => {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789!@#$";
@@ -165,6 +179,7 @@ export function CadastrarEscolaDialog({ open, onOpenChange, onSave }: CadastrarE
   const [isCreating, setIsCreating] = useState(false);
   const [isUploadingLogo, setIsUploadingLogo] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const fotoInputRef = useRef<HTMLInputElement | null>(null);
 
   const [formData, setFormData] = useState<FormData>({
     nome: "",
@@ -189,7 +204,18 @@ export function CadastrarEscolaDialog({ open, onOpenChange, onSave }: CadastrarE
     webhookUrl: "",
     ambiente: "sandbox",
     habilitarSelecaoProvedor: false,
+    fotoBase64: "",
   });
+
+  // Carrega foto temporária do localStorage ao abrir
+  useEffect(() => {
+    if (!open) return;
+    const cached = localStorage.getItem(TEMP_FOTO_KEY);
+    if (cached && !formData.fotoBase64) {
+      setFormData((prev) => ({ ...prev, fotoBase64: cached }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
 
   const handleInputChange = (field: keyof FormData, value: any) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -264,6 +290,30 @@ export function CadastrarEscolaDialog({ open, onOpenChange, onSave }: CadastrarE
     } finally {
       setIsUploadingLogo(false);
     }
+  };
+
+  const handleFotoUploadTemp = async (file: File) => {
+    const maxBytes = 2 * 1024 * 1024;
+    if (file.size > maxBytes) {
+      toast.error("A foto deve ter no máximo 2MB (armazenamento temporário).");
+      return;
+    }
+
+    try {
+      const dataUrl = await fileToDataUrl(file);
+      localStorage.setItem(TEMP_FOTO_KEY, dataUrl);
+      setFormData((prev) => ({ ...prev, fotoBase64: dataUrl }));
+      toast.success("Foto carregada (temporária)!");
+    } catch (e) {
+      console.error(e);
+      toast.error("Não foi possível ler a foto.");
+    }
+  };
+
+  const clearFotoTemp = () => {
+    localStorage.removeItem(TEMP_FOTO_KEY);
+    setFormData((prev) => ({ ...prev, fotoBase64: "" }));
+    toast.message("Foto removida (temporária)");
   };
 
   const toggleModulo = (id: string) => {
@@ -431,7 +481,9 @@ export function CadastrarEscolaDialog({ open, onOpenChange, onSave }: CadastrarE
         webhookUrl: "",
         ambiente: "sandbox",
         habilitarSelecaoProvedor: false,
+        fotoBase64: "",
       });
+      // Foto é temporária e global; não limpamos automaticamente ao salvar.
       setActiveTab("dados");
       onOpenChange(false);
     } catch (error) {
@@ -489,6 +541,48 @@ export function CadastrarEscolaDialog({ open, onOpenChange, onSave }: CadastrarE
 
           {/* Tab: Dados Básicos */}
           <TabsContent value="dados" className="space-y-4">
+            {/* Foto (temporária em localStorage) */}
+            <div className="space-y-2">
+              <Label>Foto (Aluno/Professor/Responsável/Funcionário) - temporária</Label>
+              <div className="flex flex-wrap items-center gap-3">
+                <div className="h-12 w-12 overflow-hidden rounded-full border bg-muted/20">
+                  {formData.fotoBase64 ? (
+                    <img src={formData.fotoBase64} alt="Prévia da foto" className="h-full w-full object-cover" />
+                  ) : (
+                    <div className="h-full w-full flex items-center justify-center text-xs text-muted-foreground">Sem foto</div>
+                  )}
+                </div>
+
+                <input
+                  ref={fotoInputRef}
+                  type="file"
+                  accept="image/png,image/jpeg,image/jpg,image/webp"
+                  className="hidden"
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    await handleFotoUploadTemp(file);
+                    e.currentTarget.value = "";
+                  }}
+                />
+
+                <Button type="button" variant="outline" onClick={() => fotoInputRef.current?.click()}>
+                  Enviar foto
+                </Button>
+
+                {formData.fotoBase64 && (
+                  <Button type="button" variant="ghost" onClick={clearFotoTemp}>
+                    <Trash2 className="mr-2 h-4 w-4" />
+                    Remover
+                  </Button>
+                )}
+
+                <p className="text-xs text-muted-foreground">
+                  VibeCoding: por enquanto salvamos só no <code>localStorage</code> (chave: <code>{TEMP_FOTO_KEY}</code>).
+                </p>
+              </div>
+            </div>
+
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="nome">Nome da Escola *</Label>
