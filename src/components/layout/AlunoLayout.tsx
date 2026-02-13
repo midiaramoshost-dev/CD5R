@@ -82,7 +82,10 @@ function buildSimplePdf(params: {
   // 2: Pages
   pushObject("<< /Type /Pages /Kids [3 0 R] /Count 1 >>");
 
-  const imgBytes = params.fotoDataUrl ? dataUrlToUint8Array(params.fotoDataUrl) : null;
+  // VibeCoding: PDF minimalista. Para manter mudança mínima, aceitamos apenas JPEG (DCTDecode).
+  // Se o DataURL for PNG, a gente ignora a imagem e imprime só o placeholder.
+  const isJpegDataUrl = Boolean(params.fotoDataUrl && /^data:image\/jpeg/i.test(params.fotoDataUrl));
+  const imgBytes = isJpegDataUrl && params.fotoDataUrl ? dataUrlToUint8Array(params.fotoDataUrl) : null;
   const hasImage = Boolean(imgBytes && imgBytes.length);
 
   // 3: Page
@@ -124,6 +127,14 @@ function buildSimplePdf(params: {
     contentParts.push(`${fotoW} 0 0 ${fotoH} ${fotoX} ${fotoY} cm`);
     contentParts.push("/Im0 Do");
     contentParts.push("Q");
+  } else {
+    // VibeCoding: texto discreto quando não houver JPEG
+    contentParts.push("BT");
+    contentParts.push("0.35 0.35 0.35 rg");
+    contentParts.push("/F1 7 Tf");
+    contentParts.push(`${fotoX + 8} ${fotoY + fotoH / 2} Td`);
+    contentParts.push("(Foto) Tj");
+    contentParts.push("ET");
   }
 
   // body text
@@ -329,9 +340,15 @@ export function AlunoLayout() {
                       </Button>
                     </div>
 
-                    <div className="text-xs text-muted-foreground">
-                      Dica: para atualizar a foto, use um campo de upload que grave em <code>localStorage</code> com a
-                      chave <code>aluno:foto</code> ou <code>profile:photo</code>.
+                    <div className="text-xs text-muted-foreground space-y-1">
+                      <div>
+                        Dica: para atualizar a foto, use um campo de upload que grave em <code>localStorage</code> com a
+                        chave <code>aluno:foto</code> ou <code>profile:photo</code>.
+                      </div>
+                      <div>
+                        Observação: a foto no PDF só aparece quando for <strong>JPEG</strong> (data:image/jpeg). Se for
+                        PNG, o PDF sai com o placeholder.
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
