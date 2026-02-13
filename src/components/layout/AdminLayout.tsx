@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AdminSidebar } from "./AdminSidebar";
 import { AppHeader } from "./AppHeader";
 
@@ -11,6 +11,10 @@ export function AdminLayout() {
         <SidebarInset className="flex flex-col flex-1">
           <AppHeader />
           <main className="flex-1 overflow-auto p-6">
+            <div className="mb-4 rounded-lg border border-border bg-card p-3 text-sm text-muted-foreground">
+              Fluxo de importação: acesse <span className="font-medium text-foreground">/escola/importar-dados</span>,
+              baixe o modelo, preencha com dados de teste e faça upload para validar ponta a ponta.
+            </div>
             <Outlet />
           </main>
         </SidebarInset>
