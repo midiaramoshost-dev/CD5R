@@ -42,7 +42,7 @@ export function WhatsAppButton() {
             transition={{ duration: 0.2 }}
             className="mb-2 w-72 rounded-2xl border border-border bg-card shadow-xl overflow-hidden"
           >
-            <div className="bg-[#25D366] px-4 py-3 text-white font-semibold text-sm flex items-center gap-2">
+            <div className="bg-blue-600 px-4 py-3 text-white font-semibold text-sm flex items-center gap-2">
               <MessageCircle className="h-4 w-4" />
               Como podemos ajudar?
             </div>
