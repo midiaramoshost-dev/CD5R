@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Dialog,
   DialogContent,
@@ -214,13 +215,14 @@ export function EditarEscolaDialog({ escola, open, onOpenChange, onSave, destaca
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="max-w-2xl max-h-[90vh] flex flex-col">
         <DialogHeader>
           <DialogTitle>Editar Escola</DialogTitle>
           <DialogDescription>
             Atualize os dados da escola. Clique em salvar quando terminar.
           </DialogDescription>
         </DialogHeader>
+        <ScrollArea className="flex-1 -mx-6 px-6" style={{ maxHeight: "calc(90vh - 180px)" }}>
         <div className="grid gap-4 py-4">
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
@@ -518,6 +520,7 @@ export function EditarEscolaDialog({ escola, open, onOpenChange, onSave, destaca
             </div>
           </div>
         </div>
+        </ScrollArea>
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isSaving}>
             Cancelar
