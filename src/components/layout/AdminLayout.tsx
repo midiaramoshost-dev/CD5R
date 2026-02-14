@@ -89,6 +89,58 @@ export function AdminLayout() {
               </section>
             )}
 
+            {isDashboard && (
+              <section id="analytics" className="mb-6 rounded-lg border border-border bg-card p-5">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <h2 className="text-lg font-semibold text-foreground">Analytics (SaaS)</h2>
+                    <p className="text-sm text-muted-foreground">
+                      Indicadores de performance e adoção da plataforma por escola e módulo.
+                    </p>
+                  </div>
+                  <span className="text-xs rounded-full bg-sky-500/10 text-sky-600 px-2.5 py-1">Insights</span>
+                </div>
+                <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
+                  <div className="rounded-md border border-border p-3">
+                    <p className="text-xs text-muted-foreground">Usuários Ativos (MAU)</p>
+                    <p className="text-lg font-semibold text-foreground">18.240</p>
+                    <p className="text-xs text-emerald-500">+6.4% últimos 30 dias</p>
+                  </div>
+                  <div className="rounded-md border border-border p-3">
+                    <p className="text-xs text-muted-foreground">Adoção de Módulos</p>
+                    <p className="text-lg font-semibold text-foreground">74%</p>
+                    <p className="text-xs text-muted-foreground">Top 3: Diário, Financeiro, Comunicação</p>
+                  </div>
+                  <div className="rounded-md border border-border p-3">
+                    <p className="text-xs text-muted-foreground">Tempo Médio no App</p>
+                    <p className="text-lg font-semibold text-foreground">26 min/dia</p>
+                    <p className="text-xs text-emerald-500">+3 min vs. semana anterior</p>
+                  </div>
+                </div>
+                <div className="mt-4 grid grid-cols-1 gap-3 lg:grid-cols-3">
+                  <div className="rounded-md border border-border p-4 lg:col-span-2">
+                    <p className="text-sm font-medium text-foreground">Cohorts de retenção</p>
+                    <p className="mt-2 text-xs text-muted-foreground">
+                      Retenção semanal estável em 68%, com melhora nas escolas com onboarding completo.
+                    </p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <span className="rounded-full bg-emerald-500/10 px-2.5 py-1 text-xs text-emerald-600">Onboarding +12%</span>
+                      <span className="rounded-full bg-purple-500/10 px-2.5 py-1 text-xs text-purple-600">Engajamento RH +9%</span>
+                      <span className="rounded-full bg-amber-500/10 px-2.5 py-1 text-xs text-amber-600">Help Desk -15% chamados</span>
+                    </div>
+                  </div>
+                  <div className="rounded-md border border-border p-4">
+                    <p className="text-sm font-medium text-foreground">Ações recomendadas</p>
+                    <ul className="mt-3 space-y-2 text-xs text-muted-foreground">
+                      <li>• Disparar campanha de ativação para 42 escolas inativas</li>
+                      <li>• Treinamento extra para módulos com baixa adoção</li>
+                      <li>• Revisar jornadas de cadastro com queda &gt; 10%</li>
+                    </ul>
+                  </div>
+                </div>
+              </section>
+            )}
+
             <Outlet />
           </main>
         </SidebarInset>
