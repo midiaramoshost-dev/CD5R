@@ -85,6 +85,8 @@ const menuItems = [
       { title: "Estoque", url: "/escola/estoque" },
       { title: "Recibos", url: "/escola/recibos" },
       { title: "Contratos", url: "/escola/contratos" },
+      { title: "Folha de Pagamento", url: "/escola/folha-pagamento" },
+      { title: "Presença Funcionários", url: "/escola/presenca-funcionarios" },
       { title: "Importar Dados", url: "/escola/importar-dados" },
     ],
   },
