@@ -1,44 +1,78 @@
 
 
-## Melhorar a Homepage com Slideshow de Imagens
+## Funcionalidade Real para Botoes Ver, Baixar e Assistir - Materiais do Aluno
+
+### Resumo
+Adicionar funcionalidade real aos botoes da pagina de Materiais do Aluno, criando infraestrutura no Supabase (tabela + storage bucket) para armazenamento de arquivos e implementando visualizacao, download e reproducao de video no frontend.
 
 ### O que sera feito
 
-A hero section da landing page sera aprimorada com um slideshow de imagens reais que mostram cenarios escolares, substituindo os slides atuais que usam apenas gradientes e icones. Isso tornara a pagina mais visualmente atraente e profissional.
+1. **Criar tabela `materiais_didaticos` no banco de dados** com campos: id, titulo, disciplina, professor, tipo (pdf/video/slides/imagem), descricao, arquivo_path, tamanho, duracao, url_externa, escola_id, created_at.
 
-### Mudancas planejadas
+2. **Criar bucket de storage `materiais`** (publico) para armazenar os arquivos, com politicas RLS que permitem leitura para usuarios autenticados e upload apenas para perfis de escola/professor.
 
-**1. Adicionar imagens de alta qualidade ao slideshow**
+3. **Implementar funcionalidades dos botoes**:
+   - **Baixar**: Gera URL publica do Supabase Storage e dispara download via `<a download>`.
+   - **Ver**: Abre um Dialog/modal com preview do conteudo (PDF em iframe, imagem em `<img>`, slides em iframe).
+   - **Assistir**: Abre um Dialog/modal com player de video (`<video>` nativo ou iframe para URLs externas como YouTube).
 
-Os slides atuais (com icones e gradientes) serao substituidos por slides com imagens de fundo reais, usando URLs do Unsplash (imagens gratuitas de alta qualidade) com temas escolares:
-- Slide 1: Sala de aula moderna / dashboard (tema: gestao inteligente)
-- Slide 2: Professor interagindo com alunos (tema: diario digital)
-- Slide 3: Pais acompanhando no celular (tema: portal do responsavel)
-- Slide 4: Equipe escolar colaborando (tema: gestao completa)
+4. **Atualizar a pagina de Materiais** para buscar dados reais do Supabase em vez de dados mock, mantendo os dados mock como fallback enquanto nao ha materiais cadastrados.
 
-Cada slide tera:
-- Imagem de fundo com overlay escuro para contraste
-- Titulo e descricao sobre a imagem
-- Botao de acao (CTA)
-- Indicadores de posicao (dots) na parte inferior
-- Transicao automatica a cada 5 segundos
+### Detalhes Tecnicos
 
-**2. Melhorias visuais adicionais na hero**
+**Migracao SQL:**
+```sql
+CREATE TABLE public.materiais_didaticos (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  titulo TEXT NOT NULL,
+  disciplina TEXT NOT NULL,
+  professor TEXT NOT NULL,
+  tipo TEXT NOT NULL CHECK (tipo IN ('pdf','video','slides','imagem')),
+  descricao TEXT,
+  arquivo_path TEXT,
+  url_externa TEXT,
+  tamanho TEXT,
+  duracao TEXT,
+  escola_id UUID,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
 
-- Overlay gradiente sobre as imagens para garantir legibilidade do texto
-- Indicadores de slide (dots) clicaveis abaixo do carrossel
-- Altura maior do carrossel para dar destaque as imagens (h-80 md:h-96)
-- Efeito de zoom suave nas imagens ao trocar de slide
+ALTER TABLE public.materiais_didaticos ENABLE ROW LEVEL SECURITY;
 
-### Detalhes tecnicos
+CREATE POLICY "Usuarios autenticados podem ler materiais"
+  ON public.materiais_didaticos FOR SELECT
+  TO authenticated USING (true);
 
-**Arquivo modificado:** `src/pages/Index.tsx`
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('materiais', 'materiais', true);
 
-- Atualizar o array `heroSlides` para incluir URLs de imagens do Unsplash
-- Reestruturar o componente do carrossel para usar `img` tags com `object-cover`
-- Adicionar estado para rastrear o slide ativo e renderizar dot indicators
-- Manter a auto-rotacao existente (useEffect com setInterval)
-- Usar CSS overlay (`bg-black/50`) para garantir legibilidade do texto branco sobre imagens
-- Adicionar efeito `transition-transform duration-700 group-hover:scale-105` para zoom suave
+CREATE POLICY "Leitura publica materiais"
+  ON storage.objects FOR SELECT
+  TO authenticated
+  USING (bucket_id = 'materiais');
+```
 
-Nenhuma dependencia nova sera necessaria - sera usado o componente Carousel ja existente (embla-carousel-react).
+**Componentes novos:**
+- `src/components/materiais/VisualizarMaterialDialog.tsx` - Modal para preview de PDFs, imagens e slides
+- `src/components/materiais/VideoPlayerDialog.tsx` - Modal com player de video
+
+**Alteracoes em arquivos existentes:**
+- `src/pages/aluno/Materiais.tsx` - Substituir dados mock por query ao Supabase via React Query, conectar botoes aos dialogs de visualizacao/download
+
+**Fluxo de download:**
+```text
+Botao Baixar -> supabase.storage.from('materiais').getPublicUrl(path)
+             -> Criar elemento <a> com href e download
+             -> Disparar click programatico
+```
+
+**Fluxo de visualizacao:**
+```text
+Botao Ver/Assistir -> Abrir Dialog com material selecionado
+                   -> PDF/Slides: <iframe src={publicUrl}>
+                   -> Imagem: <img src={publicUrl}>
+                   -> Video: <video src={publicUrl}> ou <iframe> para YouTube
+```
+
+Os dados mock serao mantidos como fallback visual caso a tabela esteja vazia, garantindo que a pagina nunca fique em branco.
+
