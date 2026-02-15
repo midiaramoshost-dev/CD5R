@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAlunosResponsaveis } from "@/contexts/AlunosResponsaveisContext";
 import { Button } from "@/components/ui/button";
@@ -6,174 +6,19 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { IdCard, CreditCard, Download, Upload, Camera } from "lucide-react";
+import { IdCard, CreditCard, Download, Upload, Camera, QrCode } from "lucide-react";
 import { toast } from "sonner";
-
-// ── PDF helpers ──
-
-function readFileAsDataURL(file: File) {
-  return new Promise<string>((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(String(reader.result));
-    reader.onerror = () => reject(new Error("Falha ao ler arquivo"));
-    reader.readAsDataURL(file);
-  });
-}
-
-function dataUrlToUint8Array(dataUrl: string) {
-  const base64 = dataUrl.split(",")[1] || "";
-  const bin = atob(base64);
-  const bytes = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-  return bytes;
-}
-
-function convertToJpegDataUrl(dataUrl: string): Promise<string> {
-  return new Promise((resolve, reject) => {
-    if (/^data:image\/jpeg/i.test(dataUrl)) {
-      resolve(dataUrl);
-      return;
-    }
-    const img = new Image();
-    img.onload = () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = img.naturalWidth;
-      canvas.height = img.naturalHeight;
-      const ctx = canvas.getContext("2d");
-      if (!ctx) { reject(new Error("Canvas não suportado")); return; }
-      ctx.fillStyle = "#FFFFFF";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, 0, 0);
-      resolve(canvas.toDataURL("image/jpeg", 0.92));
-    };
-    img.onerror = () => reject(new Error("Falha ao carregar imagem para conversão"));
-    img.src = dataUrl;
-  });
-}
-
-function escapePdfText(text: string) {
-  return String(text).replace(/\\/g, "\\\\").replace(/\(/g, "\\(").replace(/\)/g, "\\)");
-}
-
-function buildSimplePdf(params: {
-  title: string;
-  alunoNome: string;
-  matricula: string;
-  escolaNome: string;
-  escolaCidadeUf: string;
-  fotoDataUrl?: string;
-  isCarteirinha: boolean;
-}) {
-  const pageWidth = 595.28;
-  const pageHeight = 841.89;
-  const cardW = 242;
-  const cardH = 153;
-  const x = (pageWidth - cardW) / 2;
-  const y = pageHeight - 180;
-  const rectBorder = `${x} ${y} ${cardW} ${cardH} re S`;
-  const headerH = 28;
-  const headerFill = `${x} ${y + cardH - headerH} ${cardW} ${headerH} re f`;
-  const fotoX = x + 12;
-  const fotoY = y + 44;
-  const fotoW = 54;
-  const fotoH = 70;
-  const textX = x + 78;
-
-  const alunoNome = params.alunoNome || "Aluno";
-  const matricula = params.matricula || "---";
-  const escolaNome = params.escolaNome || "Escola";
-  const escolaCidadeUf = params.escolaCidadeUf || "";
-
-  const objects: string[] = [];
-  const offsets: number[] = [];
-  const pushObject = (content: string) => { objects.push(content); };
-
-  pushObject("<< /Type /Catalog /Pages 2 0 R >>");
-  pushObject("<< /Type /Pages /Kids [3 0 R] /Count 1 >>");
-
-  const isJpegDataUrl = Boolean(params.fotoDataUrl && /^data:image\/jpeg/i.test(params.fotoDataUrl));
-  const imgBytes = isJpegDataUrl && params.fotoDataUrl ? dataUrlToUint8Array(params.fotoDataUrl) : null;
-  const hasImage = Boolean(imgBytes && imgBytes.length);
-
-  const xObjectRef = hasImage ? "/XObject << /Im0 6 0 R >>" : "";
-  pushObject(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageWidth} ${pageHeight}] /Resources << /Font << /F1 4 0 R >> ${xObjectRef} >> /Contents 5 0 R >>`);
-  pushObject("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>");
-
-  const title = params.isCarteirinha ? "CARTEIRINHA DO ALUNO" : "CRACHÁ DO ALUNO";
-  const contentParts: string[] = [];
-  contentParts.push("q", "0 0 0 RG", rectBorder, "0.07 0.62 0.45 rg", headerFill);
-  contentParts.push("BT", "1 1 1 rg", "/F1 12 Tf", `${x + 12} ${y + cardH - 20} Td`, `(${escapePdfText(title)}) Tj`, "ET");
-  contentParts.push("0 0 0 RG", `${fotoX} ${fotoY} ${fotoW} ${fotoH} re S`);
-
-  if (hasImage) {
-    contentParts.push("q", `${fotoW} 0 0 ${fotoH} ${fotoX} ${fotoY} cm`, "/Im0 Do", "Q");
-  } else {
-    contentParts.push("BT", "0.35 0.35 0.35 rg", "/F1 7 Tf", `${fotoX + 8} ${fotoY + fotoH / 2} Td`, "(Foto) Tj", "ET");
-  }
-
-  contentParts.push("BT", "0 0 0 rg", "/F1 10 Tf", `${textX} ${y + 118} Td`);
-  contentParts.push(`(Nome: ${escapePdfText(alunoNome)}) Tj`);
-  contentParts.push(`0 -14 Td (Matrícula: ${escapePdfText(matricula)}) Tj`);
-  contentParts.push(`0 -14 Td (Escola: ${escapePdfText(escolaNome)}) Tj`);
-  if (escolaCidadeUf) contentParts.push(`0 -14 Td (${escapePdfText(escolaCidadeUf)}) Tj`);
-  contentParts.push("ET");
-
-  contentParts.push("BT", "0.25 0.25 0.25 rg", "/F1 7 Tf", `${x + 12} ${y + 16} Td`);
-  contentParts.push(`(Gerado em ${escapePdfText(new Date().toLocaleString("pt-BR"))}) Tj`, "ET", "Q");
-
-  const stream = contentParts.join("\n");
-  pushObject(`<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`);
-
-  if (hasImage) {
-    pushObject(`<< /Type /XObject /Subtype /Image /Name /Im0 /Width 1 /Height 1 /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${imgBytes!.length} >>\nstream\n__BINARY_IMAGE__\nendstream`);
-  }
-
-  let pdf = "%PDF-1.4\n";
-  const binaryMarker = "__BINARY_IMAGE__";
-
-  for (let i = 0; i < objects.length; i++) {
-    offsets[i] = pdf.length;
-    pdf += `${i + 1} 0 obj\n${objects[i]}\nendobj\n`;
-  }
-
-  const xrefOffset = pdf.length;
-  pdf += `xref\n0 ${objects.length + 1}\n`;
-  pdf += `0000000000 65535 f \n`;
-  for (let i = 0; i < objects.length; i++) {
-    pdf += `${String(offsets[i]).padStart(10, "0")} 00000 n \n`;
-  }
-  pdf += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`;
-
-  if (hasImage) {
-    const idx = pdf.indexOf(binaryMarker);
-    if (idx !== -1) {
-      const encoder = new TextEncoder();
-      const before = encoder.encode(pdf.slice(0, idx));
-      const after = encoder.encode(pdf.slice(idx + binaryMarker.length));
-      const out = new Uint8Array(before.length + imgBytes!.length + after.length);
-      out.set(before, 0);
-      out.set(imgBytes!, before.length);
-      out.set(after, before.length + imgBytes!.length);
-      return out;
-    }
-  }
-
-  return new TextEncoder().encode(pdf);
-}
-
-function downloadBytes(bytes: Uint8Array, filename: string) {
-  const blob = new Blob([bytes as unknown as BlobPart], { type: "application/pdf" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
-
-// ── Component ──
+import {
+  readFileAsDataURL,
+  convertToJpegDataUrl,
+  buildSimplePdf,
+  downloadBytes,
+} from "@/lib/carteirinha/pdf-helpers";
+import {
+  buildQrPayload,
+  generateQrDataUrl,
+  generateQrJpegDataUrl,
+} from "@/lib/carteirinha/qr-helpers";
 
 export default function Carteirinha() {
   const { user } = useAuth();
@@ -181,6 +26,8 @@ export default function Carteirinha() {
   const [fotoLocal, setFotoLocal] = useState<string>(() =>
     localStorage.getItem("aluno:foto") || localStorage.getItem("profile:photo") || ""
   );
+  const [qrPngDataUrl, setQrPngDataUrl] = useState<string>("");
+  const [qrJpegDataUrl, setQrJpegDataUrl] = useState<string>("");
 
   const alunoAtual = useMemo(() => alunos.find((a) => a.nome === user?.name), [alunos, user?.name]);
 
@@ -196,6 +43,13 @@ export default function Carteirinha() {
     .slice(0, 2)
     .map((p) => p[0]?.toUpperCase())
     .join("") || "AL";
+
+  // Generate QR code whenever student data changes
+  useEffect(() => {
+    const payload = buildQrPayload({ nome: alunoNome, matricula, escola: escolaNome });
+    generateQrDataUrl(payload).then(setQrPngDataUrl).catch(() => {});
+    generateQrJpegDataUrl(payload).then(setQrJpegDataUrl).catch(() => {});
+  }, [alunoNome, matricula, escolaNome]);
 
   const handleUploadFoto = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -224,6 +78,7 @@ export default function Carteirinha() {
       escolaNome,
       escolaCidadeUf,
       fotoDataUrl: fotoDataUrl || undefined,
+      qrDataUrl: qrJpegDataUrl || undefined,
       isCarteirinha,
     });
     downloadBytes(bytes, isCarteirinha ? "carteirinha-aluno.pdf" : "cracha-aluno.pdf");
@@ -259,12 +114,7 @@ export default function Carteirinha() {
                 </AvatarFallback>
               </Avatar>
               <label className="cursor-pointer">
-                <input
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={handleUploadFoto}
-                />
+                <input type="file" accept="image/*" className="hidden" onChange={handleUploadFoto} />
                 <Button variant="outline" size="sm" asChild>
                   <span>
                     <Camera className="h-4 w-4 mr-1" />
@@ -301,8 +151,20 @@ export default function Carteirinha() {
                 <Badge variant="outline" className="text-xs">
                   {fotoDataUrl ? "✅ Foto pronta para o PDF" : "⚠️ Envie uma foto para o PDF"}
                 </Badge>
+                <Badge variant="outline" className="text-xs">
+                  <QrCode className="h-3 w-3 mr-1" />
+                  {qrPngDataUrl ? "QR Code ativo" : "Gerando QR…"}
+                </Badge>
               </div>
             </div>
+
+            {/* QR Code preview */}
+            {qrPngDataUrl && (
+              <div className="flex flex-col items-center gap-1">
+                <img src={qrPngDataUrl} alt="QR Code do aluno" className="h-24 w-24 rounded-md border border-border" />
+                <span className="text-[10px] text-muted-foreground">QR de validação</span>
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>
@@ -338,11 +200,14 @@ export default function Carteirinha() {
                       <AvatarImage src={fotoDataUrl || "/placeholder.svg"} alt={alunoNome} />
                       <AvatarFallback className="text-sm">{initials}</AvatarFallback>
                     </Avatar>
-                    <div className="text-xs space-y-0.5">
+                    <div className="text-xs space-y-0.5 flex-1">
                       <p className="font-bold text-foreground">{alunoNome}</p>
                       <p className="text-muted-foreground">Mat: {matricula}</p>
                       <p className="text-muted-foreground">{escolaNome}</p>
                     </div>
+                    {qrPngDataUrl && (
+                      <img src={qrPngDataUrl} alt="QR" className="h-12 w-12 rounded" />
+                    )}
                   </div>
                   <p className="text-[10px] text-muted-foreground/60 text-right">
                     {new Date().toLocaleDateString("pt-BR")}
@@ -372,6 +237,9 @@ export default function Carteirinha() {
                     <p className="text-[10px] text-muted-foreground">Mat: {matricula}</p>
                     <p className="text-[10px] text-muted-foreground">{escolaNome}</p>
                   </div>
+                  {qrPngDataUrl && (
+                    <img src={qrPngDataUrl} alt="QR" className="h-10 w-10 rounded mt-1" />
+                  )}
                   <p className="text-[8px] text-muted-foreground/60">
                     {new Date().toLocaleDateString("pt-BR")}
                   </p>
@@ -398,6 +266,10 @@ export default function Carteirinha() {
             <p className="flex items-center gap-2">
               <Camera className="h-4 w-4" />
               <span>Fotos <strong>PNG ou JPEG</strong> são aceitas — a conversão para JPEG é automática.</span>
+            </p>
+            <p className="flex items-center gap-2">
+              <QrCode className="h-4 w-4" />
+              <span>O <strong>QR Code</strong> contém seus dados para validação rápida da carteirinha.</span>
             </p>
           </div>
         </CardContent>
