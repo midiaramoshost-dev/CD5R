@@ -57,7 +57,7 @@ interface Modulo {
   nome: string;
   descricao: string;
   icone: React.ElementType;
-  categoria: "academico" | "financeiro" | "comunicacao" | "administrativo" | "avancado";
+  categoria: "academico" | "financeiro" | "comunicacao" | "administrativo" | "avancado" | "portais";
   planoMinimo: "Free" | "Start" | "Pro" | "Premium";
   ativo: boolean;
   submodulos?: { id: string; nome: string; ativo: boolean }[];
@@ -210,6 +210,23 @@ const modulosIniciais: Modulo[] = [
     planoMinimo: "Free",
     ativo: true,
   },
+  // Portais
+  {
+    id: "portal_aluno",
+    nome: "Portal do Aluno",
+    descricao: "Acesso do aluno a notas, frequência, materiais e comunicados",
+    icone: GraduationCap,
+    categoria: "portais",
+    planoMinimo: "Start",
+    ativo: false,
+    submodulos: [
+      { id: "portal_notas", nome: "Visualização de Notas", ativo: true },
+      { id: "portal_frequencia", nome: "Frequência", ativo: true },
+      { id: "portal_materiais", nome: "Materiais Didáticos", ativo: true },
+      { id: "portal_tarefas", nome: "Tarefas", ativo: true },
+      { id: "portal_comunicados", nome: "Comunicados", ativo: true },
+    ],
+  },
   // Avançado
   {
     id: "api_integracao",
@@ -236,6 +253,7 @@ const categorias = [
   { id: "financeiro", nome: "Financeiro", icone: DollarSign, cor: "text-green-500 bg-green-500/10" },
   { id: "comunicacao", nome: "Comunicação", icone: MessageSquare, cor: "text-purple-500 bg-purple-500/10" },
   { id: "administrativo", nome: "Administrativo", icone: Settings, cor: "text-orange-500 bg-orange-500/10" },
+  { id: "portais", nome: "Portais", icone: GraduationCap, cor: "text-emerald-500 bg-emerald-500/10" },
   { id: "avancado", nome: "Avançado", icone: Puzzle, cor: "text-rose-500 bg-rose-500/10" },
 ];
 
