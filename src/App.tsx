@@ -52,6 +52,7 @@ import AlunoTarefas from "./pages/aluno/Tarefas";
 import AlunoComunicados from "./pages/aluno/Comunicados";
 import AlunoMateriais from "./pages/aluno/Materiais";
 import AlunoPerfil from "./pages/aluno/Perfil";
+import AlunoCarteirinha from "./pages/aluno/Carteirinha";
 import ResponsavelDashboard from "./pages/responsavel/Dashboard";
 import ResponsavelNotas from "./pages/responsavel/Notas";
 import ResponsavelFrequencia from "./pages/responsavel/Frequencia";
@@ -149,6 +150,7 @@ const App = () => (
                 <Route path="comunicados" element={<AlunoComunicados />} />
                 <Route path="materiais" element={<AlunoMateriais />} />
                 <Route path="perfil" element={<AlunoPerfil />} />
+                <Route path="carteirinha" element={<AlunoCarteirinha />} />
               </Route>
 
               {/* Portal do Responsável Routes - Protected */}
