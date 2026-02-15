@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   DollarSign,
   Plus,
@@ -32,6 +32,8 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import jsPDF from "jspdf";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Funcionario {
   id: string;
@@ -117,6 +119,7 @@ const buildFolhaItem = (f: Funcionario, horasExtras = 0, bonificacao = 0, outros
 const fmt = (v: number) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
 export default function AdminFolhaPagamento() {
+  const { user } = useAuth();
   const [mes, setMes] = useState("02");
   const [ano, setAno] = useState("2026");
   const [search, setSearch] = useState("");
@@ -127,6 +130,20 @@ export default function AdminFolhaPagamento() {
   const [editOpen, setEditOpen] = useState(false);
   const [viewItem, setViewItem] = useState<FolhaItem | null>(null);
   const [viewOpen, setViewOpen] = useState(false);
+  const [escolaData, setEscolaData] = useState<{ nome: string; cnpj: string } | null>(null);
+
+  useEffect(() => {
+    const fetchEscola = async () => {
+      if (!user) return;
+      let query = supabase.from("escolas").select("nome, cnpj");
+      if (user.role === "escola") {
+        query = query.eq("user_id", user.id);
+      }
+      const { data } = await query.limit(1).maybeSingle();
+      if (data) setEscolaData({ nome: data.nome, cnpj: data.cnpj });
+    };
+    fetchEscola();
+  }, [user]);
 
   // Edit form state
   const [editHE, setEditHE] = useState(0);
@@ -204,14 +221,16 @@ export default function AdminFolhaPagamento() {
       box(mL, y, cW / 2, 9);
       box(mL + cW / 2, y, cW / 2, 9);
       doc.setFontSize(6);
+      const nomeEmpresa = escolaData?.nome || "Nome da Escola";
+      const cnpjEmpresa = escolaData?.cnpj || "00.000.000/0001-00";
       doc.setFont("helvetica", "bold");
       doc.text("EMPREGADOR:", mL + 1.5, y + 3.5);
       doc.setFont("helvetica", "normal");
-      doc.text("iEscolas Plataforma Educacional", mL + 22, y + 3.5);
+      doc.text(nomeEmpresa, mL + 22, y + 3.5);
       doc.setFont("helvetica", "bold");
       doc.text("CNPJ:", mL + 1.5, y + 7);
       doc.setFont("helvetica", "normal");
-      doc.text("00.000.000/0001-00", mL + 11, y + 7);
+      doc.text(cnpjEmpresa, mL + 11, y + 7);
 
       const rxStart = mL + cW / 2;
       doc.setFont("helvetica", "bold");
