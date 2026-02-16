@@ -1152,7 +1152,12 @@ const Index = () => {
                 Ainda tem dúvidas?
               </p>
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button variant="outline" size="lg" className="gap-2">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="gap-2"
+                  onClick={() => window.open("https://wa.me/5515997625135?text=" + encodeURIComponent("Olá! Gostaria de falar com um especialista."), "_blank", "noopener,noreferrer")}
+                >
                   <MessageSquare className="h-5 w-5" />
                   Falar com Especialista
                 </Button>
