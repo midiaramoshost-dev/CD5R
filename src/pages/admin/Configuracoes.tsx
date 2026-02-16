@@ -27,8 +27,9 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
+import { usePlatformSettings } from "@/hooks/usePlatformSettings";
 
 interface ConfiguracaoGeral {
   nomePlataforma: string;
@@ -67,6 +68,8 @@ interface ConfiguracaoEmail {
 }
 
 export default function AdminConfiguracoes() {
+  const { settings, updateSettings } = usePlatformSettings();
+
   const [configGeral, setConfigGeral] = useState<ConfiguracaoGeral>({
     nomePlataforma: "i ESCOLAS",
     urlPlataforma: "https://i-escolas-platform.lovable.app",
@@ -76,6 +79,19 @@ export default function AdminConfiguracoes() {
     fusoHorario: "America/Sao_Paulo",
     idioma: "pt-BR",
   });
+
+  // Sincronizar estado local com dados do banco
+  useEffect(() => {
+    if (settings) {
+      setConfigGeral((prev) => ({
+        ...prev,
+        nomePlataforma: settings.nome_plataforma ?? prev.nomePlataforma,
+        emailSuporte: settings.email_suporte ?? prev.emailSuporte,
+        telefoneSuporte: settings.telefone_suporte ?? prev.telefoneSuporte,
+        whatsappPlataforma: settings.whatsapp_number ?? prev.whatsappPlataforma,
+      }));
+    }
+  }, [settings]);
 
   const [configNotificacoes, setConfigNotificacoes] = useState<ConfiguracaoNotificacoes>({
     emailNovaEscola: true,
@@ -117,7 +133,18 @@ export default function AdminConfiguracoes() {
   };
 
   const handleSaveGeral = () => {
-    toast.success("Configurações gerais salvas com sucesso!");
+    updateSettings.mutate(
+      {
+        whatsapp_number: configGeral.whatsappPlataforma,
+        nome_plataforma: configGeral.nomePlataforma,
+        email_suporte: configGeral.emailSuporte,
+        telefone_suporte: configGeral.telefoneSuporte,
+      },
+      {
+        onSuccess: () => toast.success("Configurações gerais salvas com sucesso!"),
+        onError: () => toast.error("Erro ao salvar configurações."),
+      }
+    );
   };
 
   const handleSaveNotificacoes = () => {

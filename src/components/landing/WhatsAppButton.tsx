@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { MessageCircle, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePlatformSettings } from "@/hooks/usePlatformSettings";
 
 const menuItems = [
   { label: "Quero conhecer a plataforma", message: "Olá! Gostaria de conhecer a plataforma i ESCOLAS." },
@@ -9,11 +10,10 @@ const menuItems = [
   { label: "Falar com vendas", message: "Olá! Gostaria de falar com a equipe de vendas." },
 ];
 
-const PHONE = "5515997625135";
-
 export function WhatsAppButton() {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const { openWhatsApp } = usePlatformSettings();
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -26,8 +26,7 @@ export function WhatsAppButton() {
   }, []);
 
   const handleSelect = (message: string) => {
-    const url = `https://wa.me/${PHONE}?text=${encodeURIComponent(message)}`;
-    window.open(url, "_blank", "noopener,noreferrer");
+    openWhatsApp(message);
     setOpen(false);
   };
 
