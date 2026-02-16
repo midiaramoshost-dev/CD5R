@@ -38,6 +38,7 @@ import {
 } from "@/components/ui/collapsible";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
+import { PlatformLogo } from "@/components/PlatformLogo";
 
 const menuItems = [
   {
@@ -145,20 +146,12 @@ export function AppSidebar() {
     <Sidebar collapsible="icon" className="border-r border-sidebar-border">
       <SidebarHeader className="border-b border-sidebar-border p-4">
         <Link to="/escola/dashboard" className="flex items-center gap-3">
-          <div className="relative flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-primary via-primary/90 to-violet-600 shadow-md ring-1 ring-primary/20">
-            <School className="h-5 w-5 text-white" />
-          </div>
-          {!isCollapsed && (
-            <div className="flex flex-col">
-              <div className="flex items-baseline gap-[1px]">
-                <span className="text-lg font-light italic text-primary tracking-tight">i</span>
-                <span className="text-[15px] font-bold tracking-[0.12em] text-sidebar-foreground">ESCOLAS</span>
-              </div>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-sidebar-foreground/50">
-                Gestão Escolar
-              </span>
-            </div>
-          )}
+          <PlatformLogo
+            size="md"
+            showText={!isCollapsed}
+            subtitle="Gestão Escolar"
+            icon={<School className="h-5 w-5 text-white" />}
+          />
         </Link>
       </SidebarHeader>
 
