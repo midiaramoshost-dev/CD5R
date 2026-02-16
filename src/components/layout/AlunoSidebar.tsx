@@ -27,6 +27,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAlunosResponsaveis } from "@/contexts/AlunosResponsaveisContext";
+import { PlatformLogo } from "@/components/PlatformLogo";
 
 const menuItems = [
   {
@@ -95,20 +96,13 @@ export function AlunoSidebar() {
     <Sidebar collapsible="icon" className="border-r border-sidebar-border">
       <SidebarHeader className="border-b border-sidebar-border p-4">
         <Link to="/aluno/dashboard" className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600">
-            <GraduationCap className="h-6 w-6 text-white" />
-          </div>
-          {!isCollapsed && (
-            <div className="flex flex-col">
-              <span className="text-sm font-semibold text-sidebar-foreground">Portal do Aluno</span>
-              <div className="flex items-baseline gap-[1px]">
-                <span className="text-xs font-light italic text-primary tracking-tight">i</span>
-                <span className="text-[10px] font-bold tracking-[0.12em] text-sidebar-foreground/60">
-                  ESCOLAS
-                </span>
-              </div>
-            </div>
-          )}
+          <PlatformLogo
+            size="md"
+            showText={!isCollapsed}
+            subtitle="Portal do Aluno"
+            icon={<GraduationCap className="h-5 w-5 text-white" />}
+            iconClassName="bg-gradient-to-br from-emerald-500 to-teal-600"
+          />
         </Link>
       </SidebarHeader>
 

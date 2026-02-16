@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/contexts/AuthContext";
+import { PlatformLogo } from "@/components/PlatformLogo";
 
 const menuItems = [
   {
@@ -95,20 +96,13 @@ export function ResponsavelSidebar() {
     <Sidebar collapsible="icon" className="border-r border-sidebar-border">
       <SidebarHeader className="border-b border-sidebar-border p-4">
         <Link to="/responsavel/dashboard" className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500 to-purple-600">
-            <Users className="h-6 w-6 text-white" />
-          </div>
-          {!isCollapsed && (
-            <div className="flex flex-col">
-              <span className="text-sm font-semibold text-sidebar-foreground">
-                Portal do Responsável
-              </span>
-              <div className="flex items-baseline gap-[1px]">
-                <span className="text-xs font-light italic text-primary tracking-tight">i</span>
-                <span className="text-[10px] font-bold tracking-[0.12em] text-sidebar-foreground/60">ESCOLAS</span>
-              </div>
-            </div>
-          )}
+          <PlatformLogo
+            size="md"
+            showText={!isCollapsed}
+            subtitle="Portal do Responsável"
+            icon={<Users className="h-5 w-5 text-white" />}
+            iconClassName="bg-gradient-to-br from-violet-500 to-purple-600"
+          />
         </Link>
       </SidebarHeader>
 

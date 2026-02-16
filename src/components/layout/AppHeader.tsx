@@ -1,4 +1,5 @@
 import { Bell, Search, Moon, Sun, User, ChevronDown, GraduationCap, Users as UsersIcon, IdCard } from "lucide-react";
+import { PlatformLogo } from "@/components/PlatformLogo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -68,13 +69,7 @@ export function AppHeader({ onOpenCarteirinha }: AppHeaderProps) {
         <SidebarTrigger className="-ml-1" />
 
         <div className="hidden sm:flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary via-primary/90 to-violet-600 shadow-sm ring-1 ring-primary/20">
-            <GraduationCap className="h-4 w-4 text-white" />
-          </div>
-          <div className="flex items-baseline gap-[1px]">
-            <span className="text-base font-light italic text-primary tracking-tight">i</span>
-            <span className="text-[13px] font-bold tracking-[0.12em] text-foreground">ESCOLAS</span>
-          </div>
+          <PlatformLogo size="sm" showText={true} />
         </div>
 
         <div className="hidden md:flex relative">

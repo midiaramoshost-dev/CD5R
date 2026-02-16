@@ -47,6 +47,7 @@ import {
 import { useTheme } from "@/hooks/useTheme";
 import { usePlanos } from "@/contexts/PlanosContext";
 import { usePlatformSettings } from "@/hooks/usePlatformSettings";
+import { PlatformLogo } from "@/components/PlatformLogo";
 import { ContactForm } from "@/components/landing/ContactForm";
 import { ReferralSection } from "@/components/landing/ReferralSection";
 import { WhatsAppButton } from "@/components/landing/WhatsAppButton";
@@ -370,13 +371,7 @@ const Index = () => {
             className="flex items-center gap-3"
             whileHover={{ scale: 1.02 }}
           >
-            <div className="relative flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-primary via-primary/90 to-violet-600 shadow-lg shadow-primary/30 ring-1 ring-primary/20">
-              <GraduationCap className="h-[18px] w-[18px] text-primary-foreground" />
-            </div>
-            <div className="flex items-baseline gap-[2px]">
-              <span className="text-[22px] font-light italic text-primary tracking-tight">i</span>
-              <span className="text-[18px] font-bold tracking-[0.15em] text-foreground">ESCOLAS</span>
-            </div>
+            <PlatformLogo size="lg" />
           </motion.div>
           
           <div className="hidden md:flex items-center gap-8">
@@ -1316,13 +1311,7 @@ const Index = () => {
           <div className="grid md:grid-cols-4 gap-8">
             <div className="md:col-span-2">
               <div className="flex items-center gap-3 mb-4">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-primary via-primary/90 to-violet-600 shadow-md ring-1 ring-primary/20">
-                  <GraduationCap className="h-[18px] w-[18px] text-primary-foreground" />
-                </div>
-                <div className="flex items-baseline gap-[2px]">
-                  <span className="text-[22px] font-light italic text-primary tracking-tight">i</span>
-                  <span className="text-[18px] font-bold tracking-[0.15em] text-foreground">ESCOLAS</span>
-                </div>
+                <PlatformLogo size="lg" />
               </div>
               <p className="text-muted-foreground max-w-sm mb-6">
                 Plataforma completa de gestão escolar para educação infantil, fundamental e médio. 
