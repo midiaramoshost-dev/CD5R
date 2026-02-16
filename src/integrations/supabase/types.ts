@@ -205,6 +205,36 @@ export type Database = {
           },
         ]
       }
+      platform_settings: {
+        Row: {
+          created_at: string
+          email_suporte: string
+          id: string
+          nome_plataforma: string
+          telefone_suporte: string
+          updated_at: string
+          whatsapp_number: string
+        }
+        Insert: {
+          created_at?: string
+          email_suporte?: string
+          id?: string
+          nome_plataforma?: string
+          telefone_suporte?: string
+          updated_at?: string
+          whatsapp_number?: string
+        }
+        Update: {
+          created_at?: string
+          email_suporte?: string
+          id?: string
+          nome_plataforma?: string
+          telefone_suporte?: string
+          updated_at?: string
+          whatsapp_number?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null

@@ -46,6 +46,7 @@ import {
 } from "lucide-react";
 import { useTheme } from "@/hooks/useTheme";
 import { usePlanos } from "@/contexts/PlanosContext";
+import { usePlatformSettings } from "@/hooks/usePlatformSettings";
 import { ContactForm } from "@/components/landing/ContactForm";
 import { ReferralSection } from "@/components/landing/ReferralSection";
 import { WhatsAppButton } from "@/components/landing/WhatsAppButton";
@@ -148,6 +149,7 @@ const faqData = [
 const Index = () => {
   const { theme, toggleTheme } = useTheme();
   const { planos } = usePlanos();
+  const { openWhatsApp } = usePlatformSettings();
   const [isAnnual, setIsAnnual] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
   const heroRef = useRef<HTMLDivElement>(null);
@@ -1156,7 +1158,7 @@ const Index = () => {
                   variant="outline"
                   size="lg"
                   className="gap-2"
-                  onClick={() => window.open("https://wa.me/5515997625135?text=" + encodeURIComponent("Olá! Gostaria de falar com um especialista."), "_blank", "noopener,noreferrer")}
+                  onClick={() => openWhatsApp("Olá! Gostaria de falar com um especialista.")}
                 >
                   <MessageSquare className="h-5 w-5" />
                   Falar com Especialista
