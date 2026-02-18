@@ -205,6 +205,42 @@ export type Database = {
           },
         ]
       }
+      payment_gateways: {
+        Row: {
+          api_key: string
+          created_at: string
+          enabled: boolean
+          id: string
+          logo: string
+          name: string
+          sandbox: boolean
+          secret_key: string
+          updated_at: string
+        }
+        Insert: {
+          api_key?: string
+          created_at?: string
+          enabled?: boolean
+          id: string
+          logo?: string
+          name: string
+          sandbox?: boolean
+          secret_key?: string
+          updated_at?: string
+        }
+        Update: {
+          api_key?: string
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          logo?: string
+          name?: string
+          sandbox?: boolean
+          secret_key?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       planos: {
         Row: {
           cor: string
