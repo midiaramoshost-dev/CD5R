@@ -67,6 +67,16 @@ const menuItems = [
     url: "/admin/dashboard#financeiro",
   },
   {
+    title: "Cobranças",
+    icon: Receipt,
+    url: "/admin/cobrancas",
+  },
+  {
+    title: "Planos",
+    icon: Layers,
+    url: "/admin/planos",
+  },
+  {
     title: "Suporte (Help Desk)",
     icon: Headset,
     url: "/admin/dashboard#suporte",
@@ -87,17 +97,10 @@ const menuItems = [
     url: "/admin/dashboard?tab=governanca",
   },
   {
-    title: "Planos",
-    icon: Layers,
-    url: "/admin/planos",
-  },
-  {
     title: "Monitoramento",
     icon: Activity,
     url: "/admin/monitoramento",
   },
-  // Pedido: "menu escolas deve ficar os modulos"
-  // Mudança mínima: apontar a entrada de Módulos para dentro de /admin/escolas (aba/seção módulos)
   {
     title: "Módulos",
     icon: Puzzle,
@@ -112,11 +115,6 @@ const menuItems = [
     title: "Log de Atividades",
     icon: ClipboardList,
     url: "/admin/log-atividades",
-  },
-  {
-    title: "Cobranças",
-    icon: Receipt,
-    url: "/admin/cobrancas",
   },
   {
     title: "Configurações",
