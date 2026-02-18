@@ -63,8 +63,8 @@ interface GatewayConfig {
   name: string;
   logo: string;
   enabled: boolean;
-  apiKey: string;
-  secretKey: string;
+  api_key: string;
+  secret_key: string;
   sandbox: boolean;
 }
 
@@ -93,14 +93,7 @@ const getStatusBadge = (status: string) => {
   );
 };
 
-const GATEWAYS_KEY = "iescolas_payment_gateways";
-
-const defaultGateways: GatewayConfig[] = [
-  { id: "mercadopago", name: "Mercado Pago", logo: "🟡", enabled: false, apiKey: "", secretKey: "", sandbox: true },
-  { id: "asaas", name: "Asaas", logo: "🔵", enabled: false, apiKey: "", secretKey: "", sandbox: true },
-  { id: "stripe", name: "Stripe", logo: "💳", enabled: false, apiKey: "", secretKey: "", sandbox: true },
-  { id: "pagseguro", name: "PagSeguro", logo: "🟢", enabled: false, apiKey: "", secretKey: "", sandbox: true },
-];
+// Gateways are now stored in Supabase table payment_gateways
 
 // ── Main Component ─────────────────────────────────────
 export default function AdminCobrancas() {
@@ -144,19 +137,30 @@ export default function AdminCobrancas() {
         }))
       );
     }
-    // Gateways from localStorage
-    const saved = localStorage.getItem(GATEWAYS_KEY);
-    setGateways(saved ? JSON.parse(saved) : defaultGateways);
+    // Gateways from Supabase
+    const { data: gwData } = await supabase.from("payment_gateways").select("*").order("name");
+    if (gwData) setGateways(gwData as GatewayConfig[]);
     setLoading(false);
   }, []);
 
   useEffect(() => { fetchData(); }, [fetchData]);
 
   // ── Save gateways ──
-  const saveGateways = (updated: GatewayConfig[]) => {
-    setGateways(updated);
-    localStorage.setItem(GATEWAYS_KEY, JSON.stringify(updated));
-    toast.success("Configurações de gateway salvas!");
+  const saveGateways = async (updated: GatewayConfig[]) => {
+    try {
+      for (const gw of updated) {
+        await supabase.from("payment_gateways").update({
+          enabled: gw.enabled,
+          api_key: gw.api_key,
+          secret_key: gw.secret_key,
+          sandbox: gw.sandbox,
+        }).eq("id", gw.id);
+      }
+      setGateways(updated);
+      toast.success("Configurações de gateway salvas!");
+    } catch {
+      toast.error("Erro ao salvar configurações");
+    }
   };
 
   const updateGateway = (id: string, field: keyof GatewayConfig, value: any) => {
@@ -406,9 +410,9 @@ export default function AdminCobrancas() {
                         <Label className="text-xs">Chave Pública / API Key</Label>
                         <div className="flex gap-2">
                           <Input
-                            type={showSecrets[`${gw.id}-api`] ? "text" : "password"}
-                            value={gw.apiKey}
-                            onChange={(e) => updateGateway(gw.id, "apiKey", e.target.value)}
+                          type={showSecrets[`${gw.id}-api`] ? "text" : "password"}
+                            value={gw.api_key}
+                            onChange={(e) => updateGateway(gw.id, "api_key", e.target.value)}
                             placeholder={`${gw.name} API Key`}
                             disabled={!gw.enabled}
                           />
@@ -425,9 +429,9 @@ export default function AdminCobrancas() {
                         <Label className="text-xs">Chave Secreta / Secret Key</Label>
                         <div className="flex gap-2">
                           <Input
-                            type={showSecrets[`${gw.id}-secret`] ? "text" : "password"}
-                            value={gw.secretKey}
-                            onChange={(e) => updateGateway(gw.id, "secretKey", e.target.value)}
+                          type={showSecrets[`${gw.id}-secret`] ? "text" : "password"}
+                            value={gw.secret_key}
+                            onChange={(e) => updateGateway(gw.id, "secret_key", e.target.value)}
                             placeholder={`${gw.name} Secret Key`}
                             disabled={!gw.enabled}
                           />

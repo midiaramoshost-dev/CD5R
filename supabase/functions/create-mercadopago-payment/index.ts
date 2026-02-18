@@ -11,9 +11,28 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const accessToken = Deno.env.get("MERCADOPAGO_ACCESS_TOKEN");
+    // Read access token from payment_gateways table
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const adminClient = createClient(supabaseUrl, serviceRoleKey);
+
+    const { data: gateway, error: gwError } = await adminClient
+      .from("payment_gateways")
+      .select("api_key, secret_key, enabled, sandbox")
+      .eq("id", "mercadopago")
+      .single();
+
+    if (gwError || !gateway) {
+      throw new Error("Configuração do Mercado Pago não encontrada. Configure no painel de Cobranças.");
+    }
+
+    if (!gateway.enabled) {
+      throw new Error("Mercado Pago não está ativo. Ative no painel de Cobranças.");
+    }
+
+    const accessToken = gateway.secret_key || gateway.api_key;
     if (!accessToken) {
-      throw new Error("MERCADOPAGO_ACCESS_TOKEN is not configured");
+      throw new Error("Access Token do Mercado Pago não configurado. Insira a chave no painel de Cobranças.");
     }
 
     const { amount, description, payer_email, payment_method } = await req.json();
