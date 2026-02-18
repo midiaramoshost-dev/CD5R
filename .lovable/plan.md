@@ -1,56 +1,40 @@
 
 
-## Implementar Suporte Completo ao SQL Legado no Painel de Importacao
+# Corrigir visibilidade do menu "Cobranças" no ADM Master
 
-### Situacao Atual
-A pagina de importacao so suporta 2 categorias (Cadastro e Historico), parser SQL de linha unica, e upload apenas de CSV/Excel. O arquivo SQL enviado usa formato multi-row VALUES que nao e reconhecido.
+## Diagnostico
 
-### O que sera feito
+O menu "Cobranças" **ja existe no codigo** (linha 117 do AdminSidebar.tsx) e a rota `/admin/cobrancas` tambem esta registrada no App.tsx. O problema e que o grupo "Gestao" na sidebar possui **14 itens**, e "Cobrancas" e o penultimo item -- ficando abaixo da area visivel da tela sem scroll.
 
-**1. Corrigir parser SQL para multi-row VALUES**
-- Reescrever `parseSQLInserts` para suportar:
+## Solucao
+
+Reorganizar os itens da sidebar para melhorar a visibilidade, movendo "Cobrancas" para uma posicao mais alta (logo apos "Financeiro") e, opcionalmente, agrupando itens relacionados.
+
+## Alteracoes
+
+### 1. `src/components/layout/AdminSidebar.tsx`
+- Mover o item "Cobrancas" (atualmente na posicao 13 de 14) para logo apos "Financeiro" (posicao 5-6), ja que sao temas relacionados.
+- Resultado: o item ficara visivel sem necessidade de scroll na maioria das resoluções.
+
+### Ordem proposta dos itens no grupo "Gestao":
 ```text
-INSERT INTO tabela (col1, col2) VALUES
-(val1, val2),
-(val3, val4);
+1. Dashboard
+2. Dashboard CEO
+3. Analytics (SaaS)
+4. Escolas
+5. Financeiro
+6. Cobrancas        <-- movido para ca
+7. Planos
+8. Suporte (Help Desk)
+9. Retencao (Anti-churn)
+10. RBAC / Permissoes
+11. Governanca / LGPD
+12. Monitoramento
+13. Modulos
+14. Usuarios
+15. Log de Atividades
+16. Configuracoes
 ```
-- Tratar valores com aspas simples contendo virgulas e caracteres especiais latin1
-- Auto-detectar nome da tabela de cada INSERT
 
-**2. Expandir para 7 categorias de importacao**
-
-| Categoria | Icone | Campos Mapeados (sem login/senha) |
-|---|---|---|
-| Dados Cadastrais | FileSpreadsheet | nome, cpf, data_nascimento, endereco, serie, turma, turno, responsavel, telefone, email, matricula |
-| Historico Escolar | Database | aluno, turma, bimestre, disciplina, nota, faltas, recuperacao, media, ano_letivo |
-| Estoque | Package | nome, categoria, preco_custo, preco_venda, estoque, fornecedor, qtd |
-| Fornecedores | Truck | nome, email, telefone, nome_contato, site, cep, endereco, numero, complemento, bairro, estado, cidade |
-| Biblioteca | BookOpen | titulo, autor, editora, ano, codigo, localizacao, categoria |
-| Emprestimos | BookMarked | livro, aluno_funcionario, data_emprestimo, data_devolucao, data_devolvido |
-| Financeiro | DollarSign | sacado, valor, data_vencimento, situacao, banco, observacoes, data_pagamento |
-
-**3. Aceitar upload de arquivo .sql**
-- Adicionar `.sql` ao accept do input de arquivo
-- Detectar extensao e usar parser SQL automaticamente
-
-**4. Auto-deteccao de tabela**
-- Ao processar o SQL, detectar quais tabelas existem e quantos registros cada uma tem
-- Sugerir categoria automaticamente com base no nome da tabela (ex: `boletim` -> Historico, `almoxarifados_produtos` -> Estoque)
-
-**5. Download de template para cada categoria**
-- Atualizar os botoes de modelo para incluir todas as 7 categorias
-
-**6. UI atualizada**
-- Substituir os 2 botoes de tipo por um grid responsivo com 7 opcoes (3 colunas no desktop, 2 no tablet, 1 no mobile)
-- Cada opcao com icone, titulo e descricao
-
-### Detalhes Tecnicos
-
-**Arquivo alterado:** `src/pages/escola/ImportarDados.tsx`
-
-- Tipo `ImportJob.type` expandido para: `cadastro | historico | estoque | fornecedores | biblioteca | emprestimos | financeiro`
-- 5 novos field maps criados (ESTOQUE_FIELDS, FORNECEDORES_FIELDS, BIBLIOTECA_FIELDS, EMPRESTIMOS_FIELDS, FINANCEIRO_FIELDS)
-- Funcao `parseSQLInserts` reescrita com regex que captura blocos multi-row
-- Funcao `detectTableCategory` para mapear nomes de tabela MySQL para categorias do sistema
-- Campos excluidos: login, senha, password, hash, nome_meta, foto, txt_meta, time, ordem, star, lancamentos, cont, lang
+Essa reorganizacao nao altera nenhuma funcionalidade, apenas a ordem visual dos itens no menu lateral.
 
