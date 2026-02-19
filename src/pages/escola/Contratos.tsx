@@ -468,11 +468,15 @@ export default function Contratos() {
 
   const handlePrint = (contrato?: Contrato) => {
     if (contrato) {
+      const logoHtml = logoEscola
+        ? `<div style="text-align:center;margin-bottom:16px;"><img src="${logoEscola}" style="max-height:60px;max-width:180px;" /></div>`
+        : '';
       const printContent = `
         <html>
           <head><title>Contrato ${contrato.numero}</title></head>
           <body style="font-family: Arial; padding: 20px;">
-            <h1>CONTRATO ${contrato.numero}</h1>
+            ${logoHtml}
+            <h1 style="text-align:center;">CONTRATO ${contrato.numero}</h1>
             <p><strong>Tipo:</strong> ${contrato.tipo}</p>
             <p><strong>Parte:</strong> ${contrato.parte}</p>
             <p><strong>Descrição:</strong> ${contrato.descricao}</p>
