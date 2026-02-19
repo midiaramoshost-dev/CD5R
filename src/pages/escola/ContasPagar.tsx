@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Plus,
   Search,
@@ -20,6 +20,7 @@ import {
   Users,
   FileCheck,
   Receipt,
+  Image,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -95,6 +96,115 @@ interface DocTemplate {
   updatedAt: string;
 }
 
+// ─── Default Contract Template ──────────────────────────────────────
+
+const DEFAULT_CONTRACT_TEMPLATE = `CONTRATO DE PRESTAÇÃO DE SERVIÇOS DE EDUCAÇÃO ESCOLAR - {{ANO_LETIVO}}
+
+Documento integrante do REQUERIMENTO DE MATRÍCULA Nº {{MATRICULA}}
+
+ALUNO: {{NOME_ALUNO}}, inscrito sob RG nº ___________________, com CPF Nº ________________________ e matrícula nº {{MATRICULA}}, beneficiário exclusivo da prestação do serviço educacional, representado/assistido pelo(a) Sr(a). {{NOME_RESPONSAVEL}}, na qualidade de CONTRATANTE sendo RESPONSÁVEL FINANCEIRO: {{NOME_RESPONSAVEL}}, CPF nº {{CPF_RESPONSAVEL}}, RG nº __________________________, com residência na {{ENDERECO_RESPONSAVEL}}, e {{NOME_ESCOLA}}, pessoa jurídica de direito privado, na qualidade de CONTRATADA, celebram o presente contrato de prestação de serviços educacionais para o nível de ( ) Educação Infantil, ( ) Ensino Fundamental ou ( ) Ensino Médio na turma ou ano: {{TURMA}} — {{SERIE}}, na modalidade preferencial de educação PRESENCIAL, regido pelas seguintes considerações, cláusulas e condições:
+
+CONSIDERANDO
+
+a liberdade do ensino pela iniciativa privada e o pluralismo pedagógico, princípios expressos nos arts. 205, 206 e 209 da Constituição da República;
+
+a consciente opção dos CONTRATANTES pelo serviço privado de ensino;
+
+que o art. 1.566 do Código Civil e 55 e 56 do Estatuto da Criança e do Adolescente atribuem aos pais ou responsáveis a obrigação de matrícula escolar e a supervisão do rendimento dos educandos;
+
+que os arts. 15 e s.s. do Estatuto da Criança e do Adolescente asseguram aos educandos o direito de liberdade e dignidade, e inclusive atribuem aos pais a obrigação de respeito aos objetos pessoais, especialmente no que se refere ao uso diário de material didático e cadernos adequados que atendam às necessidades de aprendizagem;
+
+que o aluno, beneficiário exclusivo da prestação do serviço educacional, deverá observar princípios éticos, morais e disciplinares adotados pela instituição de ensino, respeitando as normas de boa convivência junto aos demais integrantes da comunidade escolar;
+
+que o art. 421‑A do Código Civil impõe que se respeite a alocação de risco definido pelos contratantes do negócio;
+
+que o art. 394 do Código Civil admite que os contratantes estabeleçam as circunstâncias da mora.
+
+RESOLVEM:
+
+Cláusula 1ª – O contrato objetiva regular a prestação de serviços de educação escolar: presencial, remoto ou híbrido, observada a legislação de ensino, o Projeto Político‑Pedagógico (PPP) e o Regimento Interno da CONTRATADA, durante o ano letivo de {{ANO_LETIVO}}; definir a contraprestação pecuniária e a forma de pagamento por parte do(s) CONTRATANTE(S), bem como estabelecer os demais dispositivos complementares.
+
+§1º - O planejamento dos serviços, a designação da época e do modo de avaliação do rendimento, a fixação de carga horária e horário de aulas, a designação de professores, a orientação didático‑pedagógica e educacional, além de outras providências que as atividades docentes exigirem, inserem‑se na responsabilidade exclusiva da CONTRATADA, vedada a ingerência do(s) CONTRATANTE(S).
+
+§2º – As aulas que compõem a prestação do serviço, inclusive as extraordinárias, serão ministradas nas salas, horários e endereços físicos ou virtuais indicados pela CONTRATADA, observada a natureza do conteúdo e a técnica pedagógica que se fizerem necessárias.
+
+§3º - A CONTRATADA, observado o prazo de 10 (dez) dias do início do ano letivo, indicado no calendário escolar, reserva‑se no direito de cancelamento do serviço ofertado caso o número de alunos se revele insuficiente ao custeio das despesas de operação, assegurado ao(s) CONTRATANTE(S) o direito de opção pela alteração do horário ou a devolução do pagamento efetuado.
+
+§4º ‑ A execução do serviço de educação escolar pelo meio exclusivamente remoto constitui circunstância previsível e ordinária que obriga o(s) CONTRATANTE(S) no pagamento da integralidade do preço ajustado.
+
+Cláusula 2ª — O(s) CONTRATANTE(S) se declararam cientes da estrutura física e virtual disponibilizada pela CONTRATADA.
+
+§1º – O(s) CONTRATANTE(S) assumem o compromisso de investimento na aquisição de aparelhos adequados ao acesso aos endereços virtuais indicados pela CONTRATADA.
+
+Cláusula 3ª — O pedido de matrícula se processa apenas através do preenchimento e da entrega do requerimento específico e dos demais documentos exigidos pela Secretaria Pedagógica da CONTRATADA.
+
+§1º - O deferimento do pedido de matrícula constitui ato da CONTRATADA, condicionado à existência de vaga, à apresentação do histórico escolar e da identificação civil, à prova da idoneidade financeira e econômica quando exercida a opção pelo pagamento parcelado.
+
+§2º - A quitação de quaisquer obrigações financeiras do(s) CONTRATANTE(S), inclusive a satisfação da primeira parcela referente ao ano letivo, certificada pela Tesouraria da CONTRATADA, constitui‑se condição para o deferimento da matrícula.
+
+Cláusula 4ª — A prestação do serviço de educação escolar depende da aquisição do material didático, físico e/ou virtual, indicado pela CONTRATADA.
+
+Parágrafo único - O(s) CONTRATANTE(S) se declara(m) ciente(s) de que o material didático‑pedagógico se encontra protegido pela Lei nº 9.610/98, ficando PROIBIDA A SUA REPRODUÇÃO TOTAL OU PARCIAL sem expressa autorização da CONTRATADA.
+
+Cláusula 5ª — O(s) CONTRATANTE(S) reconhece(m) sua responsabilidade em acompanhar o progresso dos estudos do(s) aluno(s), bem como tomar ciência do conteúdo e de comunicações feitas pela CONTRATADA.
+
+§1º ‑ Obriga‑se o(s) CONTRATANTE(S) a fazer(em) com que o(s) estudante(s) cumpra(m) o calendário escolar e os horários estabelecidos pela CONTRATADA, assumindo total responsabilidade pelas consequências advindas da não observância destes.
+
+§2º ‑ O uso do uniforme escolar completo por parte do(s) aluno(s) é obrigatório.
+
+Cláusula 6ª — O(s) CONTRATANTE(S) pagará(ão) pelo serviço de educação escolar o valor da anuidade referente ao período letivo de {{ANO_LETIVO}}, necessárias para a manutenção da atividade educacional.
+
+§1º ‑ As parcelas mensais vencem no dia 10 de cada mês. Os pagamentos serão efetuados nas instituições financeiras autorizadas.
+
+§2º - Na hipótese de inadimplemento de quaisquer das prestações, serão acrescidos 2% (dois por cento) a título de multa moratória e juros diário de 0,033% mais correção monetária (INPC) até o efetivo pagamento.
+
+§3º - A ausência do aluno(a) nos endereços, físicos ou virtuais, aonde a CONTRATADA presta os serviços educacionais não exime do pagamento.
+
+Cláusula 7ª — O(s) educando(s) que causar(em) danos ao estabelecimento ou a terceiros será(ão) notificado(s) na pessoa do(s) CONTRATANTE(S) para reparação (art. 927 do Código Civil).
+
+Cláusula 8ª — O(s) CONTRATANTE(S) autoriza(m) a CONTRATADA a se utilizar de sua imagem para fins de divulgação de suas atividades, nos termos da legislação vigente. A autorização para uso da imagem se estende por tempo indeterminado.
+
+§1º ‑ O(s) CONTRATANTE(S) autoriza(m) a coleta de dados pessoais nos termos da Lei Federal nº 13.709/2018 (LGPD).
+
+Cláusula 9ª — O(s) CONTRATANTE(S) poderá(ão) resilir o contrato, ficando a seu encargo comunicar expressamente à CONTRATADA com pelo menos 30 (trinta) dias de antecedência e, ainda, a título de multa, obrigado(s) a satisfazer(em) a prestação vencida e a vincenda do mês subsequente ao exercício do direito.
+
+Cláusula 10ª — A CONTRATADA poderá rescindir o contrato por desarmonia entre as partes ou quando constatado que o aluno violou a lei ou as regras do regimento interno.
+
+Cláusula 11ª — O pagamento do preço da anuidade escolar constitui obrigação solidária dos pais e do(s) CONTRATANTE(S), mesmo na hipótese de separação ou divórcio.
+
+Cláusula 12ª — As informações a respeito do rendimento educacional do educando serão disponibilizadas aos pais ou responsáveis legais.
+
+Cláusula 13ª — O(s) CONTRATANTE(S) se responsabiliza pelos dados declarados, comprometendo-se a informar à CONTRATADA qualquer alteração de endereço.
+
+Cláusula 14ª — A CONTRATADA se exime da indenização dos bens de uso do educando, extraviados ou danificados sob a responsabilidade do mesmo.
+
+Cláusula 15ª — As partes atribuem ao contrato plena eficácia e força executiva extrajudicial.
+
+Cláusula 16ª — Fica eleito o Foro do Município da prestação do serviço para dirimir qualquer conflito decorrente do contrato.
+
+E sendo a expressão da vontade, declaram as partes que leram e concordam com todos os termos, assinando o presente contrato junto às testemunhas.
+
+{{CIDADE_ESCOLA}}, _____ de ________________ de {{ANO_LETIVO}}.
+
+
+___________________________________
+CONTRATANTE: {{NOME_RESPONSAVEL}}
+CPF: {{CPF_RESPONSAVEL}}
+
+
+___________________________________
+{{NOME_ESCOLA}} - CONTRATADA
+
+
+___________________________________
+Testemunha
+CPF ________________________________
+
+
+___________________________________
+Testemunha
+CPF ________________________________`;
+
 // ─── Data ────────────────────────────────────────────────────────────
 
 const initialContas: ContaPagar[] = [
@@ -121,6 +231,9 @@ const contractVariables = [
   { key: "{{TURMA}}", desc: "Turma do aluno" },
   { key: "{{SERIE}}", desc: "Série do aluno" },
   { key: "{{DATA_ATUAL}}", desc: "Data de hoje" },
+  { key: "{{ANO_LETIVO}}", desc: "Ano letivo atual" },
+  { key: "{{NOME_ESCOLA}}", desc: "Nome da escola" },
+  { key: "{{CIDADE_ESCOLA}}", desc: "Cidade da escola" },
 ];
 
 // ─── Helpers ─────────────────────────────────────────────────────────
@@ -189,11 +302,65 @@ export default function ContasPagar() {
   const [isContratosEditing, setIsContratosEditing] = useState(false);
   const [selectedContratoId, setSelectedContratoId] = useState<string | null>(null);
   const [contratosForm, setContratosForm] = useState({ title: "", fileName: "", content: "" });
-  const [contratoTemplates, setContratoTemplates] = useState<DocTemplate[]>(() => loadTemplates("school:contractTemplates"));
+  const [contratoTemplates, setContratoTemplates] = useState<DocTemplate[]>(() => {
+    const saved = loadTemplates("school:contractTemplates");
+    if (saved.length > 0) return saved;
+    // Seed with default template
+    const defaultTpl: DocTemplate = {
+      id: "default-contract",
+      title: "Contrato de Prestação de Serviços Educacionais",
+      fileName: "",
+      content: DEFAULT_CONTRACT_TEMPLATE,
+      isDefault: true,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    persistTemplates("school:contractTemplates", [defaultTpl]);
+    return [defaultTpl];
+  });
   const [isBatchDialogOpen, setIsBatchDialogOpen] = useState(false);
   const [selectedResponsavelIds, setSelectedResponsavelIds] = useState<string[]>([]);
 
+  // Logo for contracts
+  const logoInputRef = useRef<HTMLInputElement>(null);
+  const [contractLogoUrl, setContractLogoUrl] = useState<string | null>(() => {
+    try { return localStorage.getItem("escola_logo") || null; } catch { return null; }
+  });
+
+  const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) { toast.error("A logo deve ter no máximo 2MB"); return; }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const url = reader.result as string;
+      setContractLogoUrl(url);
+      localStorage.setItem("escola_logo", url);
+      toast.success("Logo carregada com sucesso!");
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleRemoveLogo = () => {
+    setContractLogoUrl(null);
+    localStorage.removeItem("escola_logo");
+    toast.success("Logo removida");
+  };
+
   const saveContratoTemplates = (list: DocTemplate[]) => { setContratoTemplates(list); persistTemplates("school:contractTemplates", list); };
+
+  // School config (for contract variables)
+  const [schoolConfig, setSchoolConfig] = useState(() => {
+    try {
+      const raw = localStorage.getItem("school:contractConfig");
+      return raw ? JSON.parse(raw) : { nomeEscola: "", cidadeEscola: "" };
+    } catch { return { nomeEscola: "", cidadeEscola: "" }; }
+  });
+
+  const saveSchoolConfig = (config: typeof schoolConfig) => {
+    setSchoolConfig(config);
+    localStorage.setItem("school:contractConfig", JSON.stringify(config));
+  };
 
   // Form data for contas
   const [formData, setFormData] = useState({ descricao: "", fornecedor: "", categoria: "", valor: "", dataVencimento: "", observacoes: "" });
@@ -309,6 +476,9 @@ export default function ContasPagar() {
     result = result.replace(/\{\{TURMA\}\}/g, aluno?.turma || "—");
     result = result.replace(/\{\{SERIE\}\}/g, aluno?.serie || "—");
     result = result.replace(/\{\{DATA_ATUAL\}\}/g, new Date().toLocaleDateString("pt-BR"));
+    result = result.replace(/\{\{ANO_LETIVO\}\}/g, new Date().getFullYear().toString());
+    result = result.replace(/\{\{NOME_ESCOLA\}\}/g, schoolConfig.nomeEscola || "{{NOME_ESCOLA}}");
+    result = result.replace(/\{\{CIDADE_ESCOLA\}\}/g, schoolConfig.cidadeEscola || "{{CIDADE_ESCOLA}}");
     return result;
   };
 
@@ -324,10 +494,15 @@ export default function ContasPagar() {
     const w = window.open("", "_blank");
     if (!w) { toast.error("Popup bloqueado. Permita popups para imprimir."); return; }
 
+    const logoHtml = contractLogoUrl
+      ? `<div class="logo-header"><img src="${contractLogoUrl}" alt="Logo" />${schoolConfig.nomeEscola ? `<h1>${schoolConfig.nomeEscola}</h1>` : ""}</div>`
+      : schoolConfig.nomeEscola ? `<div class="logo-header"><h1>${schoolConfig.nomeEscola}</h1></div>` : "";
+
     const pages = selectedResponsavelIds.map((rId) => {
       const content = substituirVariaveis(defaultContrato.content, rId);
       const resp = responsaveis.find((r) => r.id === rId);
-      return `<div class="page"><h2>${defaultContrato.title}</h2><p class="meta">Responsável: ${resp?.nome || "—"} — Gerado em ${new Date().toLocaleDateString("pt-BR")}</p><div class="content">${content.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</div></div>`;
+      const escaped = content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      return `<div class="page">${logoHtml}<h2>${defaultContrato.title}</h2><p class="meta">Responsável: ${resp?.nome || "—"} — Gerado em ${new Date().toLocaleDateString("pt-BR")}</p><div class="content">${escaped}</div></div>`;
     }).join("");
 
     w.document.open();
@@ -336,10 +511,13 @@ export default function ContasPagar() {
 body{font-family:Arial,Helvetica,sans-serif;margin:0;padding:0}
 .page{padding:40px;max-width:800px;margin:0 auto;page-break-after:always}
 .page:last-child{page-break-after:auto}
-h2{font-size:18px;margin:0 0 8px;border-bottom:2px solid #333;padding-bottom:6px}
-.meta{color:#666;font-size:12px;margin-bottom:20px}
-.content{white-space:pre-wrap;word-wrap:break-word;font-size:14px;line-height:1.6}
-@media print{.page{padding:20px}}
+.logo-header{text-align:center;margin-bottom:20px;padding-bottom:15px;border-bottom:2px solid #333}
+.logo-header img{max-height:80px;max-width:200px;object-fit:contain;margin-bottom:8px;display:block;margin-left:auto;margin-right:auto}
+.logo-header h1{font-size:18px;margin:0;color:#333}
+h2{font-size:16px;margin:0 0 8px;text-align:center;text-transform:uppercase;letter-spacing:1px}
+.meta{color:#666;font-size:11px;margin-bottom:20px;text-align:center}
+.content{white-space:pre-wrap;word-wrap:break-word;font-size:13px;line-height:1.7;text-align:justify}
+@media print{.page{padding:25px 30px}}
 </style></head><body>${pages}<script>window.onload=function(){window.print();}<\/script></body></html>`);
     w.document.close();
     toast.success(`${selectedResponsavelIds.length} contratos gerados para impressão!`);
@@ -461,6 +639,7 @@ h2{font-size:18px;margin:0 0 8px;border-bottom:2px solid #333;padding-bottom:6px
       <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept=".pdf,.doc,.docx,.xls,.xlsx" />
       <input type="file" ref={recibosInputRef} onChange={handleReciboFileChange} className="hidden" accept=".pdf,.doc,.docx" />
       <input type="file" ref={contratosInputRef} onChange={handleContratoFileChange} className="hidden" accept=".pdf,.doc,.docx" />
+      <input type="file" ref={logoInputRef} onChange={handleLogoUpload} className="hidden" accept="image/jpeg,image/png,image/webp" />
 
       {/* Header */}
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -639,6 +818,41 @@ h2{font-size:18px;margin:0 0 8px;border-bottom:2px solid #333;padding-bottom:6px
             <DialogDescription>Crie modelos de contrato com variáveis dinâmicas e gere em lote para todos os responsáveis.</DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-2">
+            {/* School config for contract variables */}
+            <div className="rounded-lg border p-4 space-y-3 bg-muted/20">
+              <Label className="text-sm font-semibold">Dados da Escola (usados nas variáveis)</Label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <Label className="text-xs">Nome da Escola</Label>
+                  <Input value={schoolConfig.nomeEscola} onChange={(e) => saveSchoolConfig({ ...schoolConfig, nomeEscola: e.target.value })} placeholder="Ex: Colégio XYZ" />
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs">Cidade</Label>
+                  <Input value={schoolConfig.cidadeEscola} onChange={(e) => saveSchoolConfig({ ...schoolConfig, cidadeEscola: e.target.value })} placeholder="Ex: São Paulo/SP" />
+                </div>
+              </div>
+            </div>
+
+            {/* Logo */}
+            <div className="rounded-lg border p-4 space-y-3 bg-muted/20">
+              <Label className="text-sm font-semibold">Logo da Escola (aparece no cabeçalho dos contratos)</Label>
+              <div className="flex items-center gap-4">
+                {contractLogoUrl ? (
+                  <div className="flex items-center gap-3">
+                    <img src={contractLogoUrl} alt="Logo" className="h-14 w-auto max-w-[160px] object-contain rounded border p-1" />
+                    <div className="flex flex-col gap-1">
+                      <Button variant="outline" size="sm" onClick={() => logoInputRef.current?.click()}><Image className="h-3.5 w-3.5 mr-1" />Alterar</Button>
+                      <Button variant="ghost" size="sm" className="text-destructive" onClick={handleRemoveLogo}><Trash2 className="h-3.5 w-3.5 mr-1" />Remover</Button>
+                    </div>
+                  </div>
+                ) : (
+                  <Button variant="outline" onClick={() => logoInputRef.current?.click()}>
+                    <Image className="h-4 w-4 mr-2" />Carregar Logo (JPG/PNG, até 2MB)
+                  </Button>
+                )}
+              </div>
+            </div>
+
             {/* Batch button */}
             <div className="flex items-center justify-between rounded-lg border p-3 bg-primary/5">
               <div className="flex items-center gap-2">
@@ -659,7 +873,7 @@ h2{font-size:18px;margin:0 0 8px;border-bottom:2px solid #333;padding-bottom:6px
               "Use variáveis como {{NOME_RESPONSAVEL}}, {{NOME_ALUNO}}, {{CPF_RESPONSAVEL}} no texto do contrato.",
               true)}
             <div className="rounded-lg border bg-muted/30 p-3 text-xs text-muted-foreground">
-              Os modelos ficam salvos no navegador (localStorage). Use as variáveis dinâmicas para personalizar os contratos ao gerar em lote.
+              O modelo padrão já inclui um contrato completo de prestação de serviços educacionais. Edite conforme necessário. Use as variáveis dinâmicas para personalizar os contratos ao gerar em lote.
             </div>
           </div>
           <DialogFooter><Button variant="outline" onClick={() => setIsContratosOpen(false)}>Fechar</Button></DialogFooter>
@@ -676,6 +890,14 @@ h2{font-size:18px;margin:0 0 8px;border-bottom:2px solid #333;padding-bottom:6px
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-2">
+            {/* Logo preview */}
+            {contractLogoUrl && (
+              <div className="flex items-center gap-2 rounded-lg border p-2 bg-muted/20">
+                <img src={contractLogoUrl} alt="Logo" className="h-10 w-auto max-w-[120px] object-contain" />
+                <span className="text-xs text-muted-foreground">Logo será incluída no cabeçalho de cada contrato</span>
+              </div>
+            )}
+
             <div className="flex items-center justify-between">
               <Label className="text-sm font-semibold">Responsáveis ({selectedResponsavelIds.length} selecionados)</Label>
               <Button variant="ghost" size="sm" onClick={toggleAllResponsaveis}>
