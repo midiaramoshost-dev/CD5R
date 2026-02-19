@@ -16,6 +16,7 @@ import {
   BookOpen,
   BookMarked,
   DollarSign,
+  Info,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -871,41 +872,97 @@ export default function ImportarDados() {
 
       {/* Field Mapping Dialog */}
       <Dialog open={!!mappingJob} onOpenChange={() => { setMappingJob(null); setFieldMapping({}); }}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-3xl">
           <DialogHeader>
             <DialogTitle>Mapeamento de Campos — {mappingJob ? typeLabelMap[mappingJob.type] : ""}</DialogTitle>
             <DialogDescription>
-              Associe as colunas do seu arquivo aos campos do sistema. Campos com * são obrigatórios.
+              Associe as colunas do seu arquivo aos campos do sistema. Campos com <span className="text-destructive font-bold">*</span> são obrigatórios.
             </DialogDescription>
           </DialogHeader>
           {mappingJob && (
-            <div className="max-h-[400px] overflow-y-auto space-y-3">
-              {getFieldsForType(mappingJob.type).map((f) => (
-                <div key={f.key} className="grid grid-cols-2 items-center gap-4">
-                  <Label className="text-right">
-                    {f.label} {f.required && <span className="text-destructive">*</span>}
-                  </Label>
-                  <Select
-                    value={fieldMapping[f.key] || "__none__"}
-                    onValueChange={(v) =>
-                      setFieldMapping((prev) => ({
-                        ...prev,
-                        [f.key]: v === "__none__" ? "" : v,
-                      }))
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Selecione a coluna" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="__none__">— Não mapear —</SelectItem>
-                      {mappingJob.headers.map((h) => (
-                        <SelectItem key={h} value={h}>{h}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              ))}
+            <div className="space-y-4">
+              {/* Resumo rápido */}
+              <div className="flex flex-wrap gap-2 rounded-md border bg-muted/50 p-3 text-sm">
+                <span className="font-medium">📊 Seu arquivo tem:</span>
+                <Badge variant="secondary">{mappingJob.records.length} registros</Badge>
+                <Badge variant="secondary">{mappingJob.headers.length} colunas</Badge>
+                <span className="text-muted-foreground">— Colunas: {mappingJob.headers.join(", ")}</span>
+              </div>
+
+              {/* Dica */}
+              <div className="flex items-start gap-2 rounded-md border border-primary/20 bg-primary/5 p-3 text-sm">
+                <Info className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                <span>
+                  <strong>Como funciona:</strong> Para cada campo do sistema (lado esquerdo), escolha qual coluna do seu arquivo contém esse dado.
+                  O sistema já tenta mapear automaticamente — confira e ajuste se necessário.
+                </span>
+              </div>
+
+              {/* Mapping rows */}
+              <div className="max-h-[350px] overflow-y-auto space-y-2 pr-1">
+                {getFieldsForType(mappingJob.type).map((f) => {
+                  const selectedCol = fieldMapping[f.key];
+                  const sampleValues = selectedCol
+                    ? mappingJob.records.slice(0, 3).map((r) => String(r[selectedCol] ?? "")).filter(Boolean)
+                    : [];
+
+                  return (
+                    <div key={f.key} className="rounded-md border p-3 space-y-2">
+                      <div className="grid grid-cols-[1fr_1fr] items-center gap-4">
+                        <div>
+                          <Label className="text-sm font-medium">
+                            {f.label} {f.required && <span className="text-destructive font-bold">*</span>}
+                          </Label>
+                          {f.required && (
+                            <p className="text-xs text-muted-foreground">Obrigatório</p>
+                          )}
+                        </div>
+                        <Select
+                          value={fieldMapping[f.key] || "__none__"}
+                          onValueChange={(v) =>
+                            setFieldMapping((prev) => ({
+                              ...prev,
+                              [f.key]: v === "__none__" ? "" : v,
+                            }))
+                          }
+                        >
+                          <SelectTrigger className={!selectedCol && f.required ? "border-destructive/50" : selectedCol ? "border-primary/50 bg-primary/5" : ""}>
+                            <SelectValue placeholder="Escolha a coluna do arquivo →" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="__none__">— Não mapear —</SelectItem>
+                            {mappingJob.headers.map((h) => {
+                              const preview = mappingJob.records[0]?.[h];
+                              return (
+                                <SelectItem key={h} value={h}>
+                                  <span className="font-medium">{h}</span>
+                                  {preview != null && (
+                                    <span className="ml-2 text-muted-foreground text-xs">
+                                      ex: {String(preview).slice(0, 30)}
+                                    </span>
+                                  )}
+                                </SelectItem>
+                              );
+                            })}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      {/* Prévia dos dados mapeados */}
+                      {sampleValues.length > 0 && (
+                        <div className="flex items-center gap-1.5 text-xs text-muted-foreground pl-1">
+                          <CheckCircle2 className="h-3 w-3 text-primary" />
+                          <span>Prévia:</span>
+                          {sampleValues.map((v, i) => (
+                            <Badge key={i} variant="outline" className="text-xs font-normal py-0">
+                              {v.length > 25 ? v.slice(0, 25) + "…" : v}
+                            </Badge>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           )}
           <DialogFooter>
