@@ -61,6 +61,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { useAlunosResponsaveis, type Aluno } from "@/contexts/AlunosResponsaveisContext";
 import jsPDF from "jspdf";
+import { generateBarcodeDataUrl } from "@/lib/carteirinha/barcode-helpers";
 
 const turmasOptions = [
   "Todas", "1º Ano A", "1º Ano B", "2º Ano A", "3º Ano A", "4º Ano A",
@@ -259,6 +260,7 @@ export default function Crachas() {
               <div style="color:#6b7280;">Turno: ${aluno.turno}</div>
             </div>
           </div>
+          <div style="padding:0 8px 2px;"><img src="${generateBarcodeDataUrl(aluno.matricula, { width: 1.2, height: 18, fontSize: 6 })}" style="width:100%;height:auto;" /></div>
           <div style="display:flex;justify-content:space-between;padding:0 8px 4px;font-size:5px;color:#9ca3af;">
             <span>Ano Letivo: ${escolaInfo.anoLetivo}</span>
             <span>Validade: 12/${escolaInfo.anoLetivo}</span>
@@ -276,6 +278,7 @@ export default function Crachas() {
             <div style="font-size:6px;color:#6b7280;margin-top:2px;">Mat: ${aluno.matricula}</div>
             <div style="font-size:6px;color:#6b7280;">${aluno.turma} | ${aluno.turno}</div>
           </div>
+          <div style="padding:0 4px 2px;width:100%;box-sizing:border-box;"><img src="${generateBarcodeDataUrl(aluno.matricula, { width: 1, height: 16, fontSize: 5 })}" style="width:100%;height:auto;" /></div>
           <div style="font-size:5px;color:#9ca3af;padding-bottom:4px;">${escolaInfo.anoLetivo}</div>
         </div>`;
       }
@@ -398,11 +401,17 @@ export default function Crachas() {
       doc.text(`Turma: ${aluno.turma}`, infoX, photoY + 13);
       doc.text(`Turno: ${aluno.turno}`, infoX, photoY + 17);
 
+      // Barcode
+      try {
+        const barcodeUrl = generateBarcodeDataUrl(aluno.matricula, { width: 1, height: 16, fontSize: 6, displayValue: false });
+        doc.addImage(barcodeUrl, "PNG", x + 5, y + cardH - 16, cardW - 10, 8);
+      } catch {}
+
       // Footer
       doc.setFontSize(5);
       doc.setTextColor(156, 163, 175);
-      doc.text(`Ano Letivo: ${escolaInfo.anoLetivo}`, x + 5, y + cardH - 4);
-      doc.text(`Validade: 12/${escolaInfo.anoLetivo}`, x + cardW - 5, y + cardH - 4, { align: "right" });
+      doc.text(`Ano Letivo: ${escolaInfo.anoLetivo}`, x + 5, y + cardH - 2);
+      doc.text(`Validade: 12/${escolaInfo.anoLetivo}`, x + cardW - 5, y + cardH - 2, { align: "right" });
     });
   };
 
@@ -480,6 +489,12 @@ export default function Crachas() {
       doc.setTextColor(107, 114, 128);
       doc.text(`Mat: ${aluno.matricula}`, x + badgeW / 2, infoY, { align: "center" });
       doc.text(`${aluno.turma} | ${aluno.turno}`, x + badgeW / 2, infoY + 4, { align: "center" });
+
+      // Barcode
+      try {
+        const barcodeUrl = generateBarcodeDataUrl(aluno.matricula, { width: 1, height: 14, fontSize: 5, displayValue: false });
+        doc.addImage(barcodeUrl, "PNG", x + 6, y + badgeH - 16, badgeW - 12, 8);
+      } catch {}
 
       // Footer
       doc.setFontSize(4.5);
@@ -893,6 +908,10 @@ function CarteirinhaPreview({ aluno }: { aluno: Aluno }) {
           <p className="text-[9px] text-muted-foreground">Turno: {aluno.turno}</p>
         </div>
       </div>
+      {/* Barcode */}
+      <div className="px-3 pb-0.5">
+        <img src={generateBarcodeDataUrl(aluno.matricula, { width: 1.2, height: 20, fontSize: 7 })} alt="Código de barras" className="w-full h-auto" />
+      </div>
       {/* Footer */}
       <div className="flex justify-between px-3 pb-1">
         <span className="text-[7px] text-muted-foreground">Ano Letivo: {escolaInfo.anoLetivo}</span>
@@ -927,8 +946,12 @@ function CrachaPreview({ aluno }: { aluno: Aluno }) {
         <p className="text-[8px] text-muted-foreground mt-1">Mat: {aluno.matricula}</p>
         <p className="text-[8px] text-muted-foreground">{aluno.turma} | {aluno.turno}</p>
       </div>
+      {/* Barcode */}
+      <div className="px-2 pb-0.5 w-full">
+        <img src={generateBarcodeDataUrl(aluno.matricula, { width: 1, height: 18, fontSize: 6 })} alt="Código de barras" className="w-full h-auto" />
+      </div>
       {/* Footer */}
-      <p className="text-[7px] text-muted-foreground pb-2">{escolaInfo.anoLetivo}</p>
+      <p className="text-[7px] text-muted-foreground pb-1">{escolaInfo.anoLetivo}</p>
     </div>
   );
 }

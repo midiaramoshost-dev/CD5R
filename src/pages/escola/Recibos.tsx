@@ -281,13 +281,17 @@ export default function Recibos() {
   };
 
   const handlePrint = (recibo?: Recibo) => {
+    const logoEscola = localStorage.getItem('escola_logo') || null;
+    const logoHtml = logoEscola
+      ? `<div style="text-align:center;margin-bottom:16px;"><img src="${logoEscola}" style="max-height:60px;max-width:180px;" /></div>`
+      : '';
     if (recibo) {
-      // Imprimir recibo individual
       const printContent = `
         <html>
           <head><title>Recibo ${recibo.numero}</title></head>
           <body style="font-family: Arial; padding: 20px;">
-            <h1>RECIBO</h1>
+            ${logoHtml}
+            <h1 style="text-align:center;">RECIBO</h1>
             <p><strong>Número:</strong> ${recibo.numero}</p>
             <p><strong>Data:</strong> ${new Date(recibo.dataEmissao).toLocaleDateString('pt-BR')}</p>
             <p><strong>Pagador:</strong> ${recibo.pagador}</p>
