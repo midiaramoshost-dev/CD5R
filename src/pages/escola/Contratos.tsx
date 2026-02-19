@@ -161,47 +161,141 @@ const initialContratos: Contrato[] = [
 const initialModelos: ModeloContrato[] = [
   {
     id: "1",
-    nome: "Contrato de Matrícula Padrão",
+    nome: "Contrato de Prestação de Serviços Educacionais",
     tipo: "Prestação de Serviço",
-    descricao: "Modelo padrão para matrícula de alunos",
-    conteudo: `CONTRATO DE PRESTAÇÃO DE SERVIÇOS EDUCACIONAIS
+    descricao: "Modelo completo de contrato de matrícula e prestação de serviços educacionais",
+    conteudo: `CONTRATO DE PRESTAÇÃO DE SERVIÇOS DE EDUCAÇÃO ESCOLAR - {{ANO_LETIVO}}
 
-CONTRATANTE: {{NOME_RESPONSAVEL}}, portador(a) do CPF nº {{CPF_RESPONSAVEL}}, residente e domiciliado(a) em {{ENDERECO_RESPONSAVEL}}.
+Documento integrante do REQUERIMENTO DE MATRÍCULA Nº {{MATRICULA_ALUNO}}
 
-CONTRATADA: {{NOME_ESCOLA}}, pessoa jurídica de direito privado, inscrita no CNPJ sob o nº {{CNPJ_ESCOLA}}, com sede em {{ENDERECO_ESCOLA}}.
+ALUNO: {{NOME_ALUNO}}, inscrito sob RG nº ___________________, com CPF Nº {{CPF_ALUNO}} e matrícula nº {{MATRICULA_ALUNO}}, beneficiário exclusivo da prestação do serviço educacional, representado/assistido pelo(a) {{PARENTESCO}} Sr(a). {{NOME_RESPONSAVEL}}, na qualidade de CONTRATANTE sendo RESPONSÁVEL FINANCEIRO: {{NOME_RESPONSAVEL}}, CPF nº {{CPF_RESPONSAVEL}}, com residência em {{ENDERECO_RESPONSAVEL}}, telefone {{TELEFONE_RESPONSAVEL}}, e-mail {{EMAIL_RESPONSAVEL}}, e {{NOME_ESCOLA}}, pessoa jurídica de direito privado inscrita no cadastro de pessoas jurídicas sob nº {{CNPJ_ESCOLA}}, estabelecida no endereço {{ENDERECO_ESCOLA}}, na qualidade de CONTRATADA, celebram o presente contrato de prestação de serviços educacionais para a turma ou ano: {{SERIE_TURMA}}, na modalidade preferencial de educação PRESENCIAL, regido pelas seguintes considerações, cláusulas e condições:
 
-ALUNO(A): {{NOME_ALUNO}}, nascido(a) em {{DATA_NASCIMENTO_ALUNO}}.
+CONSIDERANDO
 
-CLÁUSULA PRIMEIRA - DO OBJETO
-O presente contrato tem por objeto a prestação de serviços educacionais pela CONTRATADA ao ALUNO(A) acima qualificado(a), referente ao ano letivo de {{ANO_LETIVO}}, na série/turma {{SERIE_TURMA}}.
+a liberdade do ensino pela iniciativa privada e o pluralismo pedagógico, princípios expressos nos arts. 205, 206 e 209 da Constituição da República;
 
-CLÁUSULA SEGUNDA - DO VALOR E FORMA DE PAGAMENTO
-2.1. O valor total da anuidade escolar é de R$ {{VALOR_ANUAL}} ({{VALOR_ANUAL_EXTENSO}}), que poderá ser pago em {{NUMERO_PARCELAS}} parcelas mensais de R$ {{VALOR_PARCELA}} ({{VALOR_PARCELA_EXTENSO}}).
-2.2. O vencimento das parcelas será todo dia {{DIA_VENCIMENTO}} de cada mês.
-2.3. O atraso no pagamento acarretará multa de 2% e juros de 1% ao mês.
+a consciente opção dos CONTRATANTES pelo serviço privado de ensino;
 
-CLÁUSULA TERCEIRA - DAS OBRIGAÇÕES DA CONTRATADA
-3.1. Ministrar aulas conforme o calendário escolar aprovado;
-3.2. Fornecer material didático básico necessário às atividades escolares;
-3.3. Manter quadro docente qualificado;
-3.4. Informar aos pais ou responsáveis sobre o desempenho escolar do aluno.
+que o art. 1.566 do Código Civil e 55 e 56 do Estatuto da Criança e do Adolescente atribuem aos pais ou responsáveis a obrigação de matrícula escolar e a supervisão do rendimento dos educandos;
 
-CLÁUSULA QUARTA - DAS OBRIGAÇÕES DO CONTRATANTE
-4.1. Efetuar o pagamento das mensalidades pontualmente;
-4.2. Acompanhar o desempenho escolar do aluno;
-4.3. Comparecer às reuniões convocadas pela escola;
-4.4. Manter atualizado o cadastro junto à secretaria.
+que os arts. 15 e s.s. do Estatuto da Criança e do Adolescente asseguram aos educandos o direito de liberdade e dignidade, e inclusive atribuem aos pais a obrigação de respeito aos objetos pessoais, especialmente no que se refere ao uso diário de material didático e cadernos adequados que atendam às necessidades de aprendizagem;
 
-CLÁUSULA QUINTA - DA VIGÊNCIA
-Este contrato tem vigência de {{DATA_INICIO}} a {{DATA_FIM}}.
+que o aluno, beneficiário exclusivo da prestação do serviço educacional, deverá observar princípios éticos, morais e disciplinares adotados pela instituição de ensino, respeitando as normas de boa convivência junto aos demais integrantes da comunidade escolar;
+
+que a Lei 13.146/15 institucionalizou o atendimento educacional especializado às pessoas com deficiência capazes de integração nas classes comuns do ensino regular;
+
+que o art. 421-A do Código Civil impõe que se respeite a alocação de risco definido pelos contratantes do negócio;
+
+que o art. 394 do Código Civil admite que os contratantes estabeleçam as circunstâncias da mora.
+
+RESOLVEM:
+
+Cláusula 1ª – O contrato objetiva regular a prestação de serviços de educação escolar: presencial, remoto ou híbrido, observada a legislação de ensino, o Projeto Político-Pedagógico (PPP) e o Regimento Interno da CONTRATADA, durante o ano letivo de {{ANO_LETIVO}}; definir a contraprestação pecuniária e a forma de pagamento por parte do(s) CONTRATANTE(S), bem como estabelecer os demais dispositivos complementares.
+
+§1º - O planejamento dos serviços, a designação da época e do modo de avaliação do rendimento, a fixação de carga horária e horário de aulas, a designação de professores, a orientação didático-pedagógica e educacional inserem-se na responsabilidade exclusiva da CONTRATADA, vedada a ingerência do(s) CONTRATANTE(S).
+
+§2º - A proposta pedagógica do ano {{ANO_LETIVO}} contempla matérias curriculares dos anos precedentes, consistindo em reposição de conteúdo para garantia de alcance dos objetivos de aprendizagem.
+
+§3º – As aulas serão ministradas nas salas, horários e endereços físicos ou virtuais indicados pela CONTRATADA.
+
+§4º - A CONTRATADA, observado o prazo de 10 (dez) dias do início do ano letivo, reserva-se no direito de cancelamento do serviço ofertado caso o número de alunos se revele insuficiente ao custeio das despesas de operação.
+
+§5º - A execução do serviço de educação escolar pelo meio exclusivamente remoto constitui circunstância previsível e ordinária que obriga o(s) CONTRATANTE(S) no pagamento da integralidade do preço ajustado.
+
+Cláusula 2ª – O(s) CONTRATANTE(S) se declararam cientes da estrutura física e virtual disponibilizada pela CONTRATADA.
+
+§1º – O(s) CONTRATANTE(S) assumem o compromisso de investimento na aquisição de aparelhos adequados ao acesso aos endereços virtuais indicados pela CONTRATADA.
+
+Cláusula 3ª – O pedido de matrícula se processa apenas através do preenchimento e da entrega do requerimento específico e dos demais documentos exigidos pela Secretaria Pedagógica da CONTRATADA.
+
+§1º - O deferimento do pedido de matrícula constitui ato da CONTRATADA, condicionado à existência de vaga, à apresentação do histórico escolar e da identificação civil, à prova da idoneidade financeira quando exercida a opção pelo pagamento parcelado.
+
+§2º - A quitação de quaisquer obrigações financeiras do(s) CONTRATANTE(S), certificada pela Tesouraria da CONTRATADA, constitui-se condição para o deferimento da matrícula e para a consequente validade do contrato.
+
+§3º - O(s) CONTRATANTE(S) é(são) inteiramente responsável pelas declarações relativas ao(s) aluno(s) indicado(s) no(s) requerimento(s) de matrícula.
+
+Cláusula 4ª – A prestação do serviço de educação escolar depende da aquisição do material didático, físico e/ou virtual, indicado pela CONTRATADA.
+
+Parágrafo único - O(s) CONTRATANTE(S) se declara(m) ciente(s) de que o material didático-pedagógico se encontra protegido pela Lei nº 9.610/98, ficando PROIBIDA A SUA REPRODUÇÃO TOTAL OU PARCIAL sem expressa autorização da CONTRATADA.
+
+Cláusula 5ª – O(s) CONTRATANTE(S) reconhece(m) sua responsabilidade em acompanhar o progresso dos estudos do(s) aluno(s).
+
+§1º - Obriga-se o(s) CONTRATANTE(S) a fazer(em) com que o(s) estudante(s) cumpra(m) o calendário escolar e os horários estabelecidos pela CONTRATADA.
+
+§2º - O uso do uniforme escolar completo por parte do(s) aluno(s) é obrigatório.
+
+§3º - Ao firmar o presente, o(s) CONTRATANTE(S) declara(m) que tem conhecimento prévio do Regimento Escolar e das instruções específicas apresentadas.
+
+Cláusula 6ª – O(s) CONTRATANTE(S) pagará(ão) pelo serviço de educação escolar o valor da anuidade de R$ {{VALOR_ANUAL}} ({{VALOR_ANUAL_EXTENSO}}), referente ao período letivo do ano {{ANO_LETIVO}}.
+
+§1º - A anuidade escolar será quitada em {{NUMERO_PARCELAS}} parcelas mensais de R$ {{VALOR_PARCELA}} ({{VALOR_PARCELA_EXTENSO}}).
+
+§2º - As parcelas mensais vencem no dia {{DIA_VENCIMENTO}} de cada mês.
+
+§3º - Na hipótese de inadimplemento de quaisquer das prestações, serão acrescidos 2% (dois por cento) a título de multa moratória e juros diário de 0,033% mais correção monetária (INPC) até o efetivo pagamento.
+
+§4º - Qualquer abatimento, bonificação, desconto ou redução nas parcelas constituem mera liberalidade da CONTRATADA, não caracterizando novação, nem renúncia de direitos.
+
+§5º - Em caso de inadimplência, o(s) CONTRATANTE(S) perderá(ão) todo e qualquer abatimento, bonificação ou desconto.
+
+§6º - A CONTRATADA, no caso de atraso, reserva-se no direito de optar pela negativa de nova matrícula, emissão de duplicata, comunicação ao Cadastro de Consumidores, protesto da dívida ou execução do título extrajudicial.
+
+§7º - A anuidade escolar contempla exclusivamente a prestação de serviços de educação escolar decorrentes da carga horária e dias letivos.
+
+Cláusula 7ª – O(s) educando(s) que causar(em) danos ao estabelecimento ou a terceiros será(ão) notificado(s) na pessoa do(s) CONTRATANTE(S) para reparação (art. 927 do Código Civil).
+
+Cláusula 8ª – O(s) CONTRATANTE(S) autoriza(m) a CONTRATADA a se utilizar de sua imagem para fins de divulgação de suas atividades.
+
+§1º - A autorização para uso da imagem se estende por tempo indeterminado.
+
+§2º – Em nenhuma hipótese poderá a imagem ser utilizada de maneira contrária a moral, aos bons costumes ou à ordem pública.
+
+§3º - As filmagens realizadas pela CONTRATADA com objetivo de segurança são restritas ao uso interno da instituição.
+
+§4º - O(s) CONTRATANTE(S) autoriza(m) a coleta de dados pessoais nos termos da Lei Federal nº 13.709/2018 (LGPD).
+
+Cláusula 9ª – O(s) CONTRATANTE(S) poderá(ão) resilir o contrato, ficando a seu encargo comunicar expressamente à CONTRATADA com pelo menos 30 (trinta) dias de antecedência e, a título de multa, obrigado(s) a satisfazer(em) a prestação vencida e a vincenda do mês subsequente.
+
+Cláusula 10ª – A CONTRATADA poderá rescindir o contrato por desarmonia entre as partes ou quando constatado que o aluno violou a lei ou as regras do regimento interno.
+
+Cláusula 11ª – A CONTRATADA, para classificação do educando com deficiência na série ou etapa adequada, avaliará o desenvolvimento e a experiência pedagógica (art. 24 da Lei 9.394/96).
+
+Cláusula 12ª – O pagamento do preço da anuidade escolar constitui obrigação solidária dos pais e do(s) CONTRATANTE(S), mesmo na hipótese de separação ou divórcio.
+
+Cláusula 13ª – As informações a respeito do rendimento educacional do educando serão disponibilizadas aos pais ou responsáveis legais.
+
+Cláusula 14ª – O(s) CONTRATANTE(S) se responsabiliza pelos dados declarados, comprometendo-se a informar à CONTRATADA qualquer alteração ou mudança de endereço.
+
+Cláusula 15ª – A CONTRATADA se exime da indenização dos bens de uso do educando, extraviados ou danificados sob a responsabilidade do mesmo.
+
+Cláusula 16ª – A CONTRATADA não se responsabiliza pela vigilância dos veículos estacionados nas imediações da sede.
+
+Cláusula 17ª – A CONTRATADA não presta quaisquer tipos de serviços em relação a transporte escolar.
+
+Cláusula 18ª – As partes atribuem ao contrato plena eficácia e força executiva extrajudicial.
+
+Cláusula 19ª – Fica eleito o Foro do Município da prestação do serviço para dirimir qualquer conflito decorrente do contrato.
+
+E sendo a expressão da vontade, declaram as partes que leram e concordam com todos os termos, assinando o presente contrato junto às testemunhas sem nenhuma espécie de vício de consentimento.
 
 {{CIDADE}}, {{DATA_ASSINATURA}}.
 
-_____________________________
-CONTRATANTE
 
-_____________________________
-CONTRATADA`,
+_____________________________________
+CONTRATANTE: {{NOME_RESPONSAVEL}}
+CPF: {{CPF_RESPONSAVEL}}
+
+_____________________________________
+{{NOME_ESCOLA}} - CONTRATADA
+CNPJ: {{CNPJ_ESCOLA}}
+
+_____________________________________
+Testemunha
+CPF: ________________________________
+
+_____________________________________
+Testemunha
+CPF: ________________________________`,
     criadoEm: "2024-01-15",
     atualizadoEm: "2024-01-15",
   },
@@ -279,12 +373,19 @@ const variaveisDisponiveis = [
   { variavel: "{{NOME_RESPONSAVEL}}", descricao: "Nome do responsável" },
   { variavel: "{{CPF_RESPONSAVEL}}", descricao: "CPF do responsável" },
   { variavel: "{{ENDERECO_RESPONSAVEL}}", descricao: "Endereço do responsável" },
+  { variavel: "{{TELEFONE_RESPONSAVEL}}", descricao: "Telefone do responsável" },
+  { variavel: "{{EMAIL_RESPONSAVEL}}", descricao: "E-mail do responsável" },
+  { variavel: "{{PARENTESCO}}", descricao: "Parentesco (Mãe, Pai, etc.)" },
   { variavel: "{{NOME_ALUNO}}", descricao: "Nome do aluno" },
+  { variavel: "{{CPF_ALUNO}}", descricao: "CPF do aluno" },
+  { variavel: "{{MATRICULA_ALUNO}}", descricao: "Nº de matrícula do aluno" },
   { variavel: "{{DATA_NASCIMENTO_ALUNO}}", descricao: "Data de nascimento" },
   { variavel: "{{SERIE_TURMA}}", descricao: "Série/Turma" },
   { variavel: "{{ANO_LETIVO}}", descricao: "Ano letivo" },
   { variavel: "{{VALOR_ANUAL}}", descricao: "Valor anual" },
+  { variavel: "{{VALOR_ANUAL_EXTENSO}}", descricao: "Valor anual por extenso" },
   { variavel: "{{VALOR_PARCELA}}", descricao: "Valor da parcela" },
+  { variavel: "{{VALOR_PARCELA_EXTENSO}}", descricao: "Valor parcela por extenso" },
   { variavel: "{{NUMERO_PARCELAS}}", descricao: "Número de parcelas" },
   { variavel: "{{DIA_VENCIMENTO}}", descricao: "Dia de vencimento" },
   { variavel: "{{DATA_INICIO}}", descricao: "Data de início" },
@@ -986,9 +1087,14 @@ ${contrato.observacoes ? `\nObservações: ${contrato.observacoes}` : ''}
     conteudo = conteudo.replace(/\{\{NOME_RESPONSAVEL\}\}/g, aluno.nomeResponsavel);
     conteudo = conteudo.replace(/\{\{CPF_RESPONSAVEL\}\}/g, aluno.cpfResponsavel);
     conteudo = conteudo.replace(/\{\{ENDERECO_RESPONSAVEL\}\}/g, aluno.enderecoResponsavel);
+    conteudo = conteudo.replace(/\{\{TELEFONE_RESPONSAVEL\}\}/g, aluno.telefoneResponsavel);
+    conteudo = conteudo.replace(/\{\{EMAIL_RESPONSAVEL\}\}/g, aluno.emailResponsavel);
+    conteudo = conteudo.replace(/\{\{PARENTESCO\}\}/g, aluno.parentesco);
     
     // Dados do aluno
     conteudo = conteudo.replace(/\{\{NOME_ALUNO\}\}/g, aluno.nomeAluno);
+    conteudo = conteudo.replace(/\{\{CPF_ALUNO\}\}/g, "___.___.___-__"); // CPF do aluno pode não estar disponível
+    conteudo = conteudo.replace(/\{\{MATRICULA_ALUNO\}\}/g, aluno.matricula);
     conteudo = conteudo.replace(/\{\{DATA_NASCIMENTO_ALUNO\}\}/g, new Date(aluno.dataNascimento).toLocaleDateString('pt-BR'));
     conteudo = conteudo.replace(/\{\{SERIE_TURMA\}\}/g, aluno.serieTurma);
     
