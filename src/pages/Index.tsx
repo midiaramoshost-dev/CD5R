@@ -1373,6 +1373,9 @@ const Index = () => {
               <a href="#" className="hover:text-foreground transition-colors">LGPD</a>
             </div>
           </div>
+          <div className="text-center mt-6">
+            <p className="text-xs text-muted-foreground">Feito por Midia Ramos</p>
+          </div>
         </div>
       </footer>
 
