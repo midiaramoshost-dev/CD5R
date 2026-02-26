@@ -57,6 +57,8 @@ const MODULOS_OPTIONS = [
   { id: "comunicacao", label: "Comunicação" },
   { id: "folha_pagamento", label: "Folha de Pagamento" },
   { id: "portal_aluno", label: "Portal do Aluno" },
+  { id: "maternal", label: "Maternal" },
+  { id: "nutricao", label: "Nutrição e Alimentação" },
   // Módulo estratégico de migração (deve viver no ADM Master e ser herdado por padrão quando ativo)
   { id: "importacao", label: "Importação (Migração)" },
 ];
