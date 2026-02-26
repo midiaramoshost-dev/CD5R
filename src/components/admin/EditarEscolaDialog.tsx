@@ -63,6 +63,10 @@ const MODULOS_OPTIONS = [
   { id: "financeiro", label: "Financeiro" },
   { id: "biblioteca", label: "Biblioteca" },
   { id: "comunicacao", label: "Comunicação" },
+  { id: "folha_pagamento", label: "Folha de Pagamento" },
+  { id: "portal_aluno", label: "Portal do Aluno" },
+  { id: "maternal", label: "Maternal" },
+  { id: "nutricao", label: "Nutrição e Alimentação" },
   { id: "importacao", label: "Importação (Migração)" },
 ];
 
