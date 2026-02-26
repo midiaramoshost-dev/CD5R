@@ -222,14 +222,14 @@ export function EditarEscolaDialog({ escola, open, onOpenChange, onSave, destaca
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] flex flex-col">
-        <DialogHeader>
+      <DialogContent className="max-w-2xl max-h-[90vh] !grid grid-rows-[auto_1fr_auto] p-0 overflow-hidden">
+        <DialogHeader className="px-6 pt-6 pb-2">
           <DialogTitle>Editar Escola</DialogTitle>
           <DialogDescription>
             Atualize os dados da escola. Clique em salvar quando terminar.
           </DialogDescription>
         </DialogHeader>
-        <ScrollArea className="flex-1 -mx-6 px-6" style={{ maxHeight: "calc(90vh - 180px)" }}>
+        <div className="overflow-y-auto px-6">
         <div className="grid gap-4 py-4">
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
@@ -536,8 +536,8 @@ export function EditarEscolaDialog({ escola, open, onOpenChange, onSave, destaca
             </div>
           </div>
         </div>
-        </ScrollArea>
-        <DialogFooter>
+        </div>
+        <DialogFooter className="px-6 pb-6 pt-2">
           <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isSaving}>
             Cancelar
           </Button>
