@@ -64,10 +64,10 @@ export function PlatformLogo({
               {subtitle}
             </span>
           )}
-          <div className="flex items-baseline gap-[1px]">
-            <span className={cn(s.textI, "font-light italic text-primary tracking-tight")}>i</span>
-            <span className={cn(s.textName, "font-bold tracking-[0.12em] text-foreground", textClassName)}>
-              ESCOLAS
+          <div className="flex items-baseline gap-0">
+            <span className={cn(s.textI, "font-extrabold text-primary tracking-tight")}>i</span>
+            <span className={cn(s.textName, "font-extrabold tracking-tight text-foreground", textClassName)}>
+              Escolas
             </span>
           </div>
           {subtitle && !subtitle && (
