@@ -42,7 +42,7 @@ import {
   Check,
   X,
   ArrowUpRight,
-  MousePointer2
+  MousePointer2,
   UserCog,
   Receipt,
   BadgeCheck,
