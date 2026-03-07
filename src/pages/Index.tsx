@@ -798,6 +798,230 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Modules Section - All Platform Modules */}
+      <section className="py-24 bg-muted/30 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
+        <div className="container relative">
+          <div className="text-center mb-16">
+            <Blur delay={0.1}>
+              <Badge variant="outline" className="mb-4">Módulos</Badge>
+            </Blur>
+            <SlideUp delay={0.2}>
+              <h2 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4">
+                Todos os módulos da plataforma
+              </h2>
+            </SlideUp>
+            <FadeUp delay={0.3}>
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                Conheça cada módulo disponível para transformar a gestão da sua escola
+              </p>
+            </FadeUp>
+          </div>
+
+          <div className="grid gap-8">
+            {/* Acadêmico */}
+            <ScrollReveal animation="fadeUp" staggerIndex={0}>
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/10">
+                    <GraduationCap className="h-4 w-4 text-blue-500" />
+                  </div>
+                  <h3 className="text-lg font-semibold">Acadêmico</h3>
+                </div>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+                  {[
+                    { icon: BookOpen, nome: "Diário de Classe Digital", desc: "Registro de aulas, frequência e conteúdo lecionado" },
+                    { icon: CheckCircle2, nome: "Gestão de Notas", desc: "Lançamento e acompanhamento de notas e médias" },
+                    { icon: Calendar, nome: "Controle de Frequência", desc: "Gestão de presença e faltas dos alunos" },
+                    { icon: FileText, nome: "Boletins Automáticos", desc: "Geração automática de boletins por bimestre" },
+                    { icon: GraduationCap, nome: "Gestão de Matrículas", desc: "Processo de matrícula e rematrícula online" },
+                    { icon: Heart, nome: "Maternal", desc: "Rotinas, diário de recados e desenvolvimento infantil" },
+                    { icon: Sparkles, nome: "Nutrição e Alimentação", desc: "Cardápio semanal, dietas especiais e acompanhamento nutricional" },
+                  ].map((mod, i) => (
+                    <motion.div
+                      key={i}
+                      whileHover={{ y: -4 }}
+                      className="flex items-start gap-3 rounded-xl border border-border/50 bg-card p-4 hover:border-blue-500/30 hover:shadow-md transition-all"
+                    >
+                      <div className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-500/10">
+                        <mod.icon className="h-4 w-4 text-blue-500" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-sm">{mod.nome}</p>
+                        <p className="text-xs text-muted-foreground mt-1">{mod.desc}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </ScrollReveal>
+
+            {/* Financeiro */}
+            <ScrollReveal animation="fadeUp" staggerIndex={1}>
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/10">
+                    <CreditCard className="h-4 w-4 text-emerald-500" />
+                  </div>
+                  <h3 className="text-lg font-semibold">Financeiro</h3>
+                </div>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+                  {[
+                    { icon: CreditCard, nome: "Gestão de Mensalidades", desc: "Controle de mensalidades, boletos e cobranças" },
+                    { icon: BarChart3, nome: "Gestão de Inadimplência", desc: "Controle e cobrança de mensalidades atrasadas" },
+                    { icon: FileText, nome: "Relatórios Financeiros", desc: "Relatórios detalhados de receitas e inadimplência" },
+                  ].map((mod, i) => (
+                    <motion.div
+                      key={i}
+                      whileHover={{ y: -4 }}
+                      className="flex items-start gap-3 rounded-xl border border-border/50 bg-card p-4 hover:border-emerald-500/30 hover:shadow-md transition-all"
+                    >
+                      <div className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10">
+                        <mod.icon className="h-4 w-4 text-emerald-500" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-sm">{mod.nome}</p>
+                        <p className="text-xs text-muted-foreground mt-1">{mod.desc}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </ScrollReveal>
+
+            {/* Comunicação */}
+            <ScrollReveal animation="fadeUp" staggerIndex={2}>
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-purple-500/10">
+                    <MessageSquare className="h-4 w-4 text-purple-500" />
+                  </div>
+                  <h3 className="text-lg font-semibold">Comunicação</h3>
+                </div>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+                  {[
+                    { icon: MessageSquare, nome: "Central de Comunicados", desc: "Envio de comunicados para pais e alunos" },
+                    { icon: Bell, nome: "Notificações Push", desc: "Notificações em tempo real no aplicativo" },
+                    { icon: Smartphone, nome: "Chat Escola-Família", desc: "Comunicação direta entre escola e responsáveis" },
+                  ].map((mod, i) => (
+                    <motion.div
+                      key={i}
+                      whileHover={{ y: -4 }}
+                      className="flex items-start gap-3 rounded-xl border border-border/50 bg-card p-4 hover:border-purple-500/30 hover:shadow-md transition-all"
+                    >
+                      <div className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-purple-500/10">
+                        <mod.icon className="h-4 w-4 text-purple-500" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-sm">{mod.nome}</p>
+                        <p className="text-xs text-muted-foreground mt-1">{mod.desc}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </ScrollReveal>
+
+            {/* Administrativo */}
+            <ScrollReveal animation="fadeUp" staggerIndex={3}>
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-orange-500/10">
+                    <School className="h-4 w-4 text-orange-500" />
+                  </div>
+                  <h3 className="text-lg font-semibold">Administrativo</h3>
+                </div>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+                  {[
+                    { icon: Users, nome: "Gestão de Turmas", desc: "Cadastro e gerenciamento de turmas e séries" },
+                    { icon: Users, nome: "Gestão de Professores", desc: "Cadastro e gestão de docentes" },
+                    { icon: School, nome: "Configurações da Escola", desc: "Personalização de logo, cores e dados" },
+                  ].map((mod, i) => (
+                    <motion.div
+                      key={i}
+                      whileHover={{ y: -4 }}
+                      className="flex items-start gap-3 rounded-xl border border-border/50 bg-card p-4 hover:border-orange-500/30 hover:shadow-md transition-all"
+                    >
+                      <div className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-orange-500/10">
+                        <mod.icon className="h-4 w-4 text-orange-500" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-sm">{mod.nome}</p>
+                        <p className="text-xs text-muted-foreground mt-1">{mod.desc}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </ScrollReveal>
+
+            {/* Portais */}
+            <ScrollReveal animation="fadeUp" staggerIndex={4}>
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-teal-500/10">
+                    <GraduationCap className="h-4 w-4 text-teal-500" />
+                  </div>
+                  <h3 className="text-lg font-semibold">Portais</h3>
+                </div>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+                  {[
+                    { icon: GraduationCap, nome: "Portal do Aluno", desc: "Acesso a notas, frequência, materiais e comunicados" },
+                    { icon: Users, nome: "Portal do Responsável", desc: "Acompanhamento de notas, frequência, financeiro e filhos" },
+                  ].map((mod, i) => (
+                    <motion.div
+                      key={i}
+                      whileHover={{ y: -4 }}
+                      className="flex items-start gap-3 rounded-xl border border-border/50 bg-card p-4 hover:border-teal-500/30 hover:shadow-md transition-all"
+                    >
+                      <div className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-teal-500/10">
+                        <mod.icon className="h-4 w-4 text-teal-500" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-sm">{mod.nome}</p>
+                        <p className="text-xs text-muted-foreground mt-1">{mod.desc}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </ScrollReveal>
+
+            {/* Avançado */}
+            <ScrollReveal animation="fadeUp" staggerIndex={5}>
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-rose-500/10">
+                    <Zap className="h-4 w-4 text-rose-500" />
+                  </div>
+                  <h3 className="text-lg font-semibold">Avançado</h3>
+                </div>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+                  {[
+                    { icon: Globe, nome: "API de Integração", desc: "Acesso à API para integrações externas" },
+                    { icon: Shield, nome: "Single Sign-On (SSO)", desc: "Login único com Google, Microsoft, etc." },
+                  ].map((mod, i) => (
+                    <motion.div
+                      key={i}
+                      whileHover={{ y: -4 }}
+                      className="flex items-start gap-3 rounded-xl border border-border/50 bg-card p-4 hover:border-rose-500/30 hover:shadow-md transition-all"
+                    >
+                      <div className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-rose-500/10">
+                        <mod.icon className="h-4 w-4 text-rose-500" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-sm">{mod.nome}</p>
+                        <p className="text-xs text-muted-foreground mt-1">{mod.desc}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
       {/* Plans Section - Modern Pricing with Reveal Animations */}
       <section id="planos" className="py-24 bg-muted/30 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
