@@ -548,7 +548,7 @@ const Index = () => {
               {[
                 { icon: Shield, text: "Dados 100% seguros" },
                 { icon: Clock, text: "Setup em 5 minutos" },
-                { icon: Award, text: "+500 escolas confiam" },
+                { icon: Award, text: "+500 escolas em Sorocaba e SP" },
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-2 rounded-full bg-white/15 backdrop-blur-sm px-4 py-2">
                   <item.icon className="h-4 w-4 text-white" />
