@@ -487,7 +487,7 @@ const Index = () => {
             <motion.div variants={fadeInUp} transition={{ duration: 0.6 }}>
               <Badge className="mb-6 py-2 px-4 text-sm bg-white/15 text-white border-white/25 hover:bg-white/20 backdrop-blur-sm">
                 <Sparkles className="mr-2 h-4 w-4" />
-                Plataforma #1 em Gestão Escolar no Brasil
+                Plataforma #1 em Gestão Escolar — Sorocaba e Região
               </Badge>
             </motion.div>
 
