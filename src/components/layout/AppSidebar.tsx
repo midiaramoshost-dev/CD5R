@@ -17,6 +17,7 @@ import {
   Apple,
   Brain,
   MonitorPlay,
+  Target,
 } from "lucide-react";
 import {
   Sidebar,
@@ -113,6 +114,11 @@ const menuItems = [
       { title: "Fórum", url: "/escola/lms/forum" },
       { title: "Progresso", url: "/escola/lms/progresso" },
     ],
+  },
+  {
+    title: "CRM Matrícula",
+    icon: Target,
+    url: "/escola/crm-matricula",
   },
   {
     title: "Comunicação",
