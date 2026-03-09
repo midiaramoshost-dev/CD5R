@@ -577,7 +577,6 @@ export default function Relatorios() {
             </Button>
           </div>
         )}
-      </div>
 
       {/* Filters */}
       <Card className="shadow-card">
