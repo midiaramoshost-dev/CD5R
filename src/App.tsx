@@ -142,6 +142,7 @@ const App = () => (
                 <Route path="folha-pagamento" element={<EscolaFolhaPagamento />} />
                 <Route path="presenca-funcionarios" element={<EscolaPresencaFuncionarios />} />
                 <Route path="nutricao" element={<EscolaNutricao />} />
+                <Route path="ia-educacional" element={<IAEducacional />} />
               </Route>
 
               {/* Portal do Aluno Routes - Protected */}

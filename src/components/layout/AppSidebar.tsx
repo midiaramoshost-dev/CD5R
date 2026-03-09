@@ -15,6 +15,7 @@ import {
   FileText,
   FileUp,
   Apple,
+  Brain,
 } from "lucide-react";
 import {
   Sidebar,
