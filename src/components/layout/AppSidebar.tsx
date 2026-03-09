@@ -18,6 +18,7 @@ import {
   Brain,
   MonitorPlay,
   Target,
+  Bus,
 } from "lucide-react";
 import {
   Sidebar,
@@ -129,6 +130,11 @@ const menuItems = [
     title: "Comunicação",
     icon: MessageSquare,
     url: "/escola/comunicados",
+  },
+  {
+    title: "Transporte Escolar",
+    icon: Bus,
+    url: "/escola/transporte",
   },
   {
     title: "Financeiro",
