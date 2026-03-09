@@ -53,16 +53,36 @@ const PORTE_OPTIONS = ["Pequeno", "Médio", "Grande"];
 const PLANO_OPTIONS = ["Free", "Start", "Pro", "Premium"];
 
 const MODULOS_OPTIONS = [
-  { id: "academico", label: "Acadêmico" },
-  { id: "financeiro", label: "Financeiro" },
-  { id: "biblioteca", label: "Biblioteca" },
-  { id: "comunicacao", label: "Comunicação" },
-  { id: "folha_pagamento", label: "Folha de Pagamento" },
-  { id: "portal_aluno", label: "Portal do Aluno" },
-  { id: "maternal", label: "Maternal", planoMinimo: "Start" },
-  { id: "nutricao", label: "Nutrição e Alimentação", planoMinimo: "Start" },
-  // Módulo estratégico de migração (deve viver no ADM Master e ser herdado por padrão quando ativo)
-  { id: "importacao", label: "Importação (Migração)" },
+  // Acadêmico
+  { id: "diario_classe", label: "Diário de Classe", categoria: "Acadêmico" },
+  { id: "notas", label: "Gestão de Notas", categoria: "Acadêmico" },
+  { id: "frequencia", label: "Controle de Frequência", categoria: "Acadêmico" },
+  { id: "boletins", label: "Boletins Automáticos", categoria: "Acadêmico", planoMinimo: "Start" },
+  { id: "matriculas", label: "Gestão de Matrículas", categoria: "Acadêmico", planoMinimo: "Pro" },
+  { id: "maternal", label: "Maternal", categoria: "Acadêmico", planoMinimo: "Start" },
+  { id: "nutricao", label: "Nutrição e Alimentação", categoria: "Acadêmico", planoMinimo: "Start" },
+  // Financeiro
+  { id: "mensalidades", label: "Gestão de Mensalidades", categoria: "Financeiro", planoMinimo: "Start" },
+  { id: "inadimplencia", label: "Gestão de Inadimplência", categoria: "Financeiro", planoMinimo: "Pro" },
+  { id: "relatorios_financeiros", label: "Relatórios Financeiros", categoria: "Financeiro", planoMinimo: "Pro" },
+  { id: "folha_pagamento", label: "Folha de Pagamento", categoria: "Financeiro", planoMinimo: "Pro" },
+  // Comunicação
+  { id: "comunicados", label: "Central de Comunicados", categoria: "Comunicação" },
+  { id: "notificacoes_push", label: "Notificações Push", categoria: "Comunicação", planoMinimo: "Pro" },
+  { id: "chat_escola", label: "Chat Escola-Família", categoria: "Comunicação", planoMinimo: "Premium" },
+  // Administrativo
+  { id: "gestao_turmas", label: "Gestão de Turmas", categoria: "Administrativo" },
+  { id: "gestao_professores", label: "Gestão de Professores", categoria: "Administrativo" },
+  { id: "configuracoes_escola", label: "Configurações da Escola", categoria: "Administrativo" },
+  { id: "biblioteca", label: "Biblioteca", categoria: "Administrativo" },
+  // Portais
+  { id: "portal_aluno", label: "Portal do Aluno", categoria: "Portais", planoMinimo: "Start" },
+  { id: "portal_responsavel", label: "Portal do Responsável", categoria: "Portais", planoMinimo: "Start" },
+  // Avançado
+  { id: "api_integracao", label: "API de Integração", categoria: "Avançado", planoMinimo: "Premium" },
+  { id: "sso", label: "Single Sign-On (SSO)", categoria: "Avançado", planoMinimo: "Premium" },
+  // Migração
+  { id: "importacao", label: "Importação (Migração)", categoria: "Migração" },
 ];
 
 interface PaymentProvider {
