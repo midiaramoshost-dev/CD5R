@@ -8,3 +8,6 @@ verify_jwt = false
 
 [functions.onboard-school]
 verify_jwt = false
+
+[functions.ai-educational]
+verify_jwt = false

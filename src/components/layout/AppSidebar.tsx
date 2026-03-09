@@ -15,6 +15,7 @@ import {
   FileText,
   FileUp,
   Apple,
+  Brain,
 } from "lucide-react";
 import {
   Sidebar,
@@ -96,6 +97,11 @@ const menuItems = [
     title: "Nutrição",
     icon: Apple,
     url: "/escola/nutricao",
+  },
+  {
+    title: "IA Educacional",
+    icon: Brain,
+    url: "/escola/ia-educacional",
   },
   {
     title: "Comunicação",

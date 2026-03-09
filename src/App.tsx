@@ -48,6 +48,7 @@ import Crachas from "./pages/escola/Crachas";
 import EscolaFolhaPagamento from "./pages/escola/FolhaPagamento";
 import EscolaPresencaFuncionarios from "./pages/escola/PresencaFuncionarios";
 import EscolaNutricao from "./pages/escola/Nutricao";
+import IAEducacional from "./pages/escola/IAEducacional";
 import AlunoDashboard from "./pages/aluno/Dashboard";
 import AlunoNotas from "./pages/aluno/Notas";
 import AlunoFrequencia from "./pages/aluno/Frequencia";
@@ -141,6 +142,7 @@ const App = () => (
                 <Route path="folha-pagamento" element={<EscolaFolhaPagamento />} />
                 <Route path="presenca-funcionarios" element={<EscolaPresencaFuncionarios />} />
                 <Route path="nutricao" element={<EscolaNutricao />} />
+                <Route path="ia-educacional" element={<IAEducacional />} />
               </Route>
 
               {/* Portal do Aluno Routes - Protected */}
