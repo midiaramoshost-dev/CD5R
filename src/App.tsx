@@ -156,6 +156,7 @@ const App = () => (
                 <Route path="lms/progresso" element={<LMSProgresso />} />
                 <Route path="crm-matricula" element={<CRMMatricula />} />
                 <Route path="integracao-mec" element={<IntegracaoMEC />} />
+                <Route path="transporte" element={<TransporteEscolar />} />
               </Route>
 
               {/* Portal do Aluno Routes - Protected */}

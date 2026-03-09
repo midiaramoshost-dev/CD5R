@@ -132,6 +132,11 @@ const menuItems = [
     url: "/escola/comunicados",
   },
   {
+    title: "Transporte Escolar",
+    icon: Bus,
+    url: "/escola/transporte",
+  },
+  {
     title: "Financeiro",
     icon: DollarSign,
     url: "/escola/financeiro",
