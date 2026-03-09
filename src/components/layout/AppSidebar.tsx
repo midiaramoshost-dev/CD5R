@@ -98,6 +98,11 @@ const menuItems = [
     url: "/escola/nutricao",
   },
   {
+    title: "IA Educacional",
+    icon: Brain,
+    url: "/escola/ia-educacional",
+  },
+  {
     title: "Comunicação",
     icon: MessageSquare,
     url: "/escola/comunicados",
