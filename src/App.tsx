@@ -86,6 +86,8 @@ import AdminFolhaPagamento from "./pages/admin/FolhaPagamento";
 import AdminPresencaFuncionarios from "./pages/admin/PresencaFuncionarios";
 import AdminCobrancas from "./pages/admin/Cobrancas";
 import NotFound from "./pages/NotFound";
+import CidadeLanding from "./pages/cidades/CidadeLanding";
+import FuncionalidadeLanding from "./pages/funcionalidades/FuncionalidadeLanding";
 import { ActivityLogProvider } from "./contexts/ActivityLogContext";
 import { AuthActivityMonitor } from "./components/auth/AuthActivityMonitor";
 
