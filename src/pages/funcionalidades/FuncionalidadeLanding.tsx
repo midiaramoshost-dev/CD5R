@@ -133,7 +133,7 @@ const FuncionalidadeLanding = () => {
           </h2>
           <div className="flex flex-wrap justify-center gap-2">
             {cidadesData.map((c) => (
-              <Link key={c.slug} to={`/gestao-escolar-${c.slug}`}>
+              <Link key={c.slug} to={`/gestao-escolar/${c.slug}`}>
                 <Button variant="outline" size="sm">{c.nome}</Button>
               </Link>
             ))}
