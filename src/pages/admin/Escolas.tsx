@@ -129,6 +129,7 @@ export default function AdminEscolas() {
           linkAcesso: e.link_acesso,
           modulos: e.modulos || [],
           emailDiretor: e.email_diretor,
+          userId: e.user_id,
         }))
       );
     }

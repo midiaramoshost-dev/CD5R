@@ -43,6 +43,9 @@ export interface Escola {
   // Logo (URL)
   logoUrl?: string;
 
+  // Auth user ID (from escolas.user_id)
+  userId?: string;
+
   // Credenciais (para o painel ADM Master conseguir ajustar)
   emailDiretor?: string;
   novaSenha?: string;
@@ -180,9 +183,10 @@ export function EditarEscolaDialog({ escola, open, onOpenChange, onSave, destaca
       // Se o ADM master alterou e-mail e/ou senha, chamamos a edge function.
       // Importante: o userId aqui é o ID do usuário no Auth (no app, a escola.id está sendo usado como esse ID).
       if (emailChanged || passwordProvided) {
+        const authUserId = formData.userId || formData.id;
         const { data: fnData, error: fnError } = await supabase.functions.invoke("update-school-credentials", {
           body: {
-            userId: formData.id,
+            userId: authUserId,
             email: emailChanged ? (formData.emailDiretor || "").trim() : undefined,
             password: passwordProvided ? (formData.novaSenha || "").trim() : undefined,
           },
