@@ -21,7 +21,7 @@ const CidadeLanding = () => {
   if (!data) return <Navigate to="/" replace />;
 
   const baseUrl = "https://iescolas.com.br";
-  const canonical = `${baseUrl}/gestao-escolar-${data.slug}`;
+  const canonical = `${baseUrl}/gestao-escolar/${data.slug}`;
   const title = `Gestão Escolar em ${data.nome} | i ESCOLAS - Sistema para Escolas`;
   const description = data.descricao;
 
@@ -164,7 +164,7 @@ const CidadeLanding = () => {
           <h2 className="text-xl font-semibold text-center mb-6">Atendemos também:</h2>
           <div className="flex flex-wrap justify-center gap-2">
             {cidadesData.filter((c) => c.slug !== data.slug).map((c) => (
-              <Link key={c.slug} to={`/gestao-escolar-${c.slug}`}>
+              <Link key={c.slug} to={`/gestao-escolar/${c.slug}`}>
                 <Button variant="outline" size="sm">{c.nome}</Button>
               </Link>
             ))}

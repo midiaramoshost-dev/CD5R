@@ -1599,13 +1599,13 @@ const Index = () => {
             <div>
               <h3 className="font-semibold mb-4">Cidades Atendidas</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link to="/gestao-escolar-sorocaba" className="hover:text-foreground transition-colors">Sorocaba</Link></li>
-                <li><Link to="/gestao-escolar-votorantim" className="hover:text-foreground transition-colors">Votorantim</Link></li>
-                <li><Link to="/gestao-escolar-itu" className="hover:text-foreground transition-colors">Itu</Link></li>
-                <li><Link to="/gestao-escolar-indaiatuba" className="hover:text-foreground transition-colors">Indaiatuba</Link></li>
-                <li><Link to="/gestao-escolar-salto" className="hover:text-foreground transition-colors">Salto</Link></li>
-                <li><Link to="/gestao-escolar-tatui" className="hover:text-foreground transition-colors">Tatuí</Link></li>
-                <li><Link to="/gestao-escolar-sao-roque" className="hover:text-foreground transition-colors">São Roque</Link></li>
+                <li><Link to="/gestao-escolar/sorocaba" className="hover:text-foreground transition-colors">Sorocaba</Link></li>
+                <li><Link to="/gestao-escolar/votorantim" className="hover:text-foreground transition-colors">Votorantim</Link></li>
+                <li><Link to="/gestao-escolar/itu" className="hover:text-foreground transition-colors">Itu</Link></li>
+                <li><Link to="/gestao-escolar/indaiatuba" className="hover:text-foreground transition-colors">Indaiatuba</Link></li>
+                <li><Link to="/gestao-escolar/salto" className="hover:text-foreground transition-colors">Salto</Link></li>
+                <li><Link to="/gestao-escolar/tatui" className="hover:text-foreground transition-colors">Tatuí</Link></li>
+                <li><Link to="/gestao-escolar/sao-roque" className="hover:text-foreground transition-colors">São Roque</Link></li>
                 <li><a href="#contato" className="hover:text-foreground transition-colors">+ 8 cidades</a></li>
               </ul>
             </div>
