@@ -1,0 +1,1 @@
+Teste o cadastro de uma nova escola no painel ADM Master para verificar se os erros foram corrigidos
