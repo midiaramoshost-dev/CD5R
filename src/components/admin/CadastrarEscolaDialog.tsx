@@ -378,8 +378,12 @@ export function CadastrarEscolaDialog({ open, onOpenChange, onSave }: CadastrarE
         }
         return true;
       case "acesso":
-        if (!formData.loginProvisorio || !formData.senhaProvisoria) {
-          toast.error("Gere ou preencha as credenciais de acesso");
+        if (!formData.emailDiretor && !formData.loginProvisorio) {
+          toast.error("Informe o e-mail de acesso da escola");
+          return false;
+        }
+        if (!formData.senhaProvisoria) {
+          toast.error("Gere ou preencha a senha provisória");
           return false;
         }
         return true;
@@ -681,7 +685,7 @@ export function CadastrarEscolaDialog({ open, onOpenChange, onSave }: CadastrarE
                     {isUploadingLogo ? "Enviando..." : "Enviar logo"}
                   </Button>
                   {(formData.logoUrl || "").trim() && (
-                    <Button type="button" variant="ghost" onClick={() => handleInputChange("logoUrl", "")}>
+                    <Button type="button" variant="ghost" onClick={() => handleInputChange("logoUrl", "")}>                  
                       Remover
                     </Button>
                   )}
