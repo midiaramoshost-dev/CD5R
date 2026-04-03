@@ -7,81 +7,80 @@
 @tailwind utilities;
 
 /* i ESCOLAS - Design System
-   Paleta Corporativa Profissional
-   Tons de azul institucional com acentos modernos
+   Paleta Neutra Profissional
 */
 
 @layer base {
   :root {
-    /* Backgrounds */
-    --background: 210 20% 98%;
-    --foreground: 222 47% 11%;
+    /* Backgrounds - neutro, sem azul */
+    --background: 0 0% 99%;
+    --foreground: 220 15% 13%;
 
     /* Cards e Superfícies */
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 220 15% 13%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover-foreground: 220 15% 13%;
 
-    /* Primary - Azul Institucional */
-    --primary: 217 91% 40%;
+    /* Primary - Azul discreto */
+    --primary: 220 65% 44%;
     --primary-foreground: 0 0% 100%;
 
-    /* Secondary - Cinza Neutro */
-    --secondary: 214 20% 94%;
-    --secondary-foreground: 222 47% 11%;
+    /* Secondary - Cinza puro */
+    --secondary: 220 10% 95%;
+    --secondary-foreground: 220 15% 13%;
 
-    /* Muted - Tons Suaves */
-    --muted: 214 20% 96%;
-    --muted-foreground: 215 16% 47%;
+    /* Muted - Cinza suave */
+    --muted: 220 10% 96%;
+    --muted-foreground: 220 10% 46%;
 
-    /* Accent - Azul Claro */
-    --accent: 217 91% 95%;
-    --accent-foreground: 217 91% 40%;
+    /* Accent - Cinza neutro */
+    --accent: 220 10% 95%;
+    --accent-foreground: 220 65% 44%;
 
-    /* Destrutivo - Vermelho */
+    /* Destrutivo */
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    /* Sucesso - Verde */
+    /* Sucesso */
     --success: 142 76% 36%;
     --success-foreground: 0 0% 100%;
 
-    /* Warning - Amarelo */
+    /* Warning */
     --warning: 38 92% 50%;
     --warning-foreground: 0 0% 100%;
 
-    /* Info - Azul Claro */
-    --info: 199 89% 48%;
+    /* Info */
+    --info: 199 60% 48%;
     --info-foreground: 0 0% 100%;
 
     /* Bordas e Inputs */
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 217 91% 40%;
+    --border: 220 13% 90%;
+    --input: 220 13% 90%;
+    --ring: 220 65% 44%;
 
     --radius: 0.625rem;
 
-    /* Sidebar - Azul Escuro Profissional */
-    --sidebar-background: 222 47% 11%;
-    --sidebar-foreground: 214 32% 91%;
-    --sidebar-primary: 217 91% 60%;
+    /* Sidebar */
+    --sidebar-background: 220 15% 11%;
+    --sidebar-foreground: 220 10% 88%;
+    --sidebar-primary: 220 65% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 217 33% 17%;
-    --sidebar-accent-foreground: 214 32% 91%;
-    --sidebar-border: 217 33% 17%;
-    --sidebar-ring: 217 91% 60%;
+    --sidebar-accent: 220 13% 16%;
+    --sidebar-accent-foreground: 220 10% 88%;
+    --sidebar-border: 220 13% 16%;
+    --sidebar-ring: 220 65% 55%;
 
     /* Brand Colors */
-    --brand-primary: 217 91% 40%;
-    --brand-secondary: 199 89% 48%;
-    --brand-gradient-start: 217 91% 40%;
-    --brand-gradient-end: 199 89% 48%;
+    --brand-primary: 220 65% 44%;
+    --brand-secondary: 199 60% 48%;
+    --brand-gradient-start: 220 65% 44%;
+    --brand-gradient-end: 199 60% 48%;
 
     /* Chart Colors */
-    --chart-1: 217 91% 40%;
-    --chart-2: 199 89% 48%;
+    --chart-1: 220 65% 44%;
+    --chart-2: 199 60% 48%;
     --chart-3: 142 76% 36%;
     --chart-4: 38 92% 50%;
     --chart-5: 0 84% 60%;
