@@ -88,31 +88,31 @@
 
   .dark {
     /* Backgrounds */
-    --background: 222 47% 8%;
-    --foreground: 214 32% 91%;
+    --background: 220 15% 7%;
+    --foreground: 220 10% 90%;
 
     /* Cards e Superfícies */
-    --card: 222 47% 11%;
-    --card-foreground: 214 32% 91%;
+    --card: 220 15% 10%;
+    --card-foreground: 220 10% 90%;
 
-    --popover: 222 47% 11%;
-    --popover-foreground: 214 32% 91%;
+    --popover: 220 15% 10%;
+    --popover-foreground: 220 10% 90%;
 
-    /* Primary - Azul Vibrante */
-    --primary: 217 91% 60%;
-    --primary-foreground: 222 47% 11%;
+    /* Primary */
+    --primary: 220 65% 58%;
+    --primary-foreground: 220 15% 7%;
 
     /* Secondary */
-    --secondary: 217 33% 17%;
-    --secondary-foreground: 214 32% 91%;
+    --secondary: 220 13% 16%;
+    --secondary-foreground: 220 10% 90%;
 
     /* Muted */
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 220 13% 16%;
+    --muted-foreground: 220 10% 60%;
 
     /* Accent */
-    --accent: 217 33% 17%;
-    --accent-foreground: 217 91% 60%;
+    --accent: 220 13% 16%;
+    --accent-foreground: 220 65% 58%;
 
     /* Destrutivo */
     --destructive: 0 63% 31%;
@@ -127,31 +127,31 @@
     --warning-foreground: 0 0% 100%;
 
     /* Info */
-    --info: 199 89% 48%;
+    --info: 199 60% 48%;
     --info-foreground: 0 0% 100%;
 
     /* Bordas e Inputs */
-    --border: 217 33% 17%;
-    --input: 217 33% 17%;
-    --ring: 217 91% 60%;
+    --border: 220 13% 16%;
+    --input: 220 13% 16%;
+    --ring: 220 65% 58%;
 
     /* Sidebar */
-    --sidebar-background: 222 47% 6%;
-    --sidebar-foreground: 214 32% 91%;
-    --sidebar-primary: 217 91% 60%;
+    --sidebar-background: 220 15% 5%;
+    --sidebar-foreground: 220 10% 88%;
+    --sidebar-primary: 220 65% 58%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 217 33% 12%;
-    --sidebar-accent-foreground: 214 32% 91%;
-    --sidebar-border: 217 33% 12%;
-    --sidebar-ring: 217 91% 60%;
+    --sidebar-accent: 220 13% 11%;
+    --sidebar-accent-foreground: 220 10% 88%;
+    --sidebar-border: 220 13% 11%;
+    --sidebar-ring: 220 65% 58%;
 
     /* Brand Colors */
-    --brand-primary: 217 91% 60%;
-    --brand-secondary: 199 89% 48%;
+    --brand-primary: 220 65% 58%;
+    --brand-secondary: 199 60% 48%;
 
     /* Chart Colors */
-    --chart-1: 217 91% 60%;
-    --chart-2: 199 89% 48%;
+    --chart-1: 220 65% 58%;
+    --chart-2: 199 60% 48%;
     --chart-3: 142 70% 45%;
     --chart-4: 38 92% 55%;
     --chart-5: 0 70% 50%;
