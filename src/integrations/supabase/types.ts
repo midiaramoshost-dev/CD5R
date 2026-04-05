@@ -50,6 +50,44 @@ export type Database = {
         }
         Relationships: []
       }
+      centros_custo: {
+        Row: {
+          ativo: boolean
+          codigo: string
+          created_at: string
+          escola_id: string
+          id: string
+          nome: string
+          updated_at: string
+        }
+        Insert: {
+          ativo?: boolean
+          codigo: string
+          created_at?: string
+          escola_id: string
+          id?: string
+          nome: string
+          updated_at?: string
+        }
+        Update: {
+          ativo?: boolean
+          codigo?: string
+          created_at?: string
+          escola_id?: string
+          id?: string
+          nome?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "centros_custo_escola_id_fkey"
+            columns: ["escola_id"]
+            isOneToOne: false
+            referencedRelation: "escolas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       escolas: {
         Row: {
           alunos: number
@@ -109,6 +147,111 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: []
+      }
+      lancamento_itens: {
+        Row: {
+          centro_custo_id: string | null
+          conta_id: string
+          created_at: string
+          historico: string | null
+          id: string
+          lancamento_id: string
+          tipo: string
+          valor: number
+        }
+        Insert: {
+          centro_custo_id?: string | null
+          conta_id: string
+          created_at?: string
+          historico?: string | null
+          id?: string
+          lancamento_id: string
+          tipo: string
+          valor: number
+        }
+        Update: {
+          centro_custo_id?: string | null
+          conta_id?: string
+          created_at?: string
+          historico?: string | null
+          id?: string
+          lancamento_id?: string
+          tipo?: string
+          valor?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lancamento_itens_centro_custo_id_fkey"
+            columns: ["centro_custo_id"]
+            isOneToOne: false
+            referencedRelation: "centros_custo"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lancamento_itens_conta_id_fkey"
+            columns: ["conta_id"]
+            isOneToOne: false
+            referencedRelation: "plano_contas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lancamento_itens_lancamento_id_fkey"
+            columns: ["lancamento_id"]
+            isOneToOne: false
+            referencedRelation: "lancamentos_contabeis"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lancamentos_contabeis: {
+        Row: {
+          created_at: string
+          data_caixa: string | null
+          data_competencia: string
+          descricao: string
+          escola_id: string
+          id: string
+          numero: number
+          numero_documento: string | null
+          status: string
+          tipo_documento: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          data_caixa?: string | null
+          data_competencia: string
+          descricao: string
+          escola_id: string
+          id?: string
+          numero: number
+          numero_documento?: string | null
+          status?: string
+          tipo_documento?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          data_caixa?: string | null
+          data_competencia?: string
+          descricao?: string
+          escola_id?: string
+          id?: string
+          numero?: number
+          numero_documento?: string | null
+          status?: string
+          tipo_documento?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lancamentos_contabeis_escola_id_fkey"
+            columns: ["escola_id"]
+            isOneToOne: false
+            referencedRelation: "escolas"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       materiais_didaticos: {
         Row: {
@@ -240,6 +383,63 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      plano_contas: {
+        Row: {
+          ativo: boolean
+          codigo: string
+          conta_pai_id: string | null
+          created_at: string
+          escola_id: string
+          grupo: string
+          id: string
+          natureza: string
+          nome: string
+          tipo: string
+          updated_at: string
+        }
+        Insert: {
+          ativo?: boolean
+          codigo: string
+          conta_pai_id?: string | null
+          created_at?: string
+          escola_id: string
+          grupo: string
+          id?: string
+          natureza: string
+          nome: string
+          tipo: string
+          updated_at?: string
+        }
+        Update: {
+          ativo?: boolean
+          codigo?: string
+          conta_pai_id?: string | null
+          created_at?: string
+          escola_id?: string
+          grupo?: string
+          id?: string
+          natureza?: string
+          nome?: string
+          tipo?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "plano_contas_conta_pai_id_fkey"
+            columns: ["conta_pai_id"]
+            isOneToOne: false
+            referencedRelation: "plano_contas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "plano_contas_escola_id_fkey"
+            columns: ["escola_id"]
+            isOneToOne: false
+            referencedRelation: "escolas"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       planos: {
         Row: {
