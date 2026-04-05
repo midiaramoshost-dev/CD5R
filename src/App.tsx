@@ -56,6 +56,7 @@ import LMSProgresso from "./pages/escola/LMSProgresso";
 import CRMMatricula from "./pages/escola/CRMMatricula";
 import IntegracaoMEC from "./pages/escola/IntegracaoMEC";
 import TransporteEscolar from "./pages/escola/TransporteEscolar";
+import Contabilidade from "./pages/escola/Contabilidade";
 import AlunoDashboard from "./pages/aluno/Dashboard";
 import AlunoNotas from "./pages/aluno/Notas";
 import AlunoFrequencia from "./pages/aluno/Frequencia";
@@ -161,6 +162,7 @@ const App = () => (
                 <Route path="crm-matricula" element={<CRMMatricula />} />
                 <Route path="integracao-mec" element={<IntegracaoMEC />} />
                 <Route path="transporte" element={<TransporteEscolar />} />
+                <Route path="contabilidade" element={<Contabilidade />} />
               </Route>
 
               {/* Portal do Aluno Routes - Protected */}

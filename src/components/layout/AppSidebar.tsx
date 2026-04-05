@@ -19,6 +19,7 @@ import {
   MonitorPlay,
   Target,
   Bus,
+  Calculator,
 } from "lucide-react";
 import {
   Sidebar,
@@ -140,6 +141,11 @@ const menuItems = [
     title: "Financeiro",
     icon: DollarSign,
     url: "/escola/financeiro",
+  },
+  {
+    title: "Contabilidade",
+    icon: Calculator,
+    url: "/escola/contabilidade",
   },
   {
     title: "Relatórios",
