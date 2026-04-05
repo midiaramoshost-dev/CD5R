@@ -6,8 +6,6 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { motion } from "framer-motion";
 import { useState, useMemo, useEffect } from "react";
 import {
-  GraduationCap,
-  Users,
   BookOpen,
   BarChart3,
   Shield,
@@ -18,8 +16,6 @@ import {
   Moon,
   Sun,
   Star,
-  HelpCircle,
-  MapPin,
   ChevronRight,
   Sparkles,
   Clock,
@@ -178,7 +174,7 @@ const Index = () => {
       />
 
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur-xl">
+      <header className="fixed top-0 left-0 right-0 z-50 border-b border-border/40 bg-background/90 backdrop-blur-xl">
         <nav className="container flex h-16 items-center justify-between">
           <PlatformLogo size="lg" />
           <div className="hidden md:flex items-center gap-8">
@@ -201,7 +197,7 @@ const Index = () => {
               <Button variant="ghost" className="hidden sm:flex">Entrar</Button>
             </Link>
             <Link to="/login">
-              <Button className="gap-2">Começar Agora <ArrowRight className="h-4 w-4" /></Button>
+              <Button className="gap-2 bg-foreground text-background hover:bg-foreground/90">Começar Agora <ArrowRight className="h-4 w-4" /></Button>
             </Link>
           </div>
         </nav>
@@ -209,29 +205,29 @@ const Index = () => {
 
       {/* Hero */}
       <section className="relative pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-accent/8" />
+        <div className="absolute inset-0 bg-gradient-to-br from-foreground/[0.04] via-transparent to-muted/60" />
         <div className="container relative text-center max-w-3xl mx-auto">
           <motion.div initial="hidden" animate="visible" variants={stagger}>
             <motion.div variants={fadeUp}>
-              <Badge variant="outline" className="mb-6 py-2 px-4">
+              <Badge variant="outline" className="mb-6 border-border/70 bg-card/80 px-4 py-2 text-foreground shadow-soft">
                 <Sparkles className="mr-2 h-3.5 w-3.5" />
                 Gestão Escolar — Sorocaba e Região
               </Badge>
             </motion.div>
             <motion.h1 variants={fadeUp} className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl mb-6">
               A escola ensina.{" "}
-              <span className="text-gradient-brand">Nós cuidamos do resto.</span>
+              <span className="text-foreground/75">Nós cuidamos do resto.</span>
             </motion.h1>
             <motion.p variants={fadeUp} className="text-lg text-muted-foreground md:text-xl max-w-2xl mx-auto mb-8">
               Automatize processos, melhore a comunicação e foque no que importa: a educação.
             </motion.p>
             <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/login">
-                <Button size="lg" className="w-full sm:w-auto gap-2 text-base px-8">
+                <Button size="lg" className="w-full sm:w-auto gap-2 bg-foreground px-8 text-base text-background hover:bg-foreground/90">
                   Começar Gratuitamente <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
-              <Button size="lg" variant="outline" className="w-full sm:w-auto gap-2 text-base px-8" onClick={() => openWhatsApp("Olá! Gostaria de agendar uma demonstração.")}>
+              <Button size="lg" variant="outline" className="w-full sm:w-auto gap-2 border-border/70 bg-background/80 px-8 text-base hover:bg-secondary" onClick={() => openWhatsApp("Olá! Gostaria de agendar uma demonstração.")}>
                 Agendar Demonstração
               </Button>
             </motion.div>
@@ -242,7 +238,7 @@ const Index = () => {
                 { icon: School, text: "+500 escolas" },
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-2 text-sm">
-                  <item.icon className="h-4 w-4 text-primary" />
+                  <item.icon className="h-4 w-4 text-foreground/60" />
                   <span>{item.text}</span>
                 </div>
               ))}
@@ -252,7 +248,7 @@ const Index = () => {
       </section>
 
       {/* Features */}
-      <section id="recursos" className="py-16 bg-muted/30">
+      <section id="recursos" className="bg-secondary/30 py-16">
         <div className="container">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold sm:text-4xl mb-3">Tudo que sua escola precisa</h2>
@@ -263,9 +259,9 @@ const Index = () => {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {features.map((feature, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
-                <Card className="h-full hover:shadow-md hover:border-primary/30 transition-all">
+                <Card className="h-full border-border/60 bg-card/90 transition-all hover:-translate-y-1 hover:border-border hover:shadow-soft">
                   <CardHeader className="pb-2">
-                    <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-secondary text-foreground">
                       <feature.icon className="h-5 w-5" />
                     </div>
                     <CardTitle className="text-base">{feature.title}</CardTitle>
@@ -290,19 +286,19 @@ const Index = () => {
             </p>
             <div className="flex items-center justify-center gap-4">
               <span className={`text-sm font-medium ${!isAnnual ? "text-foreground" : "text-muted-foreground"}`}>Mensal</span>
-              <button onClick={() => setIsAnnual(!isAnnual)} className={`relative w-14 h-7 rounded-full transition-colors ${isAnnual ? "bg-primary" : "bg-muted-foreground/30"}`}>
-                <div className={`absolute top-0.5 left-0.5 w-6 h-6 bg-white rounded-full shadow transition-transform ${isAnnual ? "translate-x-7" : ""}`} />
+              <button onClick={() => setIsAnnual(!isAnnual)} className={`relative h-7 w-14 rounded-full transition-colors ${isAnnual ? "bg-foreground" : "bg-muted-foreground/30"}`}>
+                <div className={`absolute top-0.5 left-0.5 h-6 w-6 rounded-full bg-background shadow transition-transform ${isAnnual ? "translate-x-7" : ""}`} />
               </button>
               <span className={`text-sm font-medium ${isAnnual ? "text-foreground" : "text-muted-foreground"}`}>Anual</span>
-              {isAnnual && <Badge className="bg-primary/10 text-primary border-primary/20">-20%</Badge>}
+              {isAnnual && <Badge className="border-border bg-secondary text-foreground">-20%</Badge>}
             </div>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
             {plans.map((plan, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }} className="h-full">
-                <Card className={`relative h-full flex flex-col ${plan.highlighted ? "border-primary shadow-lg shadow-primary/10 scale-[1.02]" : "border-border/50"}`}>
+                <Card className={`relative h-full flex flex-col ${plan.highlighted ? "scale-[1.02] border-foreground/15 bg-muted/20 shadow-soft" : "border-border/50"}`}>
                   {plan.highlighted && (
-                    <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary px-3">
+                    <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-foreground px-3 text-background">
                       <Star className="h-3 w-3 mr-1" /> Popular
                     </Badge>
                   )}
@@ -319,14 +315,14 @@ const Index = () => {
                     <ul className="space-y-2.5">
                       {plan.features.map((f, fi) => (
                         <li key={fi} className="flex items-center gap-2 text-sm">
-                          {f.included ? <Check className="h-4 w-4 text-primary shrink-0" /> : <X className="h-4 w-4 text-muted-foreground/40 shrink-0" />}
+                          {f.included ? <Check className="h-4 w-4 shrink-0 text-foreground/70" /> : <X className="h-4 w-4 text-muted-foreground/40 shrink-0" />}
                           <span className={f.included ? "" : "text-muted-foreground/50"}>{f.text}</span>
                         </li>
                       ))}
                     </ul>
                   </CardContent>
                   <div className="p-6 pt-0">
-                    <Button className="w-full" variant={plan.highlighted ? "default" : "outline"} onClick={() => { setSelectedPlan({ id: plan.id, name: plan.name, price: isAnnual ? plan.annualPrice : plan.monthlyPrice }); setOnboardingOpen(true); }}>
+                    <Button className={plan.highlighted ? "w-full bg-foreground text-background hover:bg-foreground/90" : "w-full"} variant={plan.highlighted ? "default" : "outline"} onClick={() => { setSelectedPlan({ id: plan.id, name: plan.name, price: isAnnual ? plan.annualPrice : plan.monthlyPrice }); setOnboardingOpen(true); }}>
                       {plan.cta} <ChevronRight className="h-4 w-4 ml-1" />
                     </Button>
                   </div>
@@ -338,7 +334,7 @@ const Index = () => {
       </section>
 
       {/* Testimonials + FAQ */}
-      <section id="depoimentos" className="py-16 bg-muted/30">
+      <section id="depoimentos" className="bg-secondary/30 py-16">
         <div className="container">
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Testimonials */}
@@ -350,12 +346,12 @@ const Index = () => {
                     <CardContent className="p-5">
                       <div className="flex gap-0.5 mb-3">
                         {Array.from({ length: 5 }).map((_, si) => (
-                          <Star key={si} className="h-3.5 w-3.5 fill-primary text-primary" />
+                          <Star key={si} className="h-3.5 w-3.5 fill-warning text-warning" />
                         ))}
                       </div>
                       <blockquote className="text-sm leading-relaxed mb-4">"{t.quote}"</blockquote>
                       <div className="flex items-center gap-3">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-primary text-xs font-semibold">
+                        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary text-xs font-semibold text-foreground">
                           {t.avatar}
                         </div>
                         <div>
@@ -395,14 +391,14 @@ const Index = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-16 bg-primary text-primary-foreground">
+      <section className="bg-secondary/60 py-16">
         <div className="container text-center max-w-2xl">
           <h2 className="text-3xl font-bold mb-4">Pronto para modernizar sua escola?</h2>
-          <p className="text-primary-foreground/80 mb-6">
+          <p className="mb-6 text-muted-foreground">
             Comece gratuitamente. Sem cartão de crédito. Sem compromisso.
           </p>
           <Link to="/login">
-            <Button size="lg" variant="secondary" className="gap-2 px-8">
+            <Button size="lg" className="gap-2 bg-foreground px-8 text-background hover:bg-foreground/90">
               Criar Conta Grátis <ArrowRight className="h-4 w-4" />
             </Button>
           </Link>
