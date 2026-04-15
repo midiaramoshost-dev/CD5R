@@ -263,6 +263,44 @@ export default function AdminEscolas() {
     );
   };
 
+  const handleInlineFieldSave = async (escola: Escola, field: string, value: string | number) => {
+    const dbFieldMap: Record<string, string> = {
+      nome: "nome",
+      cnpj: "cnpj",
+      cidade: "cidade",
+      uf: "uf",
+      porte: "porte",
+      plano: "plano",
+      alunos: "alunos",
+      professores: "professores",
+      status: "status",
+    };
+
+    const dbField = dbFieldMap[field];
+    if (!dbField) return;
+
+    const { error } = await supabase
+      .from("escolas")
+      .update({ [dbField]: value })
+      .eq("id", escola.id);
+
+    if (error) {
+      console.error("Erro ao atualizar campo:", error);
+      toast.error("Erro ao salvar alteração");
+      return;
+    }
+
+    await fetchEscolas();
+    toast.success(`Campo "${field}" atualizado com sucesso!`);
+    registrarAtividade(
+      "escola_editada",
+      `Campo "${field}" da escola "${escola.nome}" foi alterado para "${value}"`,
+      `Campo: ${field}`,
+      "Escola",
+      escola.id
+    );
+  };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
