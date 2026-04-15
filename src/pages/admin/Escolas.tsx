@@ -14,6 +14,7 @@ import {
   XCircle,
   Clock,
   Link2,
+  Power,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -48,6 +49,8 @@ import { CadastrarEscolaDialog } from "@/components/admin/CadastrarEscolaDialog"
 import { toast } from "sonner";
 import { useActivityLog } from "@/contexts/ActivityLogContext";
 import { supabase } from "@/integrations/supabase/client";
+import { InlineEditCell } from "@/components/admin/InlineEditCell";
+import { Switch } from "@/components/ui/switch";
 
 const getPlanoColor = (plano: string) => {
   switch (plano.toLowerCase()) {
