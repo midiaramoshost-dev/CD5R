@@ -156,15 +156,15 @@ const Index = () => {
       />
 
       {/* ─── Header ─── */}
-      <header className="fixed top-0 left-0 right-0 z-50 border-b border-border/20 bg-background/70 backdrop-blur-2xl">
+      <header className="fixed top-0 left-0 right-0 z-50 border-b border-border/30 glass">
         <nav className="container flex h-16 items-center justify-between">
           <PlatformLogo size="md" />
           <div className="hidden md:flex items-center gap-10">
             {[
               { href: "#recursos", label: "Recursos" },
+              { href: "#como-funciona", label: "Como funciona" },
               { href: "#planos", label: "Planos" },
-              { href: "#depoimentos", label: "Depoimentos" },
-              { href: "#cidades", label: "Cidades" },
+              { href: "#depoimentos", label: "Clientes" },
               { href: "#faq", label: "FAQ" },
             ].map((item) => (
               <a key={item.href} href={item.href} className="text-[13px] font-medium text-muted-foreground hover:text-foreground transition-colors">
@@ -180,7 +180,7 @@ const Index = () => {
               <Button variant="ghost" size="sm" className="hidden sm:flex text-muted-foreground hover:text-foreground text-[13px]">Entrar</Button>
             </Link>
             <Link to="/login">
-              <Button size="sm" className="gap-1.5 bg-foreground text-background hover:bg-foreground/90 font-medium text-[13px] rounded-full px-5">
+              <Button size="sm" className="gap-1.5 bg-foreground text-background hover:bg-foreground/90 font-medium text-[13px] rounded-full px-5 shadow-sm">
                 Começar Agora <ArrowRight className="h-3.5 w-3.5" />
               </Button>
             </Link>
@@ -189,82 +189,210 @@ const Index = () => {
       </header>
 
       {/* ─── Hero ─── */}
-      <section className="relative overflow-hidden pt-32 pb-20 md:pt-44 md:pb-32">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_-5%,hsl(var(--muted)/0.6),transparent)]" />
-        <div className="container relative text-center max-w-3xl mx-auto">
-          <motion.div initial="hidden" animate="visible" variants={stagger}>
-            <motion.div variants={fadeUp} className="inline-flex items-center gap-2 bg-muted/60 border border-border/40 text-muted-foreground px-4 py-1.5 rounded-full text-[12px] font-medium mb-8">
-              <MapPin className="h-3.5 w-3.5" /> Atendendo Sorocaba e +15 cidades da região
+      <section className="relative overflow-hidden pt-32 pb-16 md:pt-44 md:pb-24">
+        <div className="absolute inset-0 bg-grid-pattern [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,black,transparent)]" />
+        <div className="absolute inset-0 spotlight" />
+        <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[radial-gradient(ellipse_at_center,hsl(var(--muted)/0.8),transparent_70%)] -z-10" />
+
+        <div className="container relative">
+          <motion.div initial="hidden" animate="visible" variants={stagger} className="text-center max-w-3xl mx-auto">
+            <motion.div variants={fadeUp} className="inline-flex items-center gap-2 glass px-3.5 py-1.5 rounded-full text-[12px] font-medium mb-8 shadow-sm">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-60"></span>
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-success"></span>
+              </span>
+              <span className="text-muted-foreground">+500 escolas em Sorocaba e região já confiam</span>
+              <ChevronRight className="h-3 w-3 text-muted-foreground/60" />
             </motion.div>
-            <motion.h1 variants={fadeUp} className="text-[2.75rem] font-semibold tracking-tight sm:text-5xl md:text-6xl leading-[1.08] mb-6">
+
+            <motion.h1 variants={fadeUp} className="text-[2.75rem] font-semibold tracking-[-0.03em] sm:text-5xl md:text-[4.25rem] leading-[1.02] mb-6 text-gradient-premium">
               A escola ensina.
               <br />
-              <span className="text-muted-foreground">Nós cuidamos do resto.</span>
+              <span className="text-muted-foreground/70 italic font-light">Nós cuidamos do resto.</span>
             </motion.h1>
+
             <motion.p variants={fadeUp} className="text-muted-foreground text-base md:text-lg max-w-xl mx-auto mb-10 leading-relaxed">
-              Plataforma completa de gestão escolar para educação infantil, fundamental e médio em Sorocaba e região. Automatize processos e foque na educação.
+              A plataforma de gestão escolar mais completa para educação infantil, fundamental e médio em <span className="text-foreground/80 font-medium">Sorocaba e região</span>. Automatize, organize e foque no que importa.
             </motion.p>
+
             <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link to="/login">
-                <Button size="lg" className="w-full sm:w-auto gap-2 bg-foreground px-10 text-sm font-medium text-background hover:bg-foreground/90 rounded-full h-12">
+                <Button size="lg" className="w-full sm:w-auto gap-2 bg-foreground px-10 text-sm font-medium text-background hover:bg-foreground/90 rounded-full h-12 shadow-lg shadow-foreground/10">
                   Começar Gratuitamente <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
-              <Button size="lg" variant="outline" className="w-full sm:w-auto gap-2 border-border/50 px-10 text-sm font-medium hover:bg-muted rounded-full h-12" onClick={() => openWhatsApp("Olá! Sou de Sorocaba/região e gostaria de agendar uma demonstração do i ESCOLAS.")}>
+              <Button size="lg" variant="outline" className="w-full sm:w-auto gap-2 border-border/50 px-10 text-sm font-medium hover:bg-muted rounded-full h-12 backdrop-blur-sm" onClick={() => openWhatsApp("Olá! Sou de Sorocaba/região e gostaria de agendar uma demonstração do i ESCOLAS.")}>
                 Agendar Demonstração
               </Button>
             </motion.div>
-            <motion.p variants={fadeUp} className="text-[11px] text-muted-foreground/60 mt-5">
-              ✓ Grátis para até 50 alunos &nbsp;·&nbsp; ✓ Sem cartão de crédito &nbsp;·&nbsp; ✓ Configuração em 5 min
-            </motion.p>
+
+            <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mt-8 text-[11px] text-muted-foreground/70">
+              <span className="flex items-center gap-1.5"><Check className="h-3 w-3" /> Grátis até 50 alunos</span>
+              <span className="flex items-center gap-1.5"><Check className="h-3 w-3" /> Sem cartão de crédito</span>
+              <span className="flex items-center gap-1.5"><Check className="h-3 w-3" /> Setup em 5 minutos</span>
+            </motion.div>
+          </motion.div>
+
+          {/* Hero visual mockup */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.7 }}
+            className="relative mt-16 md:mt-20 max-w-5xl mx-auto"
+          >
+            <div className="relative rounded-2xl border border-border/40 bg-card/50 backdrop-blur-xl shadow-2xl shadow-foreground/5 overflow-hidden">
+              <div className="flex items-center gap-1.5 px-4 py-3 border-b border-border/30 bg-muted/30">
+                <div className="h-2.5 w-2.5 rounded-full bg-muted-foreground/20" />
+                <div className="h-2.5 w-2.5 rounded-full bg-muted-foreground/20" />
+                <div className="h-2.5 w-2.5 rounded-full bg-muted-foreground/20" />
+                <div className="ml-4 flex-1 h-5 rounded bg-muted/50 max-w-md" />
+              </div>
+              <div className="grid grid-cols-12 gap-4 p-6 min-h-[320px]">
+                <div className="col-span-3 space-y-2">
+                  <div className="h-8 rounded-lg bg-foreground/5" />
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <div key={i} className="h-7 rounded-md bg-muted/50" />
+                  ))}
+                </div>
+                <div className="col-span-9 space-y-4">
+                  <div className="grid grid-cols-4 gap-3">
+                    {Array.from({ length: 4 }).map((_, i) => (
+                      <div key={i} className="rounded-xl border border-border/40 p-3 bg-muted/20">
+                        <div className="h-2 w-12 rounded bg-muted-foreground/20 mb-2" />
+                        <div className="h-5 w-16 rounded bg-foreground/10" />
+                      </div>
+                    ))}
+                  </div>
+                  <div className="rounded-xl border border-border/40 p-4 bg-muted/10 h-40 relative overflow-hidden">
+                    <div className="h-2 w-24 rounded bg-muted-foreground/20 mb-4" />
+                    <div className="absolute bottom-4 left-4 right-4 flex items-end gap-2 h-24">
+                      {[40, 65, 50, 80, 70, 90, 60, 75, 55, 85, 70, 95].map((h, i) => (
+                        <div key={i} className="flex-1 rounded-t bg-foreground/20" style={{ height: `${h}%` }} />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-3/4 h-20 bg-foreground/10 blur-3xl -z-10" />
           </motion.div>
         </div>
       </section>
 
+      {/* ─── Logos / Social Proof Marquee ─── */}
+      <section className="border-y border-border/20 bg-muted/20 overflow-hidden">
+        <div className="container py-8">
+          <p className="text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-6">
+            Instituições parceiras em Sorocaba e região
+          </p>
+          <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
+            <div className="flex gap-12 animate-marquee w-max">
+              {[...Array(2)].flatMap((_, idx) =>
+                ["Colégio São Paulo", "Escola Nova Era", "Instituto ABC", "Colégio Integrado", "Educa+ Sorocaba", "Saber & Cia", "Escola Vivência", "Colégio Horizonte"].map((name, i) => (
+                  <div key={`${idx}-${i}`} className="flex items-center gap-2 text-muted-foreground/50 font-semibold text-base whitespace-nowrap">
+                    <School className="h-4 w-4" />
+                    {name}
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ─── Metrics ─── */}
-      <section className="border-y border-border/30 bg-muted/30">
-        <div className="container py-10">
+      <section className="border-b border-border/30">
+        <div className="container py-16">
           <motion.div className="grid grid-cols-2 md:grid-cols-4 gap-8" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
             {metrics.map((m, i) => (
-              <motion.div key={i} variants={fadeUp} className="text-center">
-                <div className="inline-flex items-center justify-center h-10 w-10 rounded-lg bg-muted mb-3">
+              <motion.div key={i} variants={fadeUp} className="text-center group">
+                <div className="inline-flex items-center justify-center h-12 w-12 rounded-2xl bg-muted mb-4 group-hover:scale-110 transition-transform">
                   <m.icon className="h-5 w-5 text-foreground/60" />
                 </div>
-                <p className="text-2xl md:text-3xl font-semibold tracking-tight">{m.value}</p>
-                <p className="text-xs text-muted-foreground mt-1">{m.label}</p>
+                <p className="text-3xl md:text-4xl font-semibold tracking-tight text-gradient-premium">{m.value}</p>
+                <p className="text-xs text-muted-foreground mt-1.5">{m.label}</p>
               </motion.div>
             ))}
           </motion.div>
         </div>
       </section>
 
+      {/* ─── How it works ─── */}
+      <section id="como-funciona" className="py-24 md:py-32 relative">
+        <div className="absolute inset-0 bg-dot-pattern [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,black,transparent)]" />
+        <div className="container relative">
+          <div className="text-center mb-16">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-4">Como funciona</p>
+            <h2 className="text-3xl font-semibold sm:text-4xl md:text-5xl tracking-[-0.02em] mb-4 text-gradient-premium">
+              Comece em 3 passos simples
+            </h2>
+            <p className="text-muted-foreground text-sm max-w-lg mx-auto leading-relaxed">
+              Da configuração inicial à operação completa em menos de 24 horas.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {[
+              { step: "01", title: "Crie sua conta grátis", desc: "Cadastro em 2 minutos. Sem cartão de crédito. Acesso imediato ao painel completo.", icon: Zap },
+              { step: "02", title: "Importe seus dados", desc: "Migração assistida de planilhas ou de outros sistemas. Nossa equipe ajuda gratuitamente.", icon: TrendingUp },
+              { step: "03", title: "Sua escola transformada", desc: "Treinamento incluso. Suporte local em Sorocaba via WhatsApp em até 15 minutos.", icon: Award },
+            ].map((s, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1, duration: 0.5 }}
+                className="relative"
+              >
+                <div className="rounded-2xl border border-border/40 bg-card p-7 h-full hover:border-foreground/20 hover:shadow-lg transition-all duration-300">
+                  <div className="flex items-start justify-between mb-6">
+                    <div className="h-11 w-11 rounded-xl bg-foreground text-background flex items-center justify-center">
+                      <s.icon className="h-5 w-5" />
+                    </div>
+                    <span className="text-4xl font-semibold text-muted-foreground/15 tracking-tighter">{s.step}</span>
+                  </div>
+                  <h3 className="text-lg font-semibold mb-2 tracking-tight">{s.title}</h3>
+                  <p className="text-[13px] text-muted-foreground leading-relaxed">{s.desc}</p>
+                </div>
+                {i < 2 && (
+                  <div className="hidden md:block absolute top-1/2 -right-4 -translate-y-1/2 z-10">
+                    <ArrowRight className="h-5 w-5 text-muted-foreground/30" />
+                  </div>
+                )}
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ─── Features ─── */}
-      <section id="recursos" className="py-24 md:py-32">
+      <section id="recursos" className="py-24 md:py-32 border-y border-border/20 bg-muted/10">
         <div className="container">
           <div className="text-center mb-16">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-4">Recursos</p>
-            <h2 className="text-2xl font-semibold sm:text-3xl md:text-4xl tracking-tight mb-4">
-              Tudo que sua escola em Sorocaba precisa
+            <h2 className="text-3xl font-semibold sm:text-4xl md:text-5xl tracking-[-0.02em] mb-4 text-gradient-premium">
+              Tudo que sua escola precisa
             </h2>
             <p className="text-muted-foreground text-sm max-w-lg mx-auto leading-relaxed">
-              Uma plataforma completa para gerenciar todos os aspectos da sua instituição de ensino. Da matrícula à formatura.
+              Uma plataforma completa para gerenciar todos os aspectos da sua instituição. Da matrícula à formatura.
             </p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {features.map((feature, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.4 }}>
+              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06, duration: 0.4 }}>
                 <Link to={feature.link}>
-                  <Card className="h-full border-border/30 bg-card hover:bg-muted/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-sm group">
-                    <CardHeader className="pb-2">
-                      <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-muted text-foreground/70 group-hover:text-foreground transition-colors">
+                  <Card className="h-full border-border/30 bg-card hover:border-foreground/15 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-foreground/5 group relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-muted/0 to-muted/30 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <CardHeader className="pb-2 relative">
+                      <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-foreground/5 text-foreground/70 group-hover:bg-foreground group-hover:text-background transition-all duration-300">
                         <feature.icon className="h-5 w-5" />
                       </div>
-                      <CardTitle className="text-[15px] font-semibold flex items-center gap-2">
+                      <CardTitle className="text-[15px] font-semibold flex items-center gap-2 tracking-tight">
                         {feature.title}
-                        <ArrowRight className="h-3.5 w-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <ArrowRight className="h-3.5 w-3.5 text-muted-foreground -translate-x-1 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
                       </CardTitle>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="relative">
                       <CardDescription className="text-[13px] leading-relaxed">{feature.description}</CardDescription>
                     </CardContent>
                   </Card>
@@ -274,7 +402,7 @@ const Index = () => {
           </div>
           <div className="text-center mt-10">
             <Link to="/funcionalidades/matricula-crm">
-              <Button variant="outline" className="rounded-full text-[13px] px-6 gap-2">
+              <Button variant="outline" className="rounded-full text-[13px] px-6 gap-2 hover:bg-foreground hover:text-background transition-colors">
                 Ver todas as funcionalidades <ChevronRight className="h-4 w-4" />
               </Button>
             </Link>
@@ -283,26 +411,26 @@ const Index = () => {
       </section>
 
       {/* ─── Why Choose Us ─── */}
-      <section className="py-24 md:py-32 border-y border-border/20 bg-muted/10">
+      <section className="py-24 md:py-32">
         <div className="container">
           <div className="text-center mb-16">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-4">Diferenciais</p>
-            <h2 className="text-2xl font-semibold sm:text-3xl md:text-4xl tracking-tight mb-4">
-              Por que escolas de Sorocaba escolhem o i ESCOLAS?
+            <h2 className="text-3xl font-semibold sm:text-4xl md:text-5xl tracking-[-0.02em] mb-4 text-gradient-premium">
+              Por que escolher o i ESCOLAS?
             </h2>
             <p className="text-muted-foreground text-sm max-w-lg mx-auto leading-relaxed">
               Mais que um sistema, uma parceira local para a transformação digital da sua escola.
             </p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {whyChooseUs.map((item, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06, duration: 0.4 }}>
-                <div className="flex gap-4 p-5 rounded-xl border border-border/20 bg-card hover:bg-muted/20 transition-colors">
-                  <div className="shrink-0 h-10 w-10 rounded-lg bg-muted flex items-center justify-center">
-                    <item.icon className="h-5 w-5 text-foreground/60" />
+              <motion.div key={i} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05, duration: 0.4 }}>
+                <div className="flex gap-4 p-6 rounded-2xl border border-border/30 bg-card hover:border-foreground/15 hover:shadow-md transition-all h-full">
+                  <div className="shrink-0 h-11 w-11 rounded-xl bg-foreground/5 flex items-center justify-center">
+                    <item.icon className="h-5 w-5 text-foreground/70" />
                   </div>
                   <div>
-                    <h3 className="text-[14px] font-semibold mb-1">{item.title}</h3>
+                    <h3 className="text-[14px] font-semibold mb-1.5 tracking-tight">{item.title}</h3>
                     <p className="text-[12px] text-muted-foreground leading-relaxed">{item.description}</p>
                   </div>
                 </div>
@@ -468,21 +596,38 @@ const Index = () => {
 
       {/* ─── CTA ─── */}
       <section className="py-24 md:py-32">
-        <div className="container text-center max-w-2xl">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
-            <motion.h2 variants={fadeUp} className="text-2xl font-semibold sm:text-3xl md:text-4xl tracking-tight mb-4">
-              Pronto para modernizar sua escola em Sorocaba?
-            </motion.h2>
-            <motion.p variants={fadeUp} className="mb-10 text-sm text-muted-foreground leading-relaxed max-w-md mx-auto">
-              Comece gratuitamente. Sem cartão de crédito. Sem compromisso. Configure em menos de 5 minutos.
-            </motion.p>
-            <motion.div variants={fadeUp}>
-              <Link to="/login">
-                <Button size="lg" className="gap-2 bg-foreground px-12 text-sm font-medium text-background hover:bg-foreground/90 rounded-full h-12">
-                  Criar Conta Grátis <ArrowRight className="h-4 w-4" />
+        <div className="container">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="relative overflow-hidden rounded-3xl border border-border/40 bg-gradient-to-br from-foreground to-foreground/85 px-8 py-20 md:px-16 md:py-24 text-center max-w-5xl mx-auto"
+          >
+            <div className="absolute inset-0 bg-grid-pattern opacity-[0.07]" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[radial-gradient(ellipse_at_center,hsl(var(--background)/0.15),transparent_70%)]" />
+            <div className="relative">
+              <div className="inline-flex items-center gap-2 bg-background/10 border border-background/20 backdrop-blur-sm text-background px-3.5 py-1.5 rounded-full text-[11px] font-medium mb-6">
+                <Star className="h-3 w-3 fill-warning text-warning" />
+                Avaliação 4.9/5 · 523 escolas
+              </div>
+              <h2 className="text-3xl font-semibold sm:text-4xl md:text-5xl tracking-[-0.02em] mb-4 text-background">
+                Pronto para modernizar sua escola?
+              </h2>
+              <p className="mb-10 text-sm md:text-base text-background/70 leading-relaxed max-w-md mx-auto">
+                Comece gratuitamente. Sem cartão de crédito. Configure em 5 minutos e transforme sua gestão escolar hoje.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Link to="/login">
+                  <Button size="lg" className="gap-2 bg-background px-10 text-sm font-medium text-foreground hover:bg-background/90 rounded-full h-12 shadow-xl">
+                    Criar Conta Grátis <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </Link>
+                <Button size="lg" variant="outline" className="gap-2 border-background/30 bg-transparent text-background hover:bg-background/10 hover:text-background px-10 text-sm font-medium rounded-full h-12" onClick={() => openWhatsApp("Olá! Quero falar com um especialista do i ESCOLAS.")}>
+                  <MessageSquare className="h-4 w-4" /> Falar com Especialista
                 </Button>
-              </Link>
-            </motion.div>
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
