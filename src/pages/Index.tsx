@@ -19,6 +19,7 @@ import { WhatsAppButton } from "@/components/landing/WhatsAppButton";
 import { SEOHead } from "@/components/SEOHead";
 import { cidadesData } from "@/pages/cidades/cidades-data";
 import { funcionalidadesData } from "@/pages/funcionalidades/funcionalidades-data";
+import { HeroDashboardMockup } from "@/components/landing/HeroDashboardMockup";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
