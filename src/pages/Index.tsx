@@ -596,21 +596,38 @@ const Index = () => {
 
       {/* ─── CTA ─── */}
       <section className="py-24 md:py-32">
-        <div className="container text-center max-w-2xl">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
-            <motion.h2 variants={fadeUp} className="text-2xl font-semibold sm:text-3xl md:text-4xl tracking-tight mb-4">
-              Pronto para modernizar sua escola em Sorocaba?
-            </motion.h2>
-            <motion.p variants={fadeUp} className="mb-10 text-sm text-muted-foreground leading-relaxed max-w-md mx-auto">
-              Comece gratuitamente. Sem cartão de crédito. Sem compromisso. Configure em menos de 5 minutos.
-            </motion.p>
-            <motion.div variants={fadeUp}>
-              <Link to="/login">
-                <Button size="lg" className="gap-2 bg-foreground px-12 text-sm font-medium text-background hover:bg-foreground/90 rounded-full h-12">
-                  Criar Conta Grátis <ArrowRight className="h-4 w-4" />
+        <div className="container">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="relative overflow-hidden rounded-3xl border border-border/40 bg-gradient-to-br from-foreground to-foreground/85 px-8 py-20 md:px-16 md:py-24 text-center max-w-5xl mx-auto"
+          >
+            <div className="absolute inset-0 bg-grid-pattern opacity-[0.07]" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[radial-gradient(ellipse_at_center,hsl(var(--background)/0.15),transparent_70%)]" />
+            <div className="relative">
+              <div className="inline-flex items-center gap-2 bg-background/10 border border-background/20 backdrop-blur-sm text-background px-3.5 py-1.5 rounded-full text-[11px] font-medium mb-6">
+                <Star className="h-3 w-3 fill-warning text-warning" />
+                Avaliação 4.9/5 · 523 escolas
+              </div>
+              <h2 className="text-3xl font-semibold sm:text-4xl md:text-5xl tracking-[-0.02em] mb-4 text-background">
+                Pronto para modernizar sua escola?
+              </h2>
+              <p className="mb-10 text-sm md:text-base text-background/70 leading-relaxed max-w-md mx-auto">
+                Comece gratuitamente. Sem cartão de crédito. Configure em 5 minutos e transforme sua gestão escolar hoje.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Link to="/login">
+                  <Button size="lg" className="gap-2 bg-background px-10 text-sm font-medium text-foreground hover:bg-background/90 rounded-full h-12 shadow-xl">
+                    Criar Conta Grátis <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </Link>
+                <Button size="lg" variant="outline" className="gap-2 border-background/30 bg-transparent text-background hover:bg-background/10 hover:text-background px-10 text-sm font-medium rounded-full h-12" onClick={() => openWhatsApp("Olá! Quero falar com um especialista do i ESCOLAS.")}>
+                  <MessageSquare className="h-4 w-4" /> Falar com Especialista
                 </Button>
-              </Link>
-            </motion.div>
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
