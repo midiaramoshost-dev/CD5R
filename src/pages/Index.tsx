@@ -19,6 +19,7 @@ import { WhatsAppButton } from "@/components/landing/WhatsAppButton";
 import { SEOHead } from "@/components/SEOHead";
 import { cidadesData } from "@/pages/cidades/cidades-data";
 import { funcionalidadesData } from "@/pages/funcionalidades/funcionalidades-data";
+import { HeroDashboardMockup } from "@/components/landing/HeroDashboardMockup";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -233,48 +234,14 @@ const Index = () => {
             </motion.div>
           </motion.div>
 
-          {/* Hero visual mockup */}
+          {/* Hero visual — dashboard real (mockup HTML/CSS) */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.7 }}
             className="relative mt-16 md:mt-20 max-w-5xl mx-auto"
           >
-            <div className="relative rounded-2xl border border-border/40 bg-card/50 backdrop-blur-xl shadow-2xl shadow-foreground/5 overflow-hidden">
-              <div className="flex items-center gap-1.5 px-4 py-3 border-b border-border/30 bg-muted/30">
-                <div className="h-2.5 w-2.5 rounded-full bg-muted-foreground/20" />
-                <div className="h-2.5 w-2.5 rounded-full bg-muted-foreground/20" />
-                <div className="h-2.5 w-2.5 rounded-full bg-muted-foreground/20" />
-                <div className="ml-4 flex-1 h-5 rounded bg-muted/50 max-w-md" />
-              </div>
-              <div className="grid grid-cols-12 gap-4 p-6 min-h-[320px]">
-                <div className="col-span-3 space-y-2">
-                  <div className="h-8 rounded-lg bg-foreground/5" />
-                  {Array.from({ length: 6 }).map((_, i) => (
-                    <div key={i} className="h-7 rounded-md bg-muted/50" />
-                  ))}
-                </div>
-                <div className="col-span-9 space-y-4">
-                  <div className="grid grid-cols-4 gap-3">
-                    {Array.from({ length: 4 }).map((_, i) => (
-                      <div key={i} className="rounded-xl border border-border/40 p-3 bg-muted/20">
-                        <div className="h-2 w-12 rounded bg-muted-foreground/20 mb-2" />
-                        <div className="h-5 w-16 rounded bg-foreground/10" />
-                      </div>
-                    ))}
-                  </div>
-                  <div className="rounded-xl border border-border/40 p-4 bg-muted/10 h-40 relative overflow-hidden">
-                    <div className="h-2 w-24 rounded bg-muted-foreground/20 mb-4" />
-                    <div className="absolute bottom-4 left-4 right-4 flex items-end gap-2 h-24">
-                      {[40, 65, 50, 80, 70, 90, 60, 75, 55, 85, 70, 95].map((h, i) => (
-                        <div key={i} className="flex-1 rounded-t bg-foreground/20" style={{ height: `${h}%` }} />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-3/4 h-20 bg-foreground/10 blur-3xl -z-10" />
+            <HeroDashboardMockup />
           </motion.div>
         </div>
       </section>
