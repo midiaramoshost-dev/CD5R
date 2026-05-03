@@ -57,6 +57,10 @@ import CRMMatricula from "./pages/escola/CRMMatricula";
 import IntegracaoMEC from "./pages/escola/IntegracaoMEC";
 import TransporteEscolar from "./pages/escola/TransporteEscolar";
 import Contabilidade from "./pages/escola/Contabilidade";
+import ChamadaEletronica from "./pages/escola/ChamadaEletronica";
+import HistoricoEscolar from "./pages/escola/HistoricoEscolar";
+import ContratosMassa from "./pages/escola/ContratosMassa";
+import RematriculasMassa from "./pages/escola/RematriculasMassa";
 import AlunoDashboard from "./pages/aluno/Dashboard";
 import AlunoNotas from "./pages/aluno/Notas";
 import AlunoFrequencia from "./pages/aluno/Frequencia";
@@ -166,6 +170,10 @@ const App = () => (
                 <Route path="integracao-mec" element={<IntegracaoMEC />} />
                 <Route path="transporte" element={<TransporteEscolar />} />
                 <Route path="contabilidade" element={<Contabilidade />} />
+                <Route path="chamada" element={<ChamadaEletronica />} />
+                <Route path="historico-escolar" element={<HistoricoEscolar />} />
+                <Route path="contratos-massa" element={<ContratosMassa />} />
+                <Route path="rematriculas-massa" element={<RematriculasMassa />} />
               </Route>
 
               {/* Portal do Aluno Routes - Protected */}

@@ -78,9 +78,19 @@ const menuItems = [
     icon: GraduationCap,
     submenu: [
       { title: "Diário de Classe", url: "/escola/diario" },
+      { title: "Chamada Eletrônica", url: "/escola/chamada" },
       { title: "Notas", url: "/escola/notas" },
       { title: "Frequência", url: "/escola/frequencia" },
       { title: "Boletins", url: "/escola/boletins" },
+      { title: "Histórico Escolar", url: "/escola/historico-escolar" },
+    ],
+  },
+  {
+    title: "Matrículas",
+    icon: FileText,
+    submenu: [
+      { title: "Contratos em Massa", url: "/escola/contratos-massa" },
+      { title: "Rematrículas em Massa", url: "/escola/rematriculas-massa" },
     ],
   },
   {
