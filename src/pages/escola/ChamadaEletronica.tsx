@@ -7,8 +7,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Check, X, Clock, Save, ClipboardCheck, Search, Download } from "lucide-react";
+import { Check, X, Clock, Save, ClipboardCheck, Search, Download, Send, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 type Status = "presente" | "falta" | "atraso" | "justificada";
 
@@ -16,6 +17,9 @@ interface Aluno {
   id: string;
   nome: string;
   matricula: string;
+  responsavel_nome?: string;
+  telefone?: string;
+  telegram_chat_id?: string;
 }
 
 interface Chamada {
@@ -26,16 +30,16 @@ interface Chamada {
 }
 
 const ALUNOS_MOCK: Aluno[] = [
-  { id: "1", nome: "Ana Carolina Silva", matricula: "2025001" },
-  { id: "2", nome: "Bruno Henrique Costa", matricula: "2025002" },
-  { id: "3", nome: "Carla Beatriz Oliveira", matricula: "2025003" },
-  { id: "4", nome: "Daniel Souza Lima", matricula: "2025004" },
-  { id: "5", nome: "Eduarda Martins", matricula: "2025005" },
-  { id: "6", nome: "Felipe Almeida", matricula: "2025006" },
-  { id: "7", nome: "Gabriela Ribeiro", matricula: "2025007" },
-  { id: "8", nome: "Henrique Pereira", matricula: "2025008" },
-  { id: "9", nome: "Isabela Fernandes", matricula: "2025009" },
-  { id: "10", nome: "João Pedro Santos", matricula: "2025010" },
+  { id: "1", nome: "Ana Carolina Silva", matricula: "2025001", responsavel_nome: "Maria Silva", telefone: "+5515999990001" },
+  { id: "2", nome: "Bruno Henrique Costa", matricula: "2025002", responsavel_nome: "José Costa", telefone: "+5515999990002" },
+  { id: "3", nome: "Carla Beatriz Oliveira", matricula: "2025003", responsavel_nome: "Paula Oliveira", telefone: "+5515999990003" },
+  { id: "4", nome: "Daniel Souza Lima", matricula: "2025004", responsavel_nome: "Ricardo Lima", telefone: "+5515999990004" },
+  { id: "5", nome: "Eduarda Martins", matricula: "2025005", responsavel_nome: "Sandra Martins", telefone: "+5515999990005" },
+  { id: "6", nome: "Felipe Almeida", matricula: "2025006", responsavel_nome: "Carlos Almeida", telefone: "+5515999990006" },
+  { id: "7", nome: "Gabriela Ribeiro", matricula: "2025007", responsavel_nome: "Lucia Ribeiro", telefone: "+5515999990007" },
+  { id: "8", nome: "Henrique Pereira", matricula: "2025008", responsavel_nome: "André Pereira", telefone: "+5515999990008" },
+  { id: "9", nome: "Isabela Fernandes", matricula: "2025009", responsavel_nome: "Beatriz Fernandes", telefone: "+5515999990009" },
+  { id: "10", nome: "João Pedro Santos", matricula: "2025010", responsavel_nome: "Marcelo Santos", telefone: "+5515999990010" },
 ];
 
 const STATUS_CONFIG: Record<Status, { label: string; icon: any; className: string }> = {
@@ -101,6 +105,44 @@ export default function ChamadaEletronica() {
     link.click();
   };
 
+  const [enviando, setEnviando] = useState(false);
+  const notificarResponsaveis = async () => {
+    const destinatarios = ALUNOS_MOCK
+      .filter((a) => registros[a.id] === "falta" || registros[a.id] === "atraso")
+      .map((a) => ({
+        aluno_nome: a.nome,
+        aluno_matricula: a.matricula,
+        responsavel_nome: a.responsavel_nome,
+        telefone: a.telefone,
+        telegram_chat_id: a.telegram_chat_id,
+        status_chamada: registros[a.id] as "falta" | "atraso",
+      }));
+
+    if (!destinatarios.length) {
+      toast.info("Nenhum aluno com falta ou atraso para notificar.");
+      return;
+    }
+
+    setEnviando(true);
+    try {
+      const { data: resp, error } = await supabase.functions.invoke("notificar-responsavel", {
+        body: { destinatarios, disciplina, turma, data },
+      });
+      if (error) throw error;
+      const enviados = resp?.enviados ?? 0;
+      const total = resp?.total ?? 0;
+      if (total === 0) {
+        toast.warning("Nenhum canal de envio configurado. Conecte Twilio e/ou Telegram nos secrets.");
+      } else {
+        toast.success(`Notificações enviadas: ${enviados}/${total}`);
+      }
+    } catch (e: any) {
+      toast.error("Falha ao notificar: " + (e?.message ?? e));
+    } finally {
+      setEnviando(false);
+    }
+  };
+
   const alunosFiltrados = ALUNOS_MOCK.filter((a) =>
     a.nome.toLowerCase().includes(busca.toLowerCase())
   );
@@ -119,9 +161,13 @@ export default function ChamadaEletronica() {
           <h1 className="text-3xl font-bold tracking-tight">Chamada Eletrônica</h1>
           <p className="text-muted-foreground">Registro digital de presenças e faltas</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           <Button variant="outline" onClick={exportarCSV}>
             <Download className="mr-2 h-4 w-4" /> Exportar
+          </Button>
+          <Button variant="outline" onClick={notificarResponsaveis} disabled={enviando}>
+            {enviando ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Send className="mr-2 h-4 w-4" />}
+            Notificar Responsáveis
           </Button>
           <Button onClick={salvar}>
             <Save className="mr-2 h-4 w-4" /> Salvar Chamada

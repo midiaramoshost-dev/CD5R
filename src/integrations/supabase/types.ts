@@ -415,6 +415,60 @@ export type Database = {
         }
         Relationships: []
       }
+      notificacoes_chamada: {
+        Row: {
+          aluno_matricula: string | null
+          aluno_nome: string
+          canal: string
+          created_at: string
+          data_chamada: string
+          disciplina: string | null
+          erro: string | null
+          escola_id: string | null
+          id: string
+          responsavel_nome: string | null
+          status_chamada: string
+          status_envio: string
+          telefone: string | null
+          telegram_chat_id: string | null
+          turma: string | null
+        }
+        Insert: {
+          aluno_matricula?: string | null
+          aluno_nome: string
+          canal: string
+          created_at?: string
+          data_chamada: string
+          disciplina?: string | null
+          erro?: string | null
+          escola_id?: string | null
+          id?: string
+          responsavel_nome?: string | null
+          status_chamada: string
+          status_envio?: string
+          telefone?: string | null
+          telegram_chat_id?: string | null
+          turma?: string | null
+        }
+        Update: {
+          aluno_matricula?: string | null
+          aluno_nome?: string
+          canal?: string
+          created_at?: string
+          data_chamada?: string
+          disciplina?: string | null
+          erro?: string | null
+          escola_id?: string | null
+          id?: string
+          responsavel_nome?: string | null
+          status_chamada?: string
+          status_envio?: string
+          telefone?: string | null
+          telegram_chat_id?: string | null
+          turma?: string | null
+        }
+        Relationships: []
+      }
       pagamentos: {
         Row: {
           created_at: string
