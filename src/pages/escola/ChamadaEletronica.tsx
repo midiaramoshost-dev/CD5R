@@ -105,6 +105,44 @@ export default function ChamadaEletronica() {
     link.click();
   };
 
+  const [enviando, setEnviando] = useState(false);
+  const notificarResponsaveis = async () => {
+    const destinatarios = ALUNOS_MOCK
+      .filter((a) => registros[a.id] === "falta" || registros[a.id] === "atraso")
+      .map((a) => ({
+        aluno_nome: a.nome,
+        aluno_matricula: a.matricula,
+        responsavel_nome: a.responsavel_nome,
+        telefone: a.telefone,
+        telegram_chat_id: a.telegram_chat_id,
+        status_chamada: registros[a.id] as "falta" | "atraso",
+      }));
+
+    if (!destinatarios.length) {
+      toast.info("Nenhum aluno com falta ou atraso para notificar.");
+      return;
+    }
+
+    setEnviando(true);
+    try {
+      const { data: resp, error } = await supabase.functions.invoke("notificar-responsavel", {
+        body: { destinatarios, disciplina, turma, data },
+      });
+      if (error) throw error;
+      const enviados = resp?.enviados ?? 0;
+      const total = resp?.total ?? 0;
+      if (total === 0) {
+        toast.warning("Nenhum canal de envio configurado. Conecte Twilio e/ou Telegram nos secrets.");
+      } else {
+        toast.success(`Notificações enviadas: ${enviados}/${total}`);
+      }
+    } catch (e: any) {
+      toast.error("Falha ao notificar: " + (e?.message ?? e));
+    } finally {
+      setEnviando(false);
+    }
+  };
+
   const alunosFiltrados = ALUNOS_MOCK.filter((a) =>
     a.nome.toLowerCase().includes(busca.toLowerCase())
   );
