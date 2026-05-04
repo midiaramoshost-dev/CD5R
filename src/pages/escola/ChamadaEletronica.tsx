@@ -161,9 +161,13 @@ export default function ChamadaEletronica() {
           <h1 className="text-3xl font-bold tracking-tight">Chamada Eletrônica</h1>
           <p className="text-muted-foreground">Registro digital de presenças e faltas</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           <Button variant="outline" onClick={exportarCSV}>
             <Download className="mr-2 h-4 w-4" /> Exportar
+          </Button>
+          <Button variant="outline" onClick={notificarResponsaveis} disabled={enviando}>
+            {enviando ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Send className="mr-2 h-4 w-4" />}
+            Notificar Responsáveis
           </Button>
           <Button onClick={salvar}>
             <Save className="mr-2 h-4 w-4" /> Salvar Chamada
