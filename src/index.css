@@ -56,31 +56,29 @@
     --info-foreground: 0 0% 100%;
 
     /* Bordas e Inputs */
-    --border: 220 5% 90%;
-    --input: 220 5% 90%;
-    --ring: 220 3% 30%;
-
-    --radius: 0.625rem;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 217 91% 55%;
 
     /* Sidebar */
-    --sidebar-background: 220 5% 11%;
-    --sidebar-foreground: 220 4% 88%;
-    --sidebar-primary: 220 3% 35%;
+    --sidebar-background: 222 47% 11%;
+    --sidebar-foreground: 220 14% 88%;
+    --sidebar-primary: 217 91% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 5% 16%;
-    --sidebar-accent-foreground: 220 4% 88%;
-    --sidebar-border: 220 5% 16%;
-    --sidebar-ring: 220 3% 35%;
+    --sidebar-accent: 222 40% 16%;
+    --sidebar-accent-foreground: 220 14% 88%;
+    --sidebar-border: 222 40% 16%;
+    --sidebar-ring: 217 91% 55%;
 
     /* Brand Colors */
-    --brand-primary: 220 3% 30%;
-    --brand-secondary: 210 2% 36%;
-    --brand-gradient-start: 220 3% 30%;
-    --brand-gradient-end: 210 2% 36%;
+    --brand-primary: 217 91% 55%;
+    --brand-secondary: 262 83% 58%;
+    --brand-gradient-start: 217 91% 55%;
+    --brand-gradient-end: 262 83% 58%;
 
     /* Chart Colors */
-    --chart-1: 220 3% 30%;
-    --chart-2: 210 2% 36%;
+    --chart-1: 217 91% 55%;
+    --chart-2: 262 83% 58%;
     --chart-3: 142 76% 36%;
     --chart-4: 38 92% 50%;
     --chart-5: 0 84% 60%;
