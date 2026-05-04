@@ -17,6 +17,9 @@ interface Aluno {
   id: string;
   nome: string;
   matricula: string;
+  responsavel_nome?: string;
+  telefone?: string;
+  telegram_chat_id?: string;
 }
 
 interface Chamada {
