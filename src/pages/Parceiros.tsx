@@ -37,7 +37,7 @@ export default function Parceiros() {
   useEffect(() => {
     const fetch = async () => {
       const [{ data: a }, { data: c }] = await Promise.all([
-        supabase.from("anunciantes").select("id,nome,descricao,logo_url,website,categoria").eq("ativo", true),
+        (supabase as any).from("anunciantes_publicos").select("id,nome,descricao,logo_url,website,categoria"),
         supabase.from("campanhas_anuncio").select("id,anunciante_id,titulo,descricao,imagem_url,link_destino,posicao").eq("ativo", true),
       ]);
       setAnunciantes(a || []);
