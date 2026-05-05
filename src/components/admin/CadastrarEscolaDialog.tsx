@@ -61,6 +61,10 @@ const MODULOS_OPTIONS = [
   { id: "matriculas", label: "Gestão de Matrículas", categoria: "Acadêmico", planoMinimo: "Pro" },
   { id: "maternal", label: "Maternal", categoria: "Acadêmico", planoMinimo: "Start" },
   { id: "nutricao", label: "Nutrição e Alimentação", categoria: "Acadêmico", planoMinimo: "Start" },
+  { id: "chamada_eletronica", label: "Chamada Eletrônica (Faltas)", categoria: "Acadêmico" },
+  { id: "historico_escolar", label: "Histórico Escolar", categoria: "Acadêmico", planoMinimo: "Start" },
+  { id: "contratos_massa", label: "Contratos em Massa", categoria: "Acadêmico", planoMinimo: "Pro" },
+  { id: "rematriculas_massa", label: "Rematrículas em Massa", categoria: "Acadêmico", planoMinimo: "Pro" },
   // Financeiro
   { id: "mensalidades", label: "Gestão de Mensalidades", categoria: "Financeiro", planoMinimo: "Start" },
   { id: "inadimplencia", label: "Gestão de Inadimplência", categoria: "Financeiro", planoMinimo: "Pro" },
