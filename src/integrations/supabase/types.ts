@@ -159,6 +159,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "campanhas_anuncio_anunciante_id_fkey"
+            columns: ["anunciante_id"]
+            isOneToOne: false
+            referencedRelation: "anunciantes_publicos"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "campanhas_anuncio_escola_id_fkey"
             columns: ["escola_id"]
             isOneToOne: false
@@ -752,7 +759,36 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      anunciantes_publicos: {
+        Row: {
+          ativo: boolean | null
+          categoria: string | null
+          descricao: string | null
+          id: string | null
+          logo_url: string | null
+          nome: string | null
+          website: string | null
+        }
+        Insert: {
+          ativo?: boolean | null
+          categoria?: string | null
+          descricao?: string | null
+          id?: string | null
+          logo_url?: string | null
+          nome?: string | null
+          website?: string | null
+        }
+        Update: {
+          ativo?: boolean | null
+          categoria?: string | null
+          descricao?: string | null
+          id?: string | null
+          logo_url?: string | null
+          nome?: string | null
+          website?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       get_user_role: {
