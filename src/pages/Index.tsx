@@ -217,14 +217,16 @@ const Index = () => {
             </motion.p>
 
             <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link to="/login">
+              <Link to="/teste">
                 <Button size="lg" className="w-full sm:w-auto gap-2 bg-foreground px-10 text-sm font-medium text-background hover:bg-foreground/90 rounded-full h-12 shadow-lg shadow-foreground/10">
-                  Começar Gratuitamente <ArrowRight className="h-4 w-4" />
+                  Testar grátis por 72h <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
-              <Button size="lg" variant="outline" className="w-full sm:w-auto gap-2 border-border/50 px-10 text-sm font-medium hover:bg-muted rounded-full h-12 backdrop-blur-sm" onClick={() => openWhatsApp("Olá! Sou de Sorocaba/região e gostaria de agendar uma demonstração do i ESCOLAS.")}>
-                Agendar Demonstração
-              </Button>
+              <Link to="/login">
+                <Button size="lg" variant="outline" className="w-full sm:w-auto gap-2 border-border/50 px-10 text-sm font-medium hover:bg-muted rounded-full h-12 backdrop-blur-sm">
+                  Já tenho conta
+                </Button>
+              </Link>
             </motion.div>
 
             <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mt-8 text-[11px] text-muted-foreground/70">
