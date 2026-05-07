@@ -92,6 +92,9 @@ import AdminPresencaFuncionarios from "./pages/admin/PresencaFuncionarios";
 import AdminCobrancas from "./pages/admin/Cobrancas";
 import AdminAnunciantes from "./pages/admin/Anunciantes";
 import Parceiros from "./pages/Parceiros";
+import Teste from "./pages/Teste";
+import TesteExpirado from "./pages/TesteExpirado";
+import { TrialGuard } from "./components/trial/TrialGuard";
 import NotFound from "./pages/NotFound";
 import CidadeLanding from "./pages/cidades/CidadeLanding";
 import FuncionalidadeLanding from "./pages/funcionalidades/FuncionalidadeLanding";
@@ -124,6 +127,15 @@ const App = () => (
               <Route path="/gestao-escolar/:cidade" element={<CidadeLanding />} />
               <Route path="/funcionalidades/:slug" element={<FuncionalidadeLanding />} />
               <Route path="/parceiros" element={<Parceiros />} />
+              <Route path="/teste" element={<Teste />} />
+              <Route path="/teste-expirado" element={<TesteExpirado />} />
+              <Route path="/teste/escola/*" element={
+                <TrialGuard>
+                  <AlunosResponsaveisProvider>
+                    <MainLayout />
+                  </AlunosResponsaveisProvider>
+                </TrialGuard>
+              } />
               
               {/* Escola Routes - Protected */}
               <Route path="/escola" element={
