@@ -75,7 +75,8 @@ Deno.serve(async (req) => {
       .replace(/(^-|-$)/g, "");
     const linkAcesso = `/escola/dashboard?escola=${slug}-${userId.slice(0, 8)}`;
 
-    // Create school record
+    // Create school record (with 72h trial window)
+    const trialExpiresAt = new Date(Date.now() + 72 * 3600 * 1000).toISOString();
     const { error: escolaError } = await adminClient.from("escolas").insert({
       nome: escola_nome,
       cnpj,
@@ -83,7 +84,8 @@ Deno.serve(async (req) => {
       uf,
       email_diretor,
       plano: plano_id,
-      status: "ativo",
+      status: payment_id ? "ativo" : "trial",
+      trial_expires_at: payment_id ? null : trialExpiresAt,
       user_id: userId,
       link_acesso: linkAcesso,
       modulos: ["dashboard", "alunos", "turmas", "comunicados"],
