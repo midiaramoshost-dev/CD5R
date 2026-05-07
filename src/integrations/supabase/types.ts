@@ -228,6 +228,7 @@ export type Database = {
           porte: string
           professores: number
           status: string
+          trial_expires_at: string | null
           uf: string
           updated_at: string
           user_id: string | null
@@ -247,6 +248,7 @@ export type Database = {
           porte?: string
           professores?: number
           status?: string
+          trial_expires_at?: string | null
           uf: string
           updated_at?: string
           user_id?: string | null
@@ -266,6 +268,7 @@ export type Database = {
           porte?: string
           professores?: number
           status?: string
+          trial_expires_at?: string | null
           uf?: string
           updated_at?: string
           user_id?: string | null
@@ -733,6 +736,45 @@ export type Database = {
           name?: string
           phone?: string | null
           updated_at?: string | null
+        }
+        Relationships: []
+      }
+      trial_sessions: {
+        Row: {
+          blocked: boolean
+          blocked_at: string | null
+          created_at: string
+          expires_at: string
+          fingerprint: string | null
+          id: string
+          ip_address: string
+          started_at: string
+          updated_at: string
+          user_agent: string | null
+        }
+        Insert: {
+          blocked?: boolean
+          blocked_at?: string | null
+          created_at?: string
+          expires_at?: string
+          fingerprint?: string | null
+          id?: string
+          ip_address: string
+          started_at?: string
+          updated_at?: string
+          user_agent?: string | null
+        }
+        Update: {
+          blocked?: boolean
+          blocked_at?: string | null
+          created_at?: string
+          expires_at?: string
+          fingerprint?: string | null
+          id?: string
+          ip_address?: string
+          started_at?: string
+          updated_at?: string
+          user_agent?: string | null
         }
         Relationships: []
       }
