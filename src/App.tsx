@@ -92,6 +92,9 @@ import AdminPresencaFuncionarios from "./pages/admin/PresencaFuncionarios";
 import AdminCobrancas from "./pages/admin/Cobrancas";
 import AdminAnunciantes from "./pages/admin/Anunciantes";
 import Parceiros from "./pages/Parceiros";
+import Teste from "./pages/Teste";
+import TesteExpirado from "./pages/TesteExpirado";
+import { EscolaTrialEnforcer } from "./components/trial/EscolaTrialEnforcer";
 import NotFound from "./pages/NotFound";
 import CidadeLanding from "./pages/cidades/CidadeLanding";
 import FuncionalidadeLanding from "./pages/funcionalidades/FuncionalidadeLanding";
@@ -124,13 +127,17 @@ const App = () => (
               <Route path="/gestao-escolar/:cidade" element={<CidadeLanding />} />
               <Route path="/funcionalidades/:slug" element={<FuncionalidadeLanding />} />
               <Route path="/parceiros" element={<Parceiros />} />
+              <Route path="/teste" element={<Teste />} />
+              <Route path="/teste-expirado" element={<TesteExpirado />} />
               
               {/* Escola Routes - Protected */}
               <Route path="/escola" element={
                 <ProtectedRoute allowedRoles={['escola']}>
-                  <AlunosResponsaveisProvider>
-                    <MainLayout />
-                  </AlunosResponsaveisProvider>
+                  <EscolaTrialEnforcer>
+                    <AlunosResponsaveisProvider>
+                      <MainLayout />
+                    </AlunosResponsaveisProvider>
+                  </EscolaTrialEnforcer>
                 </ProtectedRoute>
               }>
                 <Route index element={<Navigate to="/escola/dashboard" replace />} />

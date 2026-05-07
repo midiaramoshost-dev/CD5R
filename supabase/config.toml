@@ -11,3 +11,6 @@ verify_jwt = false
 
 [functions.ai-educational]
 verify_jwt = false
+
+[functions.trial-check]
+verify_jwt = false
