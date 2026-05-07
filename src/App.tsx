@@ -133,9 +133,11 @@ const App = () => (
               {/* Escola Routes - Protected */}
               <Route path="/escola" element={
                 <ProtectedRoute allowedRoles={['escola']}>
-                  <AlunosResponsaveisProvider>
-                    <MainLayout />
-                  </AlunosResponsaveisProvider>
+                  <EscolaTrialEnforcer>
+                    <AlunosResponsaveisProvider>
+                      <MainLayout />
+                    </AlunosResponsaveisProvider>
+                  </EscolaTrialEnforcer>
                 </ProtectedRoute>
               }>
                 <Route index element={<Navigate to="/escola/dashboard" replace />} />
