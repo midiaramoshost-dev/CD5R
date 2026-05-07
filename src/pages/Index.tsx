@@ -249,7 +249,7 @@ const Index = () => {
       {/* ─── Logos / Social Proof Marquee ─── */}
       <section className="border-y border-border/20 bg-muted/20 overflow-hidden">
         <div className="container py-8">
-          <p className="text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-6">
+          <p className="text-center text-xs font-bold uppercase tracking-[0.2em] text-foreground/70 mb-6">
             Instituições parceiras em Sorocaba e região
           </p>
           <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
@@ -289,11 +289,11 @@ const Index = () => {
         <div className="absolute inset-0 bg-dot-pattern [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,black,transparent)]" />
         <div className="container relative">
           <div className="text-center mb-16">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-4">Como funciona</p>
-            <h2 className="text-3xl font-semibold sm:text-4xl md:text-5xl tracking-[-0.02em] mb-4 text-gradient-premium">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-foreground/70 mb-4">Como funciona</p>
+            <h2 className="text-3xl font-bold sm:text-4xl md:text-5xl tracking-[-0.02em] mb-4 text-foreground">
               Comece em 3 passos simples
             </h2>
-            <p className="text-muted-foreground text-sm max-w-lg mx-auto leading-relaxed">
+            <p className="text-foreground/75 text-base max-w-lg mx-auto leading-relaxed font-medium">
               Da configuração inicial à operação completa em menos de 24 horas.
             </p>
           </div>
@@ -319,7 +319,7 @@ const Index = () => {
                     <span className="text-4xl font-semibold text-muted-foreground/15 tracking-tighter">{s.step}</span>
                   </div>
                   <h3 className="text-lg font-semibold mb-2 tracking-tight">{s.title}</h3>
-                  <p className="text-[13px] text-muted-foreground leading-relaxed">{s.desc}</p>
+                  <p className="text-sm text-foreground/75 leading-relaxed">{s.desc}</p>
                 </div>
                 {i < 2 && (
                   <div className="hidden md:block absolute top-1/2 -right-4 -translate-y-1/2 z-10">
@@ -336,11 +336,11 @@ const Index = () => {
       <section id="recursos" className="py-24 md:py-32 border-y border-border/20 bg-muted/10">
         <div className="container">
           <div className="text-center mb-16">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-4">Recursos</p>
-            <h2 className="text-3xl font-semibold sm:text-4xl md:text-5xl tracking-[-0.02em] mb-4 text-gradient-premium">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-foreground/70 mb-4">Recursos</p>
+            <h2 className="text-3xl font-bold sm:text-4xl md:text-5xl tracking-[-0.02em] mb-4 text-foreground">
               Tudo que sua escola precisa
             </h2>
-            <p className="text-muted-foreground text-sm max-w-lg mx-auto leading-relaxed">
+            <p className="text-foreground/75 text-base max-w-lg mx-auto leading-relaxed font-medium">
               Uma plataforma completa para gerenciar todos os aspectos da sua instituição. Da matrícula à formatura.
             </p>
           </div>
@@ -360,7 +360,7 @@ const Index = () => {
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="relative">
-                      <CardDescription className="text-[13px] leading-relaxed">{feature.description}</CardDescription>
+                      <CardDescription className="text-sm leading-relaxed text-foreground/75">{feature.description}</CardDescription>
                     </CardContent>
                   </Card>
                 </Link>
@@ -381,11 +381,11 @@ const Index = () => {
       <section className="py-24 md:py-32">
         <div className="container">
           <div className="text-center mb-16">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-4">Diferenciais</p>
-            <h2 className="text-3xl font-semibold sm:text-4xl md:text-5xl tracking-[-0.02em] mb-4 text-gradient-premium">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-foreground/70 mb-4">Diferenciais</p>
+            <h2 className="text-3xl font-bold sm:text-4xl md:text-5xl tracking-[-0.02em] mb-4 text-foreground">
               Por que escolher o i ESCOLAS?
             </h2>
-            <p className="text-muted-foreground text-sm max-w-lg mx-auto leading-relaxed">
+            <p className="text-foreground/75 text-base max-w-lg mx-auto leading-relaxed font-medium">
               Mais que um sistema, uma parceira local para a transformação digital da sua escola.
             </p>
           </div>
@@ -398,7 +398,7 @@ const Index = () => {
                   </div>
                   <div>
                     <h3 className="text-[14px] font-semibold mb-1.5 tracking-tight">{item.title}</h3>
-                    <p className="text-[12px] text-muted-foreground leading-relaxed">{item.description}</p>
+                    <p className="text-sm text-foreground/75 leading-relaxed">{item.description}</p>
                   </div>
                 </div>
               </motion.div>
@@ -411,11 +411,11 @@ const Index = () => {
       <section id="planos" className="py-24 md:py-32">
         <div className="container">
           <div className="text-center mb-16">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-4">Preços</p>
-            <h2 className="text-2xl font-semibold sm:text-3xl md:text-4xl tracking-tight mb-4">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-foreground/70 mb-4">Preços</p>
+            <h2 className="text-2xl font-bold sm:text-3xl md:text-4xl tracking-tight mb-4 text-foreground">
               Planos flexíveis para escolas de Sorocaba e região
             </h2>
-            <p className="text-muted-foreground text-sm max-w-md mx-auto mb-10 leading-relaxed">
+            <p className="text-foreground/75 text-base max-w-md mx-auto mb-10 leading-relaxed font-medium">
               Comece grátis, evolua conforme sua necessidade. Sem fidelidade.
             </p>
             <div className="inline-flex items-center gap-3 rounded-full border border-border/40 bg-card px-5 py-2.5 shadow-sm">
@@ -474,11 +474,11 @@ const Index = () => {
       <section id="depoimentos" className="py-24 md:py-32 border-y border-border/20 bg-muted/10">
         <div className="container">
           <div className="text-center mb-16">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-4">Depoimentos</p>
-            <h2 className="text-2xl font-semibold sm:text-3xl md:text-4xl tracking-tight mb-4">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-foreground/70 mb-4">Depoimentos</p>
+            <h2 className="text-2xl font-bold sm:text-3xl md:text-4xl tracking-tight mb-4 text-foreground">
               O que dizem escolas de Sorocaba e região
             </h2>
-            <p className="text-muted-foreground text-sm max-w-lg mx-auto leading-relaxed">
+            <p className="text-foreground/75 text-base max-w-lg mx-auto leading-relaxed font-medium">
               Mais de 500 instituições confiam no i ESCOLAS para sua gestão escolar.
             </p>
           </div>
@@ -512,13 +512,13 @@ const Index = () => {
       <section id="cidades" className="py-24 md:py-32">
         <div className="container">
           <div className="text-center mb-16">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-4">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-foreground/70 mb-4">
               <Globe className="h-3.5 w-3.5 inline mr-1" /> Cobertura Regional
             </p>
-            <h2 className="text-2xl font-semibold sm:text-3xl md:text-4xl tracking-tight mb-4">
+            <h2 className="text-2xl font-bold sm:text-3xl md:text-4xl tracking-tight mb-4 text-foreground">
               Gestão escolar em Sorocaba e região metropolitana
             </h2>
-            <p className="text-muted-foreground text-sm max-w-lg mx-auto leading-relaxed">
+            <p className="text-foreground/75 text-base max-w-lg mx-auto leading-relaxed font-medium">
               Atendemos escolas de educação infantil, fundamental e médio em toda a região de Sorocaba com suporte local e treinamento presencial.
             </p>
           </div>
@@ -540,16 +540,16 @@ const Index = () => {
       <section id="faq" className="py-24 md:py-32 border-y border-border/20 bg-muted/10">
         <div className="container max-w-3xl">
           <div className="text-center mb-16">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-4">FAQ</p>
-            <h2 className="text-2xl font-semibold sm:text-3xl md:text-4xl tracking-tight mb-4">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-foreground/70 mb-4">FAQ</p>
+            <h2 className="text-2xl font-bold sm:text-3xl md:text-4xl tracking-tight mb-4 text-foreground">
               Perguntas frequentes sobre gestão escolar em Sorocaba
             </h2>
           </div>
           <Accordion type="single" collapsible className="space-y-2">
             {faqData.map((faq, i) => (
               <AccordionItem key={i} value={`faq-${i}`} className="rounded-xl border border-border/30 px-5 data-[state=open]:bg-muted/20">
-                <AccordionTrigger className="text-left text-[13px] font-medium hover:no-underline py-4">{faq.question}</AccordionTrigger>
-                <AccordionContent className="text-muted-foreground pb-4 text-[13px] leading-relaxed">{faq.answer}</AccordionContent>
+                <AccordionTrigger className="text-left text-sm font-semibold hover:no-underline py-4">{faq.question}</AccordionTrigger>
+                <AccordionContent className="text-foreground/80 pb-4 text-sm leading-relaxed">{faq.answer}</AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
