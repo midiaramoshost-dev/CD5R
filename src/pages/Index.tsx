@@ -206,14 +206,14 @@ const Index = () => {
               <ChevronRight className="h-3 w-3 text-muted-foreground/60" />
             </motion.div>
 
-            <motion.h1 variants={fadeUp} className="text-[2.75rem] font-semibold tracking-[-0.03em] sm:text-5xl md:text-[4.25rem] leading-[1.02] mb-6 text-gradient-premium">
+            <motion.h1 variants={fadeUp} className="text-[2.75rem] font-bold tracking-[-0.03em] sm:text-5xl md:text-[4.25rem] leading-[1.02] mb-6 text-foreground">
               A escola ensina.
               <br />
-              <span className="text-muted-foreground/70 italic font-light">Nós cuidamos do resto.</span>
+              <span className="text-foreground/80 italic font-medium">Nós cuidamos do resto.</span>
             </motion.h1>
 
-            <motion.p variants={fadeUp} className="text-muted-foreground text-base md:text-lg max-w-xl mx-auto mb-10 leading-relaxed">
-              A plataforma de gestão escolar mais completa para educação infantil, fundamental e médio em <span className="text-foreground/80 font-medium">Sorocaba e região</span>. Automatize, organize e foque no que importa.
+            <motion.p variants={fadeUp} className="text-foreground/80 text-base md:text-lg max-w-xl mx-auto mb-10 leading-relaxed font-medium">
+              A plataforma de gestão escolar mais completa para educação infantil, fundamental e médio em <span className="text-foreground font-semibold">Sorocaba e região</span>. Automatize, organize e foque no que importa.
             </motion.p>
 
             <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-3 justify-center">
