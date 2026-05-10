@@ -9,6 +9,9 @@ import {
   BookOpen, BarChart3, Shield, ArrowRight, School, MessageSquare, CreditCard,
   Moon, Sun, Star, ChevronRight, Check, X, Users, GraduationCap, FileText,
   MapPin, Zap, Clock, Award, TrendingUp, Smartphone, Lock, Globe,
+  Calendar, ClipboardList, UserCheck, Receipt, FileSignature, IdCard,
+  Bus, Apple, Boxes, Brain, Database, Layers, FolderKanban, PieChart,
+  Banknote, Briefcase, Bell, QrCode, Sparkles,
 } from "lucide-react";
 import { useTheme } from "@/hooks/useTheme";
 import { usePlanos } from "@/contexts/PlanosContext";
