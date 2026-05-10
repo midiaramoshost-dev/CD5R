@@ -382,6 +382,183 @@ const Index = () => {
         </div>
       </section>
 
+      {/* ─── Módulos Completos do Sistema ─── */}
+      <section id="modulos" className="py-24 md:py-32">
+        <div className="container">
+          <div className="text-center mb-16">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-foreground/70 mb-4">Plataforma completa</p>
+            <h2 className="text-3xl font-bold sm:text-4xl md:text-5xl tracking-[-0.02em] mb-4 text-foreground">
+              Tudo que sua instituição precisa em um só lugar
+            </h2>
+            <p className="text-foreground/75 text-base max-w-2xl mx-auto leading-relaxed font-medium">
+              Mais de 40 módulos integrados cobrindo gestão pedagógica, financeira, administrativa e relacionamento com famílias. Da matrícula à formatura, com IA, automação e dados em tempo real.
+            </p>
+          </div>
+
+          {(() => {
+            const moduleGroups = [
+              {
+                title: "Gestão Pedagógica",
+                desc: "Operação acadêmica do dia a dia com automação e integração total.",
+                icon: BookOpen,
+                items: [
+                  { icon: BookOpen, name: "Diário de Classe Digital", desc: "Conteúdos, planos de aula e observações por turma." },
+                  { icon: UserCheck, name: "Chamada Eletrônica", desc: "Frequência em tempo real, com notificação automática aos pais." },
+                  { icon: FileText, name: "Notas e Boletins", desc: "Lançamento, médias automáticas e boletins digitais em PDF." },
+                  { icon: ClipboardList, name: "Disciplinas, Séries e Turmas", desc: "Estrutura curricular flexível por nível e modalidade." },
+                  { icon: Calendar, name: "Calendário Escolar", desc: "Eventos, feriados, reuniões e datas de avaliação." },
+                  { icon: FolderKanban, name: "Histórico Escolar", desc: "Geração e impressão de históricos completos e válidos." },
+                ],
+              },
+              {
+                title: "Financeiro e Cobrança",
+                desc: "Controle total do fluxo financeiro com integração a gateways de pagamento.",
+                icon: CreditCard,
+                items: [
+                  { icon: CreditCard, name: "Mensalidades e Cobrança", desc: "Boleto, PIX e cartão automáticos com baixa em tempo real." },
+                  { icon: Banknote, name: "Contas a Pagar e Receber", desc: "Fluxo de caixa, conciliação e projeções financeiras." },
+                  { icon: Receipt, name: "Recibos e Contratos", desc: "Emissão digital com assinatura, watermark e templates." },
+                  { icon: Briefcase, name: "Folha de Pagamento", desc: "Funcionários, professores, encargos e holerites." },
+                  { icon: PieChart, name: "Contabilidade Integrada", desc: "Categorização contábil, DRE e exportação para o contador." },
+                  { icon: TrendingUp, name: "Inadimplência e Cobrança", desc: "Réguas automáticas, lembretes e histórico de negociação." },
+                ],
+              },
+              {
+                title: "Portais e Comunicação",
+                desc: "Experiência moderna para alunos, responsáveis e equipe pedagógica.",
+                icon: Users,
+                items: [
+                  { icon: GraduationCap, name: "Portal do Aluno", desc: "Notas, frequência, tarefas, materiais e carteirinha digital." },
+                  { icon: Users, name: "Portal do Responsável", desc: "Acompanhamento completo: pedagógico, financeiro e nutrição." },
+                  { icon: MessageSquare, name: "Comunicados", desc: "Mensagens segmentadas com confirmação de leitura." },
+                  { icon: Bell, name: "Notificações Push", desc: "PWA com notificações em tempo real no celular." },
+                  { icon: IdCard, name: "Carteirinha Digital", desc: "QR Code com verificação pública e crachás impressos." },
+                  { icon: QrCode, name: "Verificação Pública", desc: "Validação de carteirinhas via câmera, sem login." },
+                ],
+              },
+              {
+                title: "LMS — Ensino a Distância",
+                desc: "Ambiente virtual de aprendizagem integrado ao sistema acadêmico.",
+                icon: Layers,
+                items: [
+                  { icon: Layers, name: "Cursos e Aulas", desc: "Trilhas, vídeos, materiais e sequência didática estruturada." },
+                  { icon: FileText, name: "Provas Online", desc: "Avaliações com correção automática e banco de questões." },
+                  { icon: BarChart3, name: "Progresso e Engajamento", desc: "Métricas individuais e por turma com gamificação." },
+                  { icon: MessageSquare, name: "Fórum e Discussões", desc: "Espaço de interação entre alunos e professores." },
+                  { icon: BookOpen, name: "Materiais Didáticos", desc: "Biblioteca digital com PDFs, vídeos e links externos." },
+                  { icon: ClipboardList, name: "Tarefas e Atividades", desc: "Entregas com prazos, anexos e feedback do professor." },
+                ],
+              },
+              {
+                title: "Operações e Administrativo",
+                desc: "Gestão completa de pessoas, recursos e operações da escola.",
+                icon: Briefcase,
+                items: [
+                  { icon: GraduationCap, name: "Cadastro de Alunos", desc: "Ficha completa, documentos, fotos e vínculos familiares." },
+                  { icon: Users, name: "Professores e Funcionários", desc: "Equipe, contratos, jornada e permissões granulares." },
+                  { icon: UserCheck, name: "Presença de Funcionários", desc: "Ponto eletrônico com geolocalização e relatórios." },
+                  { icon: Bus, name: "Transporte Escolar", desc: "Rotas, vans, motoristas e controle de embarque." },
+                  { icon: Apple, name: "Nutrição e Cardápio", desc: "Cardápios semanais, restrições alimentares e maternal." },
+                  { icon: Boxes, name: "Estoque e Materiais", desc: "Controle de uniformes, livros e materiais de consumo." },
+                ],
+              },
+              {
+                title: "Matrículas e Captação",
+                desc: "Do primeiro contato à matrícula efetivada, com CRM integrado.",
+                icon: TrendingUp,
+                items: [
+                  { icon: TrendingUp, name: "CRM de Matrícula", desc: "Funil de leads, propostas e conversão de novos alunos." },
+                  { icon: FileSignature, name: "Contratos Digitais", desc: "Assinatura eletrônica com 19 cláusulas configuráveis." },
+                  { icon: Users, name: "Rematrículas em Massa", desc: "Renovação automatizada com geração de contratos." },
+                  { icon: FileText, name: "Contratos em Massa", desc: "Geração e envio em lote por turma ou série." },
+                  { icon: Database, name: "Importação de Dados", desc: "Migração assistida de planilhas e outros sistemas." },
+                  { icon: Shield, name: "Integração MEC", desc: "Compatível com Censo Escolar e exigências legais." },
+                ],
+              },
+              {
+                title: "Inteligência e Relatórios",
+                desc: "Decisões baseadas em dados com IA aplicada à educação.",
+                icon: Brain,
+                items: [
+                  { icon: Brain, name: "IA Educacional", desc: "Planos de aula, atividades e análises com Google Gemini." },
+                  { icon: BarChart3, name: "Dashboard Analítico", desc: "KPIs em tempo real: financeiro, frequência e desempenho." },
+                  { icon: PieChart, name: "Relatórios Customizados", desc: "Exportação em PDF, Excel e CSV de qualquer módulo." },
+                  { icon: Sparkles, name: "Alertas Inteligentes", desc: "Notificações automáticas de risco e oportunidades." },
+                  { icon: TrendingUp, name: "Análise de Desempenho", desc: "Evolução pedagógica individual e comparativos." },
+                  { icon: Globe, name: "Monitoramento", desc: "Auditoria de acessos, logs e atividade dos usuários." },
+                ],
+              },
+              {
+                title: "Segurança e Plataforma",
+                desc: "Infraestrutura corporativa, segura e em conformidade com a LGPD.",
+                icon: Shield,
+                items: [
+                  { icon: Lock, name: "LGPD e Criptografia", desc: "Dados criptografados, servidores no Brasil e backups." },
+                  { icon: Shield, name: "Controle de Acesso", desc: "7 perfis de usuário com permissões granulares." },
+                  { icon: Smartphone, name: "PWA Mobile", desc: "Instalável no celular sem App Store, 100% responsivo." },
+                  { icon: Database, name: "Backup Automático", desc: "Backups diários com retenção e recuperação rápida." },
+                  { icon: Globe, name: "Multi-unidade", desc: "Gestão centralizada para redes com múltiplas escolas." },
+                  { icon: Zap, name: "API de Integração", desc: "Conecte com sistemas contábeis e outras ferramentas." },
+                ],
+              },
+            ];
+
+            return (
+              <div className="space-y-16">
+                {moduleGroups.map((group, gi) => (
+                  <motion.div
+                    key={gi}
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-80px" }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <div className="flex items-center gap-4 mb-8 pb-5 border-b border-border/30">
+                      <div className="h-12 w-12 rounded-2xl bg-foreground text-background flex items-center justify-center shrink-0">
+                        <group.icon className="h-5 w-5" />
+                      </div>
+                      <div className="min-w-0">
+                        <h3 className="text-xl md:text-2xl font-semibold tracking-tight text-foreground">{group.title}</h3>
+                        <p className="text-sm text-foreground/70 mt-1 leading-relaxed">{group.desc}</p>
+                      </div>
+                    </div>
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {group.items.map((item, ii) => (
+                        <div
+                          key={ii}
+                          className="group flex items-start gap-3.5 p-5 rounded-2xl border border-border/30 bg-card hover:border-foreground/15 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
+                        >
+                          <div className="shrink-0 h-10 w-10 rounded-xl bg-foreground/5 flex items-center justify-center group-hover:bg-foreground group-hover:text-background transition-colors">
+                            <item.icon className="h-4.5 w-4.5 text-foreground/70 group-hover:text-background transition-colors" />
+                          </div>
+                          <div className="min-w-0">
+                            <h4 className="text-[14px] font-semibold tracking-tight text-foreground mb-1">{item.name}</h4>
+                            <p className="text-[12.5px] text-foreground/70 leading-relaxed">{item.desc}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            );
+          })()}
+
+          <div className="mt-16 text-center">
+            <div className="inline-flex flex-col sm:flex-row items-center gap-3 p-1.5 rounded-full border border-border/40 bg-card shadow-sm">
+              <span className="text-[13px] font-medium text-foreground/80 px-5">
+                Tudo isso a partir de <span className="text-foreground font-semibold">R$ 0/mês</span>
+              </span>
+              <Link to="/teste">
+                <Button className="rounded-full h-10 px-6 text-[13px] bg-foreground text-background hover:bg-foreground/90 gap-2">
+                  Testar grátis por 72h <ArrowRight className="h-3.5 w-3.5" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ─── Why Choose Us ─── */}
       <section className="py-24 md:py-32">
         <div className="container">
