@@ -1,5 +1,4 @@
-name: Deploy Lovable via FTP na kinghost 
-
+ 
 on:
   push:
     branches: ["main"]
@@ -58,3 +57,4 @@ jobs:
             **/.github/**
             **/node_modules/**
 
+  
