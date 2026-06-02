@@ -27,6 +27,8 @@ interface AuthContextType {
   session: Session | null;
   isAuthenticated: boolean;
   isLoading: boolean;
+  loadError: string | null;
+  retryLoadUser: () => Promise<void>;
   login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   logout: () => Promise<void>;
   register: (data: RegisterData) => Promise<{ success: boolean; error?: string }>;
@@ -34,6 +36,7 @@ interface AuthContextType {
   resetPassword: (newPassword: string) => Promise<boolean>;
   getRoleRedirectPath: (role: UserRole) => string;
 }
+
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -48,9 +51,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   // Fetch user profile and role from database
-  const fetchUserData = async (supabaseUser: SupabaseUser): Promise<User | null> => {
+  const fetchUserData = async (
+    supabaseUser: SupabaseUser
+  ): Promise<{ user: User | null; error: string | null }> => {
     try {
       // Use RPC to get user role securely
       const { data: roleData, error: roleError } = await supabase
@@ -58,7 +64,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (roleError) {
         console.error('Error fetching user role:', roleError);
-        return null;
+        return {
+          user: null,
+          error: `Não foi possível carregar seu perfil de acesso (${roleError.message}). Tente novamente.`,
+        };
+      }
+
+      if (!roleData) {
+        return {
+          user: null,
+          error: 'Sua conta ainda não possui um papel atribuído. Contate o administrador.',
+        };
       }
 
       // Fetch profile data
@@ -70,27 +86,52 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (profileError) {
         console.error('Error fetching profile:', profileError);
-        return null;
+        return {
+          user: null,
+          error: `Erro ao carregar dados do perfil (${profileError.message}). Tente novamente.`,
+        };
       }
 
       if (!profile) {
-        console.error('Profile not found');
-        return null;
+        return {
+          user: null,
+          error: 'Perfil não encontrado. Contate o administrador para configurar seu acesso.',
+        };
       }
 
       return {
-        id: supabaseUser.id,
-        name: profile.name,
-        email: profile.email,
-        role: roleData as UserRole,
-        avatar: profile.avatar_url || undefined,
-        phone: profile.phone || undefined,
-        createdAt: profile.created_at,
+        user: {
+          id: supabaseUser.id,
+          name: profile.name,
+          email: profile.email,
+          role: roleData as UserRole,
+          avatar: profile.avatar_url || undefined,
+          phone: profile.phone || undefined,
+          createdAt: profile.created_at,
+        },
+        error: null,
       };
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error fetching user data:', error);
-      return null;
+      return {
+        user: null,
+        error: 'Erro inesperado ao carregar seus dados. Verifique sua conexão e tente novamente.',
+      };
     }
+  };
+
+  const retryLoadUser = async () => {
+    const { data: { session: current } } = await supabase.auth.getSession();
+    if (!current?.user) {
+      setLoadError('Sessão expirada. Faça login novamente.');
+      return;
+    }
+    setIsLoading(true);
+    setLoadError(null);
+    const { user: userData, error } = await fetchUserData(current.user);
+    setUser(userData);
+    setLoadError(error);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -102,12 +143,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (newSession?.user) {
           // Defer fetching user data to avoid deadlock
           setTimeout(async () => {
-            const userData = await fetchUserData(newSession.user);
+            const { user: userData, error } = await fetchUserData(newSession.user);
             setUser(userData);
+            setLoadError(error);
             setIsLoading(false);
           }, 0);
         } else {
           setUser(null);
+          setLoadError(null);
           setIsLoading(false);
         }
       }
@@ -118,8 +161,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setSession(existingSession);
       
       if (existingSession?.user) {
-        fetchUserData(existingSession.user).then((userData) => {
+        fetchUserData(existingSession.user).then(({ user: userData, error }) => {
           setUser(userData);
+          setLoadError(error);
           setIsLoading(false);
         });
       } else {
@@ -129,6 +173,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     return () => subscription.unsubscribe();
   }, []);
+
 
   const login = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
     try {
@@ -238,7 +283,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         session,
         isAuthenticated: !!session && !!user,
         isLoading,
+        loadError,
+        retryLoadUser,
         login,
+
         logout,
         register,
         requestPasswordReset,
