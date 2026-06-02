@@ -27,6 +27,8 @@ interface AuthContextType {
   session: Session | null;
   isAuthenticated: boolean;
   isLoading: boolean;
+  loadError: string | null;
+  retryLoadUser: () => Promise<void>;
   login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   logout: () => Promise<void>;
   register: (data: RegisterData) => Promise<{ success: boolean; error?: string }>;
@@ -34,6 +36,7 @@ interface AuthContextType {
   resetPassword: (newPassword: string) => Promise<boolean>;
   getRoleRedirectPath: (role: UserRole) => string;
 }
+
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
