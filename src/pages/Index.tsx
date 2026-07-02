@@ -273,14 +273,17 @@ const Index = () => {
       {/* ─── Metrics ─── */}
       <section className="border-b border-border/30">
         <div className="container py-16">
-          <motion.div className="grid grid-cols-2 md:grid-cols-4 gap-8" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
+          <motion.div className="grid grid-cols-2 md:grid-cols-4 gap-4" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
             {metrics.map((m, i) => (
-              <motion.div key={i} variants={fadeUp} className="text-center group">
-                <div className="inline-flex items-center justify-center h-12 w-12 rounded-2xl bg-muted mb-4 group-hover:scale-110 transition-transform">
-                  <m.icon className="h-5 w-5 text-foreground/60" />
+              <motion.div key={i} variants={fadeUp} whileHover={{ y: -3 }} transition={{ type: "spring", stiffness: 300 }}>
+                <div className="group relative overflow-hidden rounded-2xl border border-border/60 bg-card/60 backdrop-blur p-5 h-full transition-colors hover:border-primary/40">
+                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="inline-flex items-center justify-center h-10 w-10 rounded-xl border border-border/60 bg-background/60 mb-4">
+                    <m.icon className="h-4 w-4 text-primary" />
+                  </div>
+                  <p className="text-3xl md:text-4xl font-bold tracking-tight tabular-nums text-foreground">{m.value}</p>
+                  <p className="text-xs text-muted-foreground mt-1.5">{m.label}</p>
                 </div>
-                <p className="text-3xl md:text-4xl font-semibold tracking-tight text-gradient-premium">{m.value}</p>
-                <p className="text-xs text-muted-foreground mt-1.5">{m.label}</p>
               </motion.div>
             ))}
           </motion.div>
