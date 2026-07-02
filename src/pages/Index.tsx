@@ -6,7 +6,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { motion } from "framer-motion";
 import { useState, useMemo, useEffect } from "react";
 import {
-  BookOpen, BarChart3, Shield, ArrowRight, School, MessageSquare, CreditCard,
+  BookOpen, BarChart3, Shield, ArrowRight, ArrowUpRight, School, MessageSquare, CreditCard,
   Moon, Sun, Star, ChevronRight, Check, X, Users, GraduationCap, FileText,
   MapPin, Zap, Clock, Award, TrendingUp, Smartphone, Lock, Globe,
   Calendar, ClipboardList, UserCheck, Receipt, FileSignature, IdCard,
@@ -195,16 +195,14 @@ const Index = () => {
       {/* ─── Hero ─── */}
       <section className="relative overflow-hidden pt-32 pb-16 md:pt-44 md:pb-24">
         <div className="absolute inset-0 bg-grid-pattern [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,black,transparent)]" />
-        <div className="absolute inset-0 spotlight" />
-        <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[radial-gradient(ellipse_at_center,hsl(var(--muted)/0.8),transparent_70%)] -z-10" />
+        <div className="absolute -top-24 left-1/2 -translate-x-1/2 h-[520px] w-[900px] rounded-full bg-primary/15 blur-3xl -z-10" aria-hidden />
+        <div className="absolute top-32 -left-20 h-[380px] w-[380px] rounded-full bg-violet-500/10 blur-3xl -z-10" aria-hidden />
+        <div className="absolute top-40 -right-20 h-[380px] w-[380px] rounded-full bg-sky-500/10 blur-3xl -z-10" aria-hidden />
 
         <div className="container relative">
           <motion.div initial="hidden" animate="visible" variants={stagger} className="text-center max-w-3xl mx-auto">
-            <motion.div variants={fadeUp} className="inline-flex items-center gap-2 glass px-3.5 py-1.5 rounded-full text-[12px] font-medium mb-8 shadow-sm">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-60"></span>
-                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-success"></span>
-              </span>
+            <motion.div variants={fadeUp} className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/60 px-3.5 py-1.5 text-[12px] font-medium mb-8 shadow-sm backdrop-blur">
+              <Sparkles className="h-3 w-3 text-primary" />
               <span className="text-muted-foreground">+500 escolas em Sorocaba e região já confiam</span>
               <ChevronRight className="h-3 w-3 text-muted-foreground/60" />
             </motion.div>
@@ -212,7 +210,7 @@ const Index = () => {
             <motion.h1 variants={fadeUp} className="text-[2.75rem] font-bold tracking-[-0.03em] sm:text-5xl md:text-[4.25rem] leading-[1.02] mb-6 text-foreground">
               A escola ensina.
               <br />
-              <span className="text-foreground/80 italic font-medium">Nós cuidamos do resto.</span>
+              <span className="bg-gradient-to-r from-primary via-violet-500 to-primary bg-clip-text text-transparent italic font-medium">Nós cuidamos do resto.</span>
             </motion.h1>
 
             <motion.p variants={fadeUp} className="text-foreground/80 text-base md:text-lg max-w-xl mx-auto mb-10 leading-relaxed font-medium">
@@ -221,21 +219,21 @@ const Index = () => {
 
             <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link to="/teste">
-                <Button size="lg" className="w-full sm:w-auto gap-2 bg-foreground px-10 text-sm font-medium text-background hover:bg-foreground/90 rounded-full h-12 shadow-lg shadow-foreground/10">
-                  Testar grátis por 72h <ArrowRight className="h-4 w-4" />
+                <Button size="lg" className="w-full sm:w-auto gap-2 px-10 text-sm font-medium rounded-full h-12 shadow-lg shadow-primary/20">
+                  Testar grátis por 72h <ArrowUpRight className="h-4 w-4" />
                 </Button>
               </Link>
               <Link to="/login">
-                <Button size="lg" variant="outline" className="w-full sm:w-auto gap-2 border-border/50 px-10 text-sm font-medium hover:bg-muted rounded-full h-12 backdrop-blur-sm">
+                <Button size="lg" variant="outline" className="w-full sm:w-auto gap-2 border-border/60 bg-background/60 px-10 text-sm font-medium hover:bg-muted rounded-full h-12 backdrop-blur">
                   Já tenho conta
                 </Button>
               </Link>
             </motion.div>
 
             <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mt-8 text-[11px] text-muted-foreground/70">
-              <span className="flex items-center gap-1.5"><Check className="h-3 w-3" /> Grátis até 50 alunos</span>
-              <span className="flex items-center gap-1.5"><Check className="h-3 w-3" /> Sem cartão de crédito</span>
-              <span className="flex items-center gap-1.5"><Check className="h-3 w-3" /> Setup em 5 minutos</span>
+              <span className="flex items-center gap-1.5"><Check className="h-3 w-3 text-primary" /> Grátis até 50 alunos</span>
+              <span className="flex items-center gap-1.5"><Check className="h-3 w-3 text-primary" /> Sem cartão de crédito</span>
+              <span className="flex items-center gap-1.5"><Check className="h-3 w-3 text-primary" /> Setup em 5 minutos</span>
             </motion.div>
           </motion.div>
 
@@ -275,14 +273,17 @@ const Index = () => {
       {/* ─── Metrics ─── */}
       <section className="border-b border-border/30">
         <div className="container py-16">
-          <motion.div className="grid grid-cols-2 md:grid-cols-4 gap-8" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
+          <motion.div className="grid grid-cols-2 md:grid-cols-4 gap-4" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
             {metrics.map((m, i) => (
-              <motion.div key={i} variants={fadeUp} className="text-center group">
-                <div className="inline-flex items-center justify-center h-12 w-12 rounded-2xl bg-muted mb-4 group-hover:scale-110 transition-transform">
-                  <m.icon className="h-5 w-5 text-foreground/60" />
+              <motion.div key={i} variants={fadeUp} whileHover={{ y: -3 }} transition={{ type: "spring", stiffness: 300 }}>
+                <div className="group relative overflow-hidden rounded-2xl border border-border/60 bg-card/60 backdrop-blur p-5 h-full transition-colors hover:border-primary/40">
+                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="inline-flex items-center justify-center h-10 w-10 rounded-xl border border-border/60 bg-background/60 mb-4">
+                    <m.icon className="h-4 w-4 text-primary" />
+                  </div>
+                  <p className="text-3xl md:text-4xl font-bold tracking-tight tabular-nums text-foreground">{m.value}</p>
+                  <p className="text-xs text-muted-foreground mt-1.5">{m.label}</p>
                 </div>
-                <p className="text-3xl md:text-4xl font-semibold tracking-tight text-gradient-premium">{m.value}</p>
-                <p className="text-xs text-muted-foreground mt-1.5">{m.label}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -316,19 +317,20 @@ const Index = () => {
                 transition={{ delay: i * 0.1, duration: 0.5 }}
                 className="relative"
               >
-                <div className="rounded-2xl border border-border/40 bg-card p-7 h-full hover:border-foreground/20 hover:shadow-lg transition-all duration-300">
+                <div className="group relative overflow-hidden rounded-2xl border border-border/60 bg-card/60 backdrop-blur p-7 h-full transition-all duration-300 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5">
+                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   <div className="flex items-start justify-between mb-6">
-                    <div className="h-11 w-11 rounded-xl bg-foreground text-background flex items-center justify-center">
+                    <div className="h-11 w-11 rounded-xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center">
                       <s.icon className="h-5 w-5" />
                     </div>
-                    <span className="text-4xl font-semibold text-muted-foreground/15 tracking-tighter">{s.step}</span>
+                    <span className="text-4xl font-bold text-primary/10 tracking-tighter tabular-nums">{s.step}</span>
                   </div>
                   <h3 className="text-lg font-semibold mb-2 tracking-tight">{s.title}</h3>
                   <p className="text-sm text-foreground/75 leading-relaxed">{s.desc}</p>
                 </div>
                 {i < 2 && (
                   <div className="hidden md:block absolute top-1/2 -right-4 -translate-y-1/2 z-10">
-                    <ArrowRight className="h-5 w-5 text-muted-foreground/30" />
+                    <ArrowRight className="h-5 w-5 text-primary/40" />
                   </div>
                 )}
               </motion.div>
