@@ -6,7 +6,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { motion } from "framer-motion";
 import { useState, useMemo, useEffect } from "react";
 import {
-  BookOpen, BarChart3, Shield, ArrowRight, School, MessageSquare, CreditCard,
+  BookOpen, BarChart3, Shield, ArrowRight, ArrowUpRight, School, MessageSquare, CreditCard,
   Moon, Sun, Star, ChevronRight, Check, X, Users, GraduationCap, FileText,
   MapPin, Zap, Clock, Award, TrendingUp, Smartphone, Lock, Globe,
   Calendar, ClipboardList, UserCheck, Receipt, FileSignature, IdCard,
