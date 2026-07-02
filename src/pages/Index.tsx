@@ -317,19 +317,20 @@ const Index = () => {
                 transition={{ delay: i * 0.1, duration: 0.5 }}
                 className="relative"
               >
-                <div className="rounded-2xl border border-border/40 bg-card p-7 h-full hover:border-foreground/20 hover:shadow-lg transition-all duration-300">
+                <div className="group relative overflow-hidden rounded-2xl border border-border/60 bg-card/60 backdrop-blur p-7 h-full transition-all duration-300 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5">
+                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   <div className="flex items-start justify-between mb-6">
-                    <div className="h-11 w-11 rounded-xl bg-foreground text-background flex items-center justify-center">
+                    <div className="h-11 w-11 rounded-xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center">
                       <s.icon className="h-5 w-5" />
                     </div>
-                    <span className="text-4xl font-semibold text-muted-foreground/15 tracking-tighter">{s.step}</span>
+                    <span className="text-4xl font-bold text-primary/10 tracking-tighter tabular-nums">{s.step}</span>
                   </div>
                   <h3 className="text-lg font-semibold mb-2 tracking-tight">{s.title}</h3>
                   <p className="text-sm text-foreground/75 leading-relaxed">{s.desc}</p>
                 </div>
                 {i < 2 && (
                   <div className="hidden md:block absolute top-1/2 -right-4 -translate-y-1/2 z-10">
-                    <ArrowRight className="h-5 w-5 text-muted-foreground/30" />
+                    <ArrowRight className="h-5 w-5 text-primary/40" />
                   </div>
                 )}
               </motion.div>
